@@ -1,7 +1,9 @@
 import React from 'react'
 import {Routes,Route, Navigate} from 'react-router-dom'
-import Signup from '../pages/signup/Signup'
-import Login from '../pages/login/Login'
+import Signup from '../pages/Signup'
+import Login from '../pages/Login'
+import Home from '../pages/Home'
+import Loader from '../pages/Loader'
 
 
 const UserRoutes = () => {
@@ -11,6 +13,8 @@ const UserRoutes = () => {
       <Route path='/' element={<Navigate to='/signup' />}/>
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/login' element={<Login/>}/>
+      <Route path='/home' element={<Home/>}/>
+      <Route path='/loader' element={<Loader/>}/>
    </Routes>
    </>
   )

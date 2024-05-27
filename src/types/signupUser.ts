@@ -1,4 +1,4 @@
-export interface  SignupUserInterface {
+export interface SignupUserInterface {
     name:string;
     username:string;
     email:string;
@@ -13,4 +13,19 @@ export interface SignupUserResponse {
 export interface UsernameAvailabilityResponse {
     available: boolean,
     status: string
+}
+
+export interface SendOtpResponse {
+    status: string,
+    message: string,    
+}
+
+export interface VerifyOtpResponse {
+    status: string, 
+    message: string,
+}
+
+export interface VerifyOtp{
+    email:string,
+    otp :number
 }

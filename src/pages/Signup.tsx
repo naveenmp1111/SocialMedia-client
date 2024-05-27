@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { signupUser, usernameAvailability, emailAvailability } from '../../api/auth';
+import { usernameAvailability, emailAvailability, sendOtp } from '../api/auth';
+import Otp from '../modals/Otp';
+import { toast } from 'react-toastify';
+import Loader from './Loader';
 
 const Signup = () => {
+    const [loading, setLoading] = useState(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [initialValues, setInitialValues] = useState({
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    useEffect(() => {
+        const savedValues = localStorage.getItem('registrationData');
+        if (savedValues) {
+            setInitialValues(JSON.parse(savedValues));
+        }
+    }, []);
+
     // Custom validation function for username
     const validateUsername = async (value: string) => {
         let error;
@@ -47,31 +67,35 @@ const Signup = () => {
             .required('Password is required'),
         confirmPassword: Yup.string()
             .trim()
+            .required('Confirm password')
             .oneOf([Yup.ref('password')], 'Passwords must match'),
     });
 
-    const initialValues = {
-        name: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+    const onSubmit = async (values: { name: string, username: string, email: string, password: string, confirmPassword: string }) => {
+        try {
+            setLoading(true);
+            const data = await sendOtp({ ...values });
+            localStorage.setItem('registrationData', JSON.stringify(values));
+            setLoading(false);
+            toast.success(data.message);
+            setOpenModal(true);
+        } catch (error) {
+            console.error('Error in form submission', error);
+            setLoading(false);
+        }
     };
 
-    const onSubmit = (values: { name: string, username: string, email: string, password: string, confirmPassword: string }) => {
-        // Handle form submission
-        console.log('checking form submission', values);
-        signupUser({ ...values });
-    };
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
-        <div className="flex flex-col lg:flex-row h-screen dark:bg-gray-900">
-            {/* First half */}
+        <div className="flex align-middle self-center flex-col lg:flex-row h-screen dark:bg-gray-900">
+            <Otp isOpen={openModal} onClose={() => setOpenModal(false)} />
             <div className="w-full lg:w-1/2 flex items-center justify-center dark:bg-gray-900">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
                 <h1 className="text-4xl font-bold text-center text-white">Your Site Name</h1>
             </div>
-            {/* Second half */}
             <div className="w-full lg:w-1/2 flex items-center justify-center">
                 <section className="dark:bg-gray-900 w-full h-max">
                     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 h-screen">
@@ -84,7 +108,12 @@ const Signup = () => {
                                     <div className="w-1/2 border-t border-gray-300 dark:border-gray-600"></div>
                                 </div>
                                 <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-white">Create an account</h1>
-                                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                                <Formik
+                                    initialValues={initialValues}
+                                    validationSchema={validationSchema}
+                                    onSubmit={onSubmit}
+                                    enableReinitialize
+                                >
                                     <Form className="space-y-0 md:space-y-2">
                                         <div>
                                             <label className="block mb-2 text-sm font-medium dark:text-white">Name</label>
@@ -108,13 +137,11 @@ const Signup = () => {
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium dark:text-white">Confirm password</label>
-                                            <Field type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" autoComplete="new-password" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3" />
-                                            <ErrorMessage name="confirmPassword" component="div" className="text-sm text-red-500" />
+                                            <Field type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" autoComplete="new-password" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" />
+                                            <ErrorMessage name="confirmPassword" component="div" className="text-sm text-red-500 " />
                                         </div>
-                                        <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
-                                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                            Already have an account? <a href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
-                                        </p>
+                                        <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an account</button>
+                                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">Already have an account? <a href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a></p>
                                     </Form>
                                 </Formik>
                             </div>

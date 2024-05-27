@@ -1,8 +1,14 @@
-import React from 'react';
+import  { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/auth';
+import { isAxiosError } from 'axios';
+import { toast } from 'react-toastify'
+import Loader from './Loader';
 const Login = () => {
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -18,9 +24,38 @@ const Login = () => {
     password: '',
   };
 
-  const onSubmit = () => {
-    // Handle form submission
-    console.log('Submit login form');
+  if (loading) {
+    return (
+      <Loader />
+    )
+  }
+
+  const onSubmit = async (values: { email: string, password: string }) => {
+
+    try {
+      // console.log(values)
+      setLoading(true)
+      const result = await loginUser({ ...values })
+
+      // console.log(result)
+      if (result.status == 'success') {
+        toast.success(result.message)
+        setTimeout(() => {
+          setLoading(false)
+          navigate("/home");
+        }, 1500);
+      }
+    } catch (error) {
+      setLoading(false)
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data?.message)
+      } else {
+        toast.error('Unknown error occured')
+        console.log('Error in login page catch', error)
+      }
+
+    }
+
   };
 
   return (
