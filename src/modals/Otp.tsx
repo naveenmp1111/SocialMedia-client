@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { signupUser, verifyOtp } from '../api/auth'
+import { sendOtp, signupUser, verifyOtp } from '../api/auth'
 import { SignupUserInterface } from '../types/signupUser';
 import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
+import { TOAST_ACTION } from '../constants/common';
 
 
 const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => {
@@ -27,8 +28,10 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
     }, [timer]);
 
 
-    const handleResend = () => {
-        
+    const handleResend = async() => {
+
+        const userData:any=localStorage.getItem('registrationData')
+        await sendOtp({...JSON.parse(userData)})
         setTimer(60);
         setOtpExpired(false);
         // Logic to resend OTP
@@ -43,12 +46,13 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
             const response = await verifyOtp({ email: user.email, otp })
             console.log('response', response)
             if (response.status == 'success') {
+                toast.success('Otp verification successfull',TOAST_ACTION)
                 await signupUser({ ...user })
                 localStorage.removeItem('registrationData');
                 setTimeout(() => {
                     toast.success('Account created successfully')
                     navigate('/login')
-                }, 1000)
+                }, 1500)
             }
         } catch (error) {
             if (isAxiosError(error)) {
