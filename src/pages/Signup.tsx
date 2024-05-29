@@ -4,9 +4,14 @@ import * as Yup from 'yup';
 import { usernameAvailability, emailAvailability, sendOtp } from '../api/auth';
 import Otp from '../modals/Otp';
 import { toast } from 'react-toastify';
-import Loader from './Loader';
+import Loader from '../components/Loader';
+import { TOAST_ACTION } from '../constants/common';
+import LoginWithGoogle from '../utils/LoginWithGoogle';
+import { useNavigate } from 'react-router-dom';
+import { isAxiosError } from 'axios';
 
 const Signup = () => {
+    const navigate=useNavigate()
     const [loading, setLoading] = useState(false);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [initialValues, setInitialValues] = useState({
@@ -74,6 +79,7 @@ const Signup = () => {
     const onSubmit = async (values: { name: string, username: string, email: string, password: string, confirmPassword: string }) => {
         try {
             setLoading(true);
+            toast.success('Processing Data',TOAST_ACTION)
             const data = await sendOtp({ ...values });
             localStorage.setItem('registrationData', JSON.stringify(values));
             setLoading(false);
@@ -85,6 +91,25 @@ const Signup = () => {
         }
     };
 
+    const GoogleSignin=async()=>{
+        try {
+          const result=  await LoginWithGoogle()
+          if(result){
+            setLoading(true)
+            toast.success('Login successfull')
+            setTimeout(()=>{
+                setLoading(false)
+                navigate('/home')
+            },1500)
+          }
+        } catch (error) {
+            console.log('error occured',error)
+            if(isAxiosError(error)){
+                toast.error(error.response?.data.message)
+            }
+        }
+    }
+
     if (loading) {
         return <Loader />;
     }
@@ -94,14 +119,14 @@ const Signup = () => {
             <Otp isOpen={openModal} onClose={() => setOpenModal(false)} />
             <div className="w-full lg:w-1/2 flex items-center justify-center dark:bg-gray-900">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
-                <h1 className="text-4xl font-bold text-center text-white">Your Site Name</h1>
+                <h1 className="text-4xl font-bold text-center text-white">CONNECTIFY</h1>
             </div>
             <div className="w-full lg:w-1/2 flex items-center justify-center">
                 <section className="dark:bg-gray-900 w-full h-max">
                     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 h-screen">
                         <div className="w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 ">
                             <div className="p-6 space-y-2 md:space-y-2 sm:p-8">
-                                <button className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">Sign up with Google</button>
+                                <button onClick={GoogleSignin} className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">Continue with Google</button>
                                 <div className="flex items-center justify-center">
                                     <div className="w-1/2 border-t border-gray-300 dark:border-gray-600"></div>
                                     <span className="mx-4 text-sm text-gray-500 dark:text-gray-400">or</span>

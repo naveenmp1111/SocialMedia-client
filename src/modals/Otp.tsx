@@ -30,8 +30,10 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
 
     const handleResend = async() => {
 
+        toast.success('Otp send to your mail')
         const userData:any=localStorage.getItem('registrationData')
         await sendOtp({...JSON.parse(userData)})
+        
         setTimer(60);
         setOtpExpired(false);
         // Logic to resend OTP
@@ -110,7 +112,7 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
                         <button
                             type='submit'
                             className="flex items-center justify-center gap-2 bg-gray-900 text-gray-100 px-4 py-2 rounded-lg hover:bg-black transition duration-300"
-                            disabled={otpExpired}
+                            // disabled={otpExpired}
                             onClick={verifyotp}
                         >
                             Verify OTP

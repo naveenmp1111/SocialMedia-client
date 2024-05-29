@@ -3,7 +3,7 @@ import END_POINT from "../../constants/endpoints";
 
 //importing types
 import { SignupUserInterface,SignupUserResponse,UsernameAvailabilityResponse , SendOtpResponse, VerifyOtpResponse, VerifyOtp} from "../../types/signupUser";
-import { LoginUserInterface, LoginUserResponse } from "../../types/loginUser";
+import { GoogleLoginInterface, LoginUserInterface, LoginUserResponse } from "../../types/loginUser";
 
 
 export const signupUser=async(
@@ -60,6 +60,16 @@ export const verifyOtp=async(
 ):Promise<VerifyOtpResponse>=>{
     const response=await axiosRefreshInstance.post<VerifyOtpResponse>(
         END_POINT.VERIFY_OTP,
+        payload
+    )
+    return response.data
+}
+
+export const loginUsingGoogle=async(
+    payload:GoogleLoginInterface
+):Promise<LoginUserResponse>=>{
+    const response=await axiosRefreshInstance.post<LoginUserResponse>(
+        END_POINT.LOGIN_GOOGLE,
         payload
     )
     return response.data

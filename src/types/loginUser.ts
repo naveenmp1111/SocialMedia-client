@@ -17,3 +17,7 @@ export interface LoginUserResponse{
     user:User | null
 }
 
+export interface GoogleLoginInterface {
+    name:string;
+    email:string;
+}

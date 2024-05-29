@@ -7,7 +7,7 @@ const CONSTANTS_COMMON={
 
 export const TOAST_ACTION: ToastOptions = {
     position: "top-right",
-    autoClose: 1000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
