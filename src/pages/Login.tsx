@@ -35,13 +35,14 @@ const Login = () => {
       setLoading(true)
       const result = await loginUser({ ...values })
 
-      // console.log(result)
+      console.log('login reslt is',result)
       if (result.status == 'success') {
         localStorage.setItem('userData',JSON.stringify(result.user))
         toast.success(result.message)
+
         setTimeout(() => {
           setLoading(false)
-          dispatch(setCredentials(result.user))
+          dispatch(setCredentials(result))
           navigate("/home");
         }, 1500);
       }

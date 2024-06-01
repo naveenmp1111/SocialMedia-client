@@ -6,9 +6,17 @@ export interface LoginUserInterface{
 export interface User{
     _id?:string;
     name:string;
-    username:string;
+    username?:string;
     email:string;
-    
+    phoneNumber?: number;
+    profilePic?: string;
+    bio?: string;
+    followers?: string[];
+    following?: string[];
+    savedPosts?: string[];
+    isAccountVerified?: boolean;
+    isGoogleSignIn?: boolean;
+    isBlock?: boolean;
 }
 
 export interface LoginUserResponse{

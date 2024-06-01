@@ -5,7 +5,8 @@ const END_POINT={
     EMAIL_AVAILBILITY:'api/auth/emailAvailability',
     SEND_OTP:'api/auth/sendOtp',
     VERIFY_OTP:'api/auth/verifyOtp',
-    LOGIN_GOOGLE:'api/auth/google_auth'
+    LOGIN_GOOGLE:'api/auth/google_auth',
+    EDIT_PROFILE:'api/profile/editProfile'
 }
 
 export default END_POINT

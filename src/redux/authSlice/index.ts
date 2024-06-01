@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/loginUser";
 const userData=localStorage.getItem('userData')
+const accessToken=localStorage.getItem('accessToken')
 let user=null
 if(userData){
    user= JSON.parse(userData)
@@ -13,9 +14,9 @@ interface AuthState {
   }
 
   const initialState:AuthState={
-    user:user?user:null,
-    accessToken:null,
-    isAuthenticated:false
+    user:user?user.user:null,
+    accessToken:accessToken?accessToken:null,
+    isAuthenticated:!!accessToken
   }
 
 const authSlice=createSlice({
@@ -23,21 +24,24 @@ const authSlice=createSlice({
     initialState,
     reducers:{
         setCredentials:(state,action)=>{
-            // console.log('payload',action.payload)
-            const user=action.payload
-            // console.log('user',user)
-            // const {user,accessToken}=action.payload
+            console.log('payloaddata',action.payload)
+            const {user,accessToken}=action.payload
             state.user=user
-            // state.accessToken=accessToken
-            // state.isAuthenticated=true
+            state.accessToken=accessToken
+            state.isAuthenticated=true
+            if(user && accessToken){
+                localStorage.setItem('accessToken',accessToken)
+            }
         },
         logout: (state) => {
             state.isAuthenticated = false;
             state.user = null;
             state.accessToken = null; 
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('userData')
         },
     }
 })
 
-export const {setCredentials,logout} =authSlice.actions;
+export const {setCredentials } =authSlice.actions;
 export default authSlice.reducer;
