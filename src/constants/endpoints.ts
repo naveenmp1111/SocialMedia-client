@@ -6,7 +6,10 @@ const END_POINT={
     SEND_OTP:'api/auth/sendOtp',
     VERIFY_OTP:'api/auth/verifyOtp',
     LOGIN_GOOGLE:'api/auth/google_auth',
-    EDIT_PROFILE:'api/profile/editProfile'
+    EDIT_PROFILE:'api/profile/editProfile',
+    GET_USERS_FOR_ADMIN:'api/admin/getAllUsersForAdmin',
+    BLOCK_USER:'api/admin/blockUser',
+    UNBLOCK_USER:'api/admin/unblockUser'
 }
 
 export default END_POINT
