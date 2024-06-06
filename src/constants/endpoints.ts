@@ -9,7 +9,12 @@ const END_POINT={
     EDIT_PROFILE:'api/profile/editProfile',
     GET_USERS_FOR_ADMIN:'api/admin/getAllUsersForAdmin',
     BLOCK_USER:'api/admin/blockUser',
-    UNBLOCK_USER:'api/admin/unblockUser'
+    UNBLOCK_USER:'api/admin/unblockUser',
+    REFRESH_ACCESS_TOKEN:'api/auth/refresh-access-token',
+    CREATE_POST:'api/post/createPost',
+    GET_MY_POSTS:'api/post/getMyPosts',
+    EDIT_POST:'api/post/editPost',
+    GET_ALL_POSTS:'api/post/getAllPosts'
 }
 
 export default END_POINT

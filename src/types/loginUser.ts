@@ -17,12 +17,14 @@ export interface User{
     isAccountVerified?: boolean;
     isGoogleSignIn?: boolean;
     isBlock?: boolean;
+    role?:string
 }
 
 export interface LoginUserResponse{
     message:string;
     status:string;
-    user:User | null
+    user:User | null;
+    token:string;
 }
 
 export interface GoogleLoginInterface {

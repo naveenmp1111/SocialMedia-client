@@ -74,3 +74,11 @@ export const loginUsingGoogle=async(
     )
     return response.data
 }
+
+export const refreshAccessToken=async():Promise<{accessToken:string}>=>{
+  const response=await axiosRefreshInstance.get<{accessToken:string}>(
+    END_POINT.REFRESH_ACCESS_TOKEN,
+    { withCredentials: true }
+  )
+  return response.data
+}

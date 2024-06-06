@@ -6,9 +6,9 @@ import { StoreType } from '../redux/store';
 const PublicRoutes = () => {
     const isAuthenticated=useSelector((state:StoreType)=>state.auth.isAuthenticated)
 
-    // if(isAuthenticated){
-    //    return <Navigate to='/home'/>
-    // }
+    if(isAuthenticated){
+       return <Navigate to='/home'/>
+    }
 
 
   return <Outlet/>

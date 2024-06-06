@@ -10,5 +10,6 @@ export const editProfile=async(
      END_POINT.EDIT_PROFILE,
      userInfo
    )
+   console.log('response from edit ',response.data)
    return response.data
 }

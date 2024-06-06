@@ -7,7 +7,8 @@ import Loader from '../components/Loader';
 import UserProfile from '../pages/UserProfile'
 import PublicRoutes from '../components/PublicRoutes'
 import PrivateRoutes from '../components/PrivateRoutes'
-import EditProfile from '../modals/EditProfile'
+import EditPost from '../modals/EditPost'
+import ViewPostModal from '../modals/ViewPostModal'
 
 
 const UserRoutes = () => {
@@ -18,11 +19,15 @@ const UserRoutes = () => {
         <Route element={<PublicRoutes />}>
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
+          
         </Route>
 
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<UserProfile />} />
+          <Route path='/viewPost' element={<ViewPostModal isOpen={true} postViewModalOnClose={function (): void {
+            throw new Error('Function not implemented.')
+          } }/>}/>
         </Route>
 
       </Routes>

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -8,9 +8,9 @@ import { toast } from 'react-toastify'
 import Loader from '../components/Loader';
 import LoginWithGoogle from '../utils/LoginWithGoogle';
 import { setCredentials } from '../redux/authSlice';
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 const Login = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const validationSchema = Yup.object().shape({
@@ -35,11 +35,14 @@ const Login = () => {
       setLoading(true)
       const result = await loginUser({ ...values })
 
-      console.log('login reslt is',result)
+      console.log('login reslt is', result)
       if (result.status == 'success') {
-        localStorage.setItem('userData',JSON.stringify(result.user))
+        localStorage.setItem('userData', JSON.stringify(result.user))
         toast.success(result.message)
 
+        if (result.user?.role == 'admin') {
+          return navigate('/admin/dashboard')
+        }
         setTimeout(() => {
           setLoading(false)
           dispatch(setCredentials(result))
@@ -60,32 +63,35 @@ const Login = () => {
   };
 
 
-  const GoogleSignin=async()=>{
+  const GoogleSignin = async () => {
     try {
-      const result=  await LoginWithGoogle()
-      if(result){
+      const result = await LoginWithGoogle()
+      if (result) {
         setLoading(true)
-        console.log('result is',result)
-        localStorage.setItem('userData',JSON.stringify(result))
+        console.log('result is', result)
+        localStorage.setItem('userData', JSON.stringify(result.user))
         // console.log('result is',result)
         dispatch(setCredentials(result))
         toast.success('Login successfull')
-        setTimeout(()=>{
-            setLoading(false)
-            navigate('/home')
-        },1500)
+        if (result.user?.role == 'admin') {
+          return navigate('/admin/dashboard')
+        }
+        setTimeout(() => {
+          setLoading(false)
+          navigate('/home')
+        }, 1500)
       }
     } catch (error) {
-        console.log('error occured',error)
-        if(isAxiosError(error)){
-            toast.error(error.response?.data.message)
-        }
+      console.log('error occured', error)
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data.message)
+      }
     }
-}
+  }
 
-if (loading) {
+  if (loading) {
     return <Loader />;
-}
+  }
 
   return (
     <section className="dark:bg-gray-900 w h-screen">

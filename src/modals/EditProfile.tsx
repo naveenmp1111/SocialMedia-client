@@ -5,9 +5,11 @@ import * as Yup from 'yup';
 import axios, { isAxiosError } from 'axios';
 import { StoreType } from '../redux/store';
 import { editProfile } from '../api/profile';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import { UseDispatch } from 'react-redux';
 import { setCredentials } from '../redux/authSlice';
+
+
 
 interface ModalProps {
     isOpen: boolean;
@@ -15,11 +17,11 @@ interface ModalProps {
 }
 
 const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-    const dispatch=useDispatch()
+
+    const dispatch = useDispatch()
     if (!isOpen) return null;
     const user = useSelector((state: StoreType) => state.auth.user);
-
-    
+    const accessToken = useSelector((state: StoreType) => state.auth.accessToken)
     const preset_key = 'xdxoqisy';
     const cloud_name = 'dwxhfdats';
     const [imageUrl, setImageUrl] = React.useState<string | undefined>(undefined);
@@ -40,7 +42,7 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         name: Yup.string().required('Required').min(3, 'Must be at least 3 characters'),
         username: Yup.string().required('Required').min(3, 'Must be at least 3 characters'),
         email: Yup.string().email('Invalid email address').required('Required'),
-        phoneNumber: Yup.string().required('Required'),
+        phoneNumber: Yup.string(),
     });
 
     const formik = useFormik({
@@ -55,34 +57,36 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             // Call the function to update profile with form values and imageUrl
-           try {
-            console.log('form values', {
-                ...values,
-                profilePic: imageUrl,
-            });
-            const result = await editProfile({
-                ...values,
-                profilePic: imageUrl,
-                phoneNumber: Number(values.phoneNumber)
-            });
-            console.log('result is ', result);
-            if(result){
-                toast.success('Profile updated successfully')
-                dispatch(setCredentials(result))
-                onClose()
+            try {
+                console.log('form values', {
+                    ...values,
+                    profilePic: imageUrl,
+                });
+                const result = await editProfile({
+                    ...values,
+                    profilePic: imageUrl,
+                    phoneNumber: Number(values.phoneNumber)
+                });
+                console.log('result issssss', result);
+                if (result) {
+                    toast.success('Profile updated successfully')
+                    dispatch(setCredentials({ user: result.user, accessToken }))
+                    localStorage.setItem('userData', JSON.stringify(result.user))
+
+                    onClose()
+                }
+            } catch (error) {
+                console.log('error is ', error)
+                if (isAxiosError(error)) {
+                    toast.error(error.response?.data.message)
+                }
             }
-           } catch (error) {
-              console.log('error is ',error)
-              if(isAxiosError(error)){
-                toast.error(error.response?.data.message)
-              }
-           }
         },
     });
 
     return (
         <div
-            className={`${isOpen ? 'fixed' : 'hidden'} overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-50`}
+            className={`${isOpen ? 'fixed' : 'hidden'} flex overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-80`}
         >
             <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -95,8 +99,8 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                             onClick={onClose}
                         >
-                           X
-        <span className="sr-only">Close modal</span>
+                            X
+                            <span className="sr-only">Close modal</span>
                         </button>
                     </div>
 
