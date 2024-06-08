@@ -81,9 +81,13 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         </button>
                     </div>
 
-                    {imageUrl && <img src={imageUrl} className='w-56' alt="Uploaded" />}
+                   
 
                     <form onSubmit={formik.handleSubmit}>
+                    {imageUrl && <img src={imageUrl} className='w-56' alt="Uploaded" />}
+                       <div className='flex'>
+
+                       </div>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div className='sm:col-span-2'>
                                 <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Post</label>

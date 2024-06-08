@@ -25,9 +25,9 @@ const UserRoutes = () => {
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<UserProfile />} />
-          <Route path='/viewPost' element={<ViewPostModal isOpen={true} postViewModalOnClose={function (): void {
+          {/* <Route path='/viewPost' element={<EditPost isOpen={true} postEditModalOnClose={function (): void {
             throw new Error('Function not implemented.')
-          } }/>}/>
+          } }/>}/> */}
         </Route>
 
       </Routes>

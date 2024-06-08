@@ -30,7 +30,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         fetchPosts()
-    }, [])
+    }, [openPostViewModal])
 
     const fetchPosts = async () => {
         // console.log('hasididid')
@@ -48,7 +48,7 @@ const UserProfile = () => {
     // }
 
     const PostViewControl=(item:PostDataInterface)=>{
-        setPostData(item)
+        setPostData(item) 
         setOpenPostViewModal(true)
     }
 

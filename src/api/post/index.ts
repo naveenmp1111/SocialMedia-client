@@ -21,7 +21,7 @@ export const getMyPosts=async()=>{
 }
 
 export const editPost=async(
-    payload:{postId:string,description:string}
+    payload:{postId:string | undefined,description:string}
 )=>{
     const response=await axiosUserInstance.post(
         END_POINT.EDIT_POST,
@@ -33,6 +33,15 @@ export const editPost=async(
 export const getAllPosts=async()=>{
     const response=await axiosUserInstance.get(
         END_POINT.GET_ALL_POSTS
+    )
+    return response.data
+}
+
+export const deletePost=async(
+    payload:string
+)=>{
+    const response=await axiosUserInstance.get(
+        `${END_POINT.DELETE_POST}/${payload}`
     )
     return response.data
 }

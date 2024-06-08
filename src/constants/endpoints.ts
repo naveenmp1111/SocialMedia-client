@@ -14,6 +14,7 @@ const END_POINT={
     CREATE_POST:'api/post/createPost',
     GET_MY_POSTS:'api/post/getMyPosts',
     EDIT_POST:'api/post/editPost',
+    DELETE_POST:'api/post/deletePost',
     GET_ALL_POSTS:'api/post/getAllPosts'
 }
 
