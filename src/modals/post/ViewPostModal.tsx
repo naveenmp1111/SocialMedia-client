@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PostDataInterface } from "../types/post";
+import { PostDataInterface } from "../../types/post";
 import EditPost from "./EditPost";
 import PostDeleteConfirmation from "./PostDeleteConfirmation";
 

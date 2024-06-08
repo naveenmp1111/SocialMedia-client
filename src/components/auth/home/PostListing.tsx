@@ -1,12 +1,11 @@
 import React from 'react'
+import { PostDataInterface } from '../../../types/post'
 
-const PostListing = ({posts}:{posts:any}) => {
+const PostListing = ({post}:{post:PostDataInterface}) => {
   
   return (
- 
-    <div className="bg-gray-100 px-20 p-5">
-       {posts.map((post:any) => (
-        <div key={post._id} className="bg-white border rounded-sm max-w-screen-md mb-5">
+
+        <div key={post._id} className="bg-white border rounded-md max-w-screen-md mb-5">
           <div className="flex  px-4 py-3  ">
             <img className="h-8 w-8 rounded-full" src={post?.user?.profilePic ? post.user.profilePic : "https://picsum.photos/id/1027/150/150" } alt="profile" />
             <div className="ml-3 ">
@@ -30,8 +29,7 @@ const PostListing = ({posts}:{posts:any}) => {
           <div className="font-semibold text-sm mx-4 mt-2 mb-4">92,372 likes</div>
           <span className='m-1 p-2'>{post.description}</span>
         </div>
-      ))}
-    </div>
+
   )
 }
 

@@ -4,8 +4,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios, { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { setCredentials } from '../redux/authSlice';
-import { createPost } from '../api/post';
+import { setCredentials } from '../../redux/authSlice';
+import { createPost } from '../../api/post';
 
 interface ModalProps {
     isOpen: boolean;

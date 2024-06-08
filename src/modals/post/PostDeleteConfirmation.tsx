@@ -1,5 +1,5 @@
 import React from 'react'
-import { deletePost } from '../api/post';
+import { deletePost } from '../../api/post';
 import {toast} from 'react-toastify'
 import { isAxiosError } from 'axios';
 

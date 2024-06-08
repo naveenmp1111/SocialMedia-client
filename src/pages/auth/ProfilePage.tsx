@@ -8,37 +8,38 @@ import React, { useEffect, useState } from 'react'
 </button> */}
 
 import { useSelector } from 'react-redux'
-import { StoreType } from '../redux/store'
-import EditProfile from '../modals/EditProfile'
-import { getMyPosts } from '../api/post'
-import EditPost from '../modals/EditPost'
-import { PostDataInterface } from '../types/post'
-import ViewPostModal from '../modals/ViewPostModal'
+import { StoreType } from '../../redux/store'
+import EditProfile from '../../modals/profile/EditProfile'
+import { getMyPosts } from '../../api/post'
+import EditPost from '../../modals/post/EditPost'
+import { PostDataInterface } from '../../types/post'
+import ViewPostModal from '../../modals/post/ViewPostModal'
+import Profile from '../../components/auth/profile'
 
 
 
 const UserProfile = () => {
 
-    const [openModal, setOpenModal] = useState(false)
-    const [openPostViewModal,setOpenPostViewModal]=useState(false)
-    const [postData,setPostData]=useState<PostDataInterface | null>(null)
-    const [openPostEditModal, setOpenEditPostModal] = useState(false)
-    // const [user, setUser] = useState<any>(null)
-    const user = useSelector((state: StoreType) => state.auth.user)
-    const [posts, setPosts] = useState([])
+    // const [openModal, setOpenModal] = useState(false)
+    // const [openPostViewModal,setOpenPostViewModal]=useState(false)
+    // const [postData,setPostData]=useState<PostDataInterface | null>(null)
+    // const [openPostEditModal, setOpenEditPostModal] = useState(false)
+    // // const [user, setUser] = useState<any>(null)
+    // const user = useSelector((state: StoreType) => state.auth.user)
+    // const [posts, setPosts] = useState([])
     // console.log('userData is ', userData)
 
-    useEffect(() => {
-        fetchPosts()
-    }, [openPostViewModal])
+    // useEffect(() => {
+    //     fetchPosts()
+    // }, [openPostViewModal])
 
-    const fetchPosts = async () => {
-        // console.log('hasididid')
-        const data = await getMyPosts()
-        // console.log('data is ', data)
-        setPosts(data.posts)
+    // const fetchPosts = async () => {
+    //     // console.log('hasididid')
+    //     const data = await getMyPosts()
+    //     // console.log('data is ', data)
+    //     setPosts(data.posts)
 
-    }
+    // }
 
     // const OpenEditPost=async(postData:PostDataInterface)=>{
     //     console.log('post data frm the function ',postData)
@@ -47,16 +48,17 @@ const UserProfile = () => {
     //     // console.log(response.data)
     // }
 
-    const PostViewControl=(item:PostDataInterface)=>{
-        setPostData(item) 
-        setOpenPostViewModal(true)
-    }
+    // const PostViewControl=(item:PostDataInterface)=>{
+    //     setPostData(item) 
+    //     setOpenPostViewModal(true)
+    // }
 
     return (
         <>
-            <ViewPostModal isOpen={openPostViewModal}  postViewModalOnClose={()=>setOpenPostViewModal(false)} post={postData}/>
+        <Profile/>
+            {/* <ViewPostModal isOpen={openPostViewModal}  postViewModalOnClose={()=>setOpenPostViewModal(false)} post={postData}/>
             <EditProfile isOpen={openModal} onClose={() => setOpenModal(false)} />
-            {/* <EditPost isOpen={openPostEditModal} postEditModalOnClose={() => setOpenEditPostModal(false)}/> */}
+           
 
             <div className="p-8 px-14  mt-10">
                 <div className="relative m mt-6 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl mt-16">
@@ -103,9 +105,9 @@ const UserProfile = () => {
                         <div className="mt-6 py-6 border-t border-slate-200 text-center">
                             <div className="flex flex-wrap justify-center">
                                 <div className="w-full">
-                                    <p className="font-light font-medium leading-relaxed text-slate-600 mb-2">{user?.bio}</p>
+                                    <p className="font-light font-medium leading-relaxed text-slate-600 mb-2">{user?.bio}</p> */}
                                     {/* <a href="javascript:;" className="font-normal text-slate-700 hover:text-slate-400">Follow Account</a> */}
-                                </div>
+                                {/* </div>
                             </div>
                         </div>
                     </div>
@@ -120,7 +122,7 @@ const UserProfile = () => {
                     ))}
                 </div>
 
-            </div>
+            </div> */}
 
         </>
     )

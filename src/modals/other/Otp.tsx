@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { sendOtp, signupUser, verifyOtp } from '../api/auth'
-import { SignupUserInterface } from '../types/signupUser';
+import { sendOtp, signupUser, verifyOtp } from '../../api/auth'
+import { SignupUserInterface } from '../../types/signupUser';
 import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
-import { TOAST_ACTION } from '../constants/common';
+import { TOAST_ACTION } from '../../constants/common';
 
 
 const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => {

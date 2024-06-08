@@ -1,14 +1,14 @@
 import {useState} from 'react'
-import CreatePost from '../modals/CreatePost'
-import store from '../redux/store'
-import { logout } from '../redux/authSlice'
+import CreatePost from '../../modals/post/CreatePost'
+import store from '../../redux/store'
+import { logout } from '../../redux/authSlice'
 
 const LeftSideBar = () => {
    const [openModal,setOpenModal]=useState(false)
   return (
     <>
      <CreatePost isOpen={openModal} onClose={() => setOpenModal(false)} />
-    <aside id="default-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 sm:bottom-bar-hidden" aria-label="Sidebar">
+    <aside id="default-sidebar" className="fixed top-0  z-40    w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 sm:bottom-bar-hidden" aria-label="Sidebar">
     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
        <ul className="space-y-5 font-medium">
           <li className='m-7'>

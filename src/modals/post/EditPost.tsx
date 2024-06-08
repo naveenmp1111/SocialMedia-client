@@ -3,8 +3,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios, { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { PostDataInterface } from '../types/post';
-import { editPost } from '../api/post';
+import { PostDataInterface } from '../../types/post';
+import { editPost } from '../../api/post';
 import { useNavigate } from 'react-router-dom';
 
 interface ModalProps {

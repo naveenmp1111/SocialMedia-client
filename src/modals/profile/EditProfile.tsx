@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios, { isAxiosError } from 'axios';
-import { StoreType } from '../redux/store';
-import { editProfile } from '../api/profile';
+import { StoreType } from '../../redux/store';
+import { editProfile } from '../../api/profile';
 import { toast } from 'react-toastify'
 import { UseDispatch } from 'react-redux';
-import { setCredentials } from '../redux/authSlice';
+import { setCredentials } from '../../redux/authSlice';
 
 
 

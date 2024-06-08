@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/auth';
 import { isAxiosError } from 'axios';
 import { toast } from 'react-toastify'
-import Loader from '../components/Loader';
+import Loader from '../components/others/Loader';
 import LoginWithGoogle from '../utils/LoginWithGoogle';
 import { setCredentials } from '../redux/authSlice';
 import { useDispatch } from 'react-redux'
