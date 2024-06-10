@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { sendOtp, signupUser, verifyOtp } from '../../api/auth'
-import { SignupUserInterface } from '../../types/signupUser';
+import { sendOtp, signupUser, verifyOtp } from '../../../api/auth'
+import { SignupUserInterface } from '../../../types/signupUser';
 import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
-import { TOAST_ACTION } from '../../constants/common';
+import { TOAST_ACTION } from '../../../constants/common';
+import SetPassword from './SetPassword';
 
 
-const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => {
+const PasswordOtp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => {
     if (!isOpen) return null;
 
     const navigate = useNavigate()
     const [otp, setOtp] = useState<number>()
     const [timer, setTimer] = useState(60);
     const [otpExpired, setOtpExpired] = useState(false);
+    const [passwordModal,setPasswodModal]=useState(false)
 
     useEffect(() => {
         if (timer > 0) {
@@ -42,19 +44,20 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
     const verifyotp = async () => {
         try {
             if (!otp?.toString().length) return
-            const userData = localStorage.getItem('registrationData')
-            const user: SignupUserInterface = userData ? JSON.parse(userData) : null
-            console.log('userData', user)
-            const response = await verifyOtp({ email: user.email, otp })
+            const pEmail = localStorage.getItem('password-email') as string
+            const email:string=JSON.parse(pEmail)
+            console.log('userData', email)
+            const response = await verifyOtp({ email, otp })
             console.log('response', response)
             if (response.status == 'success') {
                 toast.success('Otp verification successfull',TOAST_ACTION)
-                await signupUser({ ...user })
-                localStorage.removeItem('registrationData');
-                setTimeout(() => {
-                    toast.success('Account created successfully')
-                    navigate('/login')
-                }, 1500)
+                // await signupUser({ ...user })
+                // localStorage.removeItem('registrationData');
+                // setTimeout(() => {
+                //     toast.success('Account created successfully')
+                //     navigate('/login')
+                // }, 1500)
+                setPasswodModal(true)
             }
         } catch (error) {
             if (isAxiosError(error)) {
@@ -69,7 +72,8 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
     }
 
     return (
-
+ <>
+       <SetPassword isOpen={passwordModal} onClose={()=>setPasswodModal(false)} />
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40">
             <div className="bg-white rounded-lg p-6 w-96 max-w-full shadow-lg transform transition-all duration-300">
                 {/* Modal Header */}
@@ -137,7 +141,8 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
-export default Otp;
+export default PasswordOtp;

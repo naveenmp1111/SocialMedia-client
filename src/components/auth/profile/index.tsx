@@ -23,7 +23,7 @@ const Profile = () => {
 
     return (
         <div className="p-8 px-14  mt-10">
-            <TopSection />
+            <TopSection posts={posts}/>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {posts && posts.map((item: PostDataInterface, index: number) => (
                     <PostSection item={item} refreshPost={fetchPosts}/>

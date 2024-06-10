@@ -80,7 +80,7 @@ const Signup = () => {
         try {
             setLoading(true);
             toast.success('Processing Data',TOAST_ACTION)
-            const data = await sendOtp({ ...values });
+            const data = await sendOtp({ email:values.email });
             localStorage.setItem('registrationData', JSON.stringify(values));
             setLoading(false);
             toast.success(data.message);

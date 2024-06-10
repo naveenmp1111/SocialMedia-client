@@ -15,7 +15,8 @@ const END_POINT={
     GET_MY_POSTS:'api/post/getMyPosts',
     EDIT_POST:'api/post/editPost',
     DELETE_POST:'api/post/deletePost',
-    GET_ALL_POSTS:'api/post/getAllPosts'
+    GET_ALL_POSTS:'api/post/getAllPosts',
+    RESET_PASSWORD:'api/auth/resetPassword'
 }
 
 export default END_POINT

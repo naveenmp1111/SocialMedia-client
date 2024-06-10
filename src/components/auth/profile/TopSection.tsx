@@ -4,7 +4,8 @@ import {useSelector} from 'react-redux'
 import { StoreType } from '../../../redux/store'
 import EditProfile from '../../../modals/profile/EditProfile'
 
-const TopSection = () => {
+const TopSection = ({posts}:{posts:string[]}) => {
+    console.log('posts ',posts)
     const [openModal, setOpenModal] = useState(false)
     const user = useSelector((state: StoreType) => state.auth.user)
   return (
@@ -25,7 +26,7 @@ const TopSection = () => {
                            <div className="w-full text-center mt-20">
                                <div className="flex justify-center lg:pt-4 pt-8 pb-0">
                                    <div className="p-3 text-center">
-                                       <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">3,360</span>
+                                       <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">{posts?.length || 0}</span>
                                        <span className="text-sm text-slate-400">Photos</span>
                                    </div>
                                    <div className="p-3 text-center">

@@ -9,6 +9,8 @@ import PublicRoutes from '../components/PublicRoutes'
 import PrivateRoutes from '../components/PrivateRoutes'
 import EditPost from '../modals/post/EditPost'
 import ViewPostModal from '../modals/post/ViewPostModal'
+import EmailModal from '../modals/other/password/EmailModal'
+import SetPassword from '../modals/other/password/SetPassword'
 
 
 const UserRoutes = () => {
@@ -25,9 +27,12 @@ const UserRoutes = () => {
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<UserProfile />} />
-          {/* <Route path='/viewPost' element={<EditPost isOpen={true} postEditModalOnClose={function (): void {
+          <Route path='/pass' element={<EmailModal isOpen={true} onClose={function (): void {
             throw new Error('Function not implemented.')
-          } }/>}/> */}
+          } }/>}/>
+          <Route path='/password' element={<SetPassword isOpen={true} onClose={function (): void {
+            throw new Error('Function not implemented.')
+          } }/>}/>
         </Route>
 
       </Routes>

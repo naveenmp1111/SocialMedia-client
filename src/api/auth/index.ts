@@ -45,7 +45,7 @@ export const loginUser=async(
 }
 
 export const sendOtp=async(
-    payload:LoginUserInterface
+    payload:{email:string,message?:string}
 ):Promise<SendOtpResponse>=>{
     const response=await axiosRefreshInstance.post<SendOtpResponse>(
         END_POINT.SEND_OTP,
@@ -81,4 +81,16 @@ export const refreshAccessToken=async():Promise<{accessToken:string}>=>{
     { withCredentials: true }
   )
   return response.data
+}
+
+export const resetPassword=async(
+   payload:{ 
+    email:string,
+    password:string}
+)=>{
+    const response=await axiosRefreshInstance.post<VerifyOtpResponse>(
+        END_POINT.RESET_PASSWORD,
+        payload
+    )
+    return response.data
 }
