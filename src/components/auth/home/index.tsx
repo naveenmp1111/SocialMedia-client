@@ -10,16 +10,45 @@ const  Home = () => {
   }, [])
 
   const fetch = async () => {
+   try {
     const response = await getAllPosts()
     setPosts(response.posts)
+   } catch (error) {
+     console.log('error in fetching posts  ',error)
+   }
   }
+
+
+  const users = [
+    // Example users array, replace with your actual user data
+    { id: 1, name: 'John Doe', username: 'johndoe', profilePic: 'https://picsum.photos/id/1005/50/50' },
+    { id: 2, name: 'Jane Smith', username: 'janesmith', profilePic: 'https://picsum.photos/id/1006/50/50' },
+    { id: 3, name: 'Alice Johnson', username: 'alicej', profilePic: 'https://picsum.photos/id/1007/50/50' },
+    // Add more users as needed
+  ];
 
   return (
     <>
-      <div className="bg-gray-100 sm:px-10 p-5 w-full">
+    <div className='flex relative'>
+      <div className="bg-gray-00 md:px-10 pt-4 w-fit">
       {posts.map((post:any) => (
         <PostListing post={post} />
       ))}
+      </div>
+      <div className='min-w-72 h-screen max-h-[650px] bg-white fixed  top-24 hidden right-nav-size:block ml-[750px] rounded-lg p-5'>
+      <h2 className='text-xl font-semibold mb-7 text-center'>Suggested for you</h2>
+    <div>
+      {users.map(user => (
+        <div key={user.id} className='flex items-center mb-4'>
+          <img className='w-10 h-10 rounded-full' src={user.profilePic} alt={`${user.username} profile`} />
+          <div className='ml-3'>
+            <span className='block text-sm font-semibold'>{user.username}</span>
+            <span className='block text-gray-600 text-xs'>{user.name}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+      </div>
       </div>
     </>
   )

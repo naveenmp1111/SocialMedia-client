@@ -5,7 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'custom-size': '1405px',
+        'right-nav-size':'1296px'
+         // Define your custom size here
+      },
+    },
   },
   plugins: [],
 }

@@ -13,16 +13,14 @@ const Profile = () => {
     },[])
 
     const fetchPosts = async () => {
-        // console.log('hasididid')
         const data = await getMyPosts()
-        // console.log('data is ', data)
         setPosts(data.posts)
 
     }
 
 
     return (
-        <div className="p-8 px-14  mt-10">
+        <div className="pt-8 pl-8 pb-5  md:pl-11  md:mt-5">
             <TopSection posts={posts}/>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {posts && posts.map((item: PostDataInterface, index: number) => (

@@ -115,7 +115,7 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-30">
             <div className="bg-white rounded-lg p-6 w-96 max-w-full shadow-lg transform transition-all duration-300">
                 <div className="flex justify-between items-center border-b-2 border-gray-200 pb-4">
                     <h2 className="text-2xl font-semibold">

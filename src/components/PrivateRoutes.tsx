@@ -1,22 +1,29 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { StoreType } from '../redux/store'
 import LeftSideBar from './auth/LeftSideBar'
+import Searchbar from './auth/Searchbar'
 
 const PrivateRoutes = () => {
 
-    const isAuthenticated=useSelector((state:StoreType)=>state.auth.isAuthenticated)
+    const isAuthenticated = useSelector((state: StoreType) => state.auth.isAuthenticated)
 
-    if(isAuthenticated){
+    if (isAuthenticated) {
         return (<>
-            <LeftSideBar/>
-            <div className="sm:ml-64">
-                  <Outlet />
+            <div className='custom-size:px-28 md:pt-20 pt-10 bg-gray-200 h-fit min-h-screen'>
+                
+                <Searchbar/>
+
+                <LeftSideBar />
+
+                <div className="md:ml-64">
+                    <Outlet />
                 </div>
-            </>)
+            </div>
+        </>)
     }
-   return <Navigate to='/login'/>
+    return <Navigate to='/login' />
 }
 
 export default PrivateRoutes

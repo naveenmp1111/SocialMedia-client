@@ -5,12 +5,12 @@ const PostListing = ({post}:{post:PostDataInterface}) => {
   
   return (
 
-        <div key={post._id} className="bg-white border rounded-md max-w-screen-md mb-5">
+        <div key={post._id} className="bg-white border rounded-md md:max-w-[672px] w-full mb-5">
           <div className="flex  px-4 py-3  ">
             <img className="h-8 w-8 rounded-full" src={post?.user?.profilePic ? post.user.profilePic : "https://picsum.photos/id/1027/150/150" } alt="profile" />
             <div className="ml-3 ">
               <span className="text-sm font-semibold antialiased block leading-tight">{post?.user?.username}</span>
-              <span className="text-gray-600 text-xs block">{post?.user?.username}</span>
+              <span className="text-gray-600 text-xs block">{post?.user?.name}</span>
             </div>
           </div>
           <div className="relative w-full">
