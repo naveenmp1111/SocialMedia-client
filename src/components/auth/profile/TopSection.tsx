@@ -1,20 +1,27 @@
-import { User } from 'firebase/auth'
+import { User } from '../../../types/loginUser'
 import {useState} from 'react'
 import {useSelector} from 'react-redux'
 import { StoreType } from '../../../redux/store'
 import EditProfile from '../../../modals/profile/EditProfile'
 
-const TopSection = ({posts}:{posts:string[]}) => {
+const TopSection = ({posts,userData}:{posts:string[],userData:User}) => {
     console.log('posts ',posts)
     const [openModal, setOpenModal] = useState(false)
-    const user = useSelector((state: StoreType) => state.auth.user)
+    const userInRedux = useSelector((state: StoreType) => state.auth.user)
+    const user= userData._id==userInRedux?._id ? userInRedux : userData
   return (
    <>
    <EditProfile isOpen={openModal} onClose={() => setOpenModal(false)} />
    <div className="relative mt-6 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl">
-    <div className="absolute top-4 right-4">
-    <button className='m-1 bg-gray-600 text-white p-1 px-2 rounded-md' onClick={() => setOpenModal(true)}>Edit profile</button>
-    </div>
+
+   
+   {(user?._id==userInRedux?._id) && (
+        <div className="absolute top-4 right-4">
+        <button className='m-1 bg-gray-600 text-white p-1 px-2 rounded-md' onClick={() => setOpenModal(true)}>Edit profile</button>
+        </div>
+   )}
+
+
     <div className="px-6">
         <div className="flex flex-wrap justify-center">
             <div className="w-full flex justify-center">
@@ -44,21 +51,20 @@ const TopSection = ({posts}:{posts:string[]}) => {
             </div>
         </div>
 
-        <div className="text-center mt-2">
+        <div className="text-center mt-2 pb-2">
             <h3 className="text-2xl text-slate-700 font-bold leading-normal mb-1">{user?.username}</h3>
             <div className="text-xs mt-0 mb-3 text-slate-400 font-bold uppercase">
                 <i className="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>{user?.name}
             </div>
-            
         </div>
-        <div className="mt-6 py-6 border-t border-slate-200 text-center">
+        { user?.bio && (<div className="mt-1 py-3 border-t border-slate-200 text-center">
             <div className="flex flex-wrap justify-center">
                 <div className="w-full">
                     <p className="font-light font-medium leading-relaxed text-slate-600 mb-2">{user?.bio}</p>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>)}
+    </div>  
 </div>
 
    </>

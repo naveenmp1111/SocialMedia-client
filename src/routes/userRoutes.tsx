@@ -23,7 +23,7 @@ const UserRoutes = () => {
 
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
-          <Route path='/profile' element={<UserProfile />} />
+          <Route path='/profile/:userId' element={<UserProfile />} />
         </Route>
 
       </Routes>

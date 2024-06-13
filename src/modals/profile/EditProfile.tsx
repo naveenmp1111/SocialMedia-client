@@ -75,12 +75,11 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     profilePic: imageUrl,
                     phoneNumber: Number(values.phoneNumber)
                 });
-                console.log('result issssss', result);
+                // console.log('result issssss', result);
                 if (result) {
-                    toast.success('Profile updated successfully')
                     dispatch(setCredentials({ user: result.user, accessToken }))
                     localStorage.setItem('userData', JSON.stringify(result.user))
-
+                    toast.success('Profile updated successfully')
                     onClose()
                 }
             } catch (error) {

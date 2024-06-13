@@ -12,11 +12,13 @@ const END_POINT={
     UNBLOCK_USER:'api/admin/unblockUser',
     REFRESH_ACCESS_TOKEN:'api/auth/refresh-access-token',
     CREATE_POST:'api/post/createPost',
-    GET_MY_POSTS:'api/post/getMyPosts',
+    GET_POSTS_BY_USER:'api/post/getPostsByUser',
     EDIT_POST:'api/post/editPost',
     DELETE_POST:'api/post/deletePost',
     GET_ALL_POSTS:'api/post/getAllPosts',
-    RESET_PASSWORD:'api/auth/resetPassword'
+    RESET_PASSWORD:'api/auth/resetPassword',
+    GET_REST_OF_ALL_USERS:'api/user/getRestOfAllUsers',
+    GET_USER_BY_ID:'api/profile/getUserById'
 }
 
 export default END_POINT

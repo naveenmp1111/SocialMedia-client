@@ -12,9 +12,11 @@ export const createPost=async(
    
 }
 
-export const getMyPosts=async()=>{
+export const getPostsByUser=async(
+    userId:string
+)=>{
     const response=await axiosUserInstance.get(
-        END_POINT.GET_MY_POSTS
+        `${END_POINT.GET_POSTS_BY_USER}/${userId}`
     )
     console.log('response data is',response.data)
     return response.data

@@ -10,6 +10,7 @@ import LoginWithGoogle from '../utils/LoginWithGoogle';
 import { setCredentials } from '../redux/authSlice';
 import { useDispatch } from 'react-redux'
 import EmailModal from '../modals/other/password/EmailModal';
+import { setAdminCredentials } from '../redux/adminSlice';
 const Login = () => {
   const dispatch = useDispatch()
   const [emailModal,setEmailModal]=useState(false)
@@ -33,23 +34,30 @@ const Login = () => {
   const onSubmit = async (values: { email: string, password: string }) => {
 
     try {
-      // console.log(values)
+  
       setLoading(true)
       const result = await loginUser({ ...values })
 
-      console.log('login reslt is', result)
+      // console.log('login reslt is', result)
       if (result.status == 'success') {
-        localStorage.setItem('userData', JSON.stringify(result.user))
-        toast.success(result.message)
 
         if (result.user?.role == 'admin') {
-          return navigate('/admin/dashboard')
-        }
+          dispatch(setAdminCredentials(result))
+          toast.success(result.message)
+          return navigate('/admin')
+        }else if(result.user?.role == 'client'){
+          localStorage.setItem('userData', JSON.stringify(result.user))
+        toast.success(result.message)
+        
         setTimeout(() => {
           setLoading(false)
           dispatch(setCredentials(result))
-          navigate("/home");
+         return navigate("/home");
         }, 1500);
+        }
+
+
+        
       }
     } catch (error) {
       setLoading(false)

@@ -13,3 +13,13 @@ export const editProfile=async(
    console.log('response from edit ',response.data)
    return response.data
 }
+
+export const getUserById=async(
+  userId:string
+):Promise<EditProfileResponse>=>{
+  const response=await axiosUserInstance.get<EditProfileResponse>(
+      `${END_POINT.GET_USER_BY_ID}/${userId}`
+  )
+  
+  return response.data
+}

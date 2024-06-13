@@ -6,7 +6,7 @@ export interface LoginUserInterface{
 export interface User{
     _id?:string;
     name:string;
-    username?:string;
+    username:string;
     email:string;
     phoneNumber?: number;
     profilePic?: string;
