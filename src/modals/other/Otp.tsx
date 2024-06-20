@@ -44,7 +44,7 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
             if (!otp?.toString().length) return
             const userData = localStorage.getItem('registrationData')
             const user: SignupUserInterface = userData ? JSON.parse(userData) : null
-            console.log('userData', user)
+            // console.log('userData', user)
             const response = await verifyOtp({ email: user.email, otp })
             console.log('response', response)
             if (response.status == 'success') {

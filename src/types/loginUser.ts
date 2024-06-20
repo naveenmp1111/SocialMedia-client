@@ -17,7 +17,9 @@ export interface User{
     isAccountVerified?: boolean;
     isGoogleSignIn?: boolean;
     isBlock?: boolean;
-    role?:string
+    role?:string,
+    requests?:string[],
+    isPrivate?:boolean
 }
 
 export interface LoginUserResponse{

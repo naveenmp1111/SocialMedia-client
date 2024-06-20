@@ -13,10 +13,10 @@ export const createPost=async(
 }
 
 export const getPostsByUser=async(
-    userId:string
+    username:string
 )=>{
     const response=await axiosUserInstance.get(
-        `${END_POINT.GET_POSTS_BY_USER}/${userId}`
+        `${END_POINT.GET_POSTS_BY_USER}/${username}`
     )
     console.log('response data is',response.data)
     return response.data
@@ -36,6 +36,7 @@ export const getAllPosts=async()=>{
     const response=await axiosUserInstance.get(
         END_POINT.GET_ALL_POSTS
     )
+    console.log('post data in api call ',response.data)
     return response.data
 }
 
@@ -47,3 +48,32 @@ export const deletePost=async(
     )
     return response.data
 }
+
+export const reportPost=async(
+    payload:{postId:string;reason:string}
+)=>{
+    const response=await axiosUserInstance.post(
+        END_POINT.REPORT_POST,
+        payload
+    )
+    return response.data
+}
+
+export const likePost=async(
+    postId:string
+)=>{
+    const response=await axiosUserInstance.patch(
+        `${END_POINT.LIKE_POST}/${postId}`
+    )
+    return response.data
+}
+
+export const unlikePost=async(
+    postId:string
+)=>{
+    const response=await axiosUserInstance.patch(
+        `${END_POINT.UNLIKE_POST}/${postId}`
+    )
+    return response.data
+}
+

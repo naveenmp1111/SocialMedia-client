@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { StoreType } from '../redux/store'
-import LeftSideBar from './auth/LeftSideBar'
+import LeftSideBar from './auth/leftSideBar/LeftSideBar'
 import Searchbar from './auth/Searchbar'
 
 const PrivateRoutes = () => {

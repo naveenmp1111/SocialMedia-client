@@ -8,6 +8,9 @@ import UserProfile from '../pages/auth/ProfilePage'
 import PublicRoutes from '../components/PublicRoutes'
 import PrivateRoutes from '../components/PrivateRoutes'
 import EmailModal from '../modals/other/password/EmailModal'
+import RequestModal from '../modals/home/RequestModal'
+import ReportPost from '../modals/post/ReportPost'
+// import SettingsModal from '../modals/home/SettingsModal'
 
 
 const UserRoutes = () => {
@@ -23,7 +26,8 @@ const UserRoutes = () => {
 
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
-          <Route path='/profile/:userId' element={<UserProfile />} />
+          <Route path='/profile/:username' element={<UserProfile />} />
+          {/* <Route path='/modal' element={<ReportPost isOpen={true} onClose={()=>{}}/>}/> */}
         </Route>
 
       </Routes>

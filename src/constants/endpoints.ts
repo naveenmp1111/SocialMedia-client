@@ -18,7 +18,23 @@ const END_POINT={
     GET_ALL_POSTS:'api/post/getAllPosts',
     RESET_PASSWORD:'api/auth/resetPassword',
     GET_REST_OF_ALL_USERS:'api/user/getRestOfAllUsers',
-    GET_USER_BY_ID:'api/profile/getUserById'
+    GET_USER_BY_ID:'api/profile/getUserById',
+    GET_USER_BY_USERNAME:'api/profile/getUserByUsername',
+    FOLLOW_USER:'api/user/followUser',
+    UNFOLLOW_USER:'api/user/unfollowUser',
+    REMOVE_FOLLOWER:'api/user/removeFollower',
+    GET_FOLLOWERS:'api/user/getFollowers',
+    GET_FOLLOWING:'api/user/getFollowing',
+    GET_REQUESTS:'api/user/getRequests',
+    ACCEPT_REQUEST:'api/user/acceptRequest',
+    REPORT_POST:'api/post/reportPost',
+    GET_POST_REPORTS:'api/admin/getPostReports',
+    BLOCK_POST:'api/admin/blockPost',
+    UNBLOCK_POST:'api/admin/unblockPost',
+    LIKE_POST:'api/post/likePost',
+    UNLIKE_POST:'api/post/unlikePost',
+    SAVE_POST:'api/user/savePost',
+    UNSAVE_POST:'api/user/unsavePost'
 }
 
 export default END_POINT

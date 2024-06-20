@@ -6,7 +6,7 @@ export interface PostDataInterface {
     description?: string,
     // hashtags?: string,
     // hashtagsArray?: string[],
-    // likes?: string[],
+    likes?: string[],
     // comments?: string[],
     // saved?: string[],
     // reports?: string[],

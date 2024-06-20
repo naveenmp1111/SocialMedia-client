@@ -41,6 +41,7 @@ export const loginUser=async(
         `${END_POINT.LOGIN_USER}`,
         paload
     )
+    console.log('login response data is ',response.data)
     return response.data
 }
 
