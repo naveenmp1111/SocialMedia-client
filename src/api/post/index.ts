@@ -18,7 +18,7 @@ export const getPostsByUser=async(
     const response=await axiosUserInstance.get(
         `${END_POINT.GET_POSTS_BY_USER}/${username}`
     )
-    console.log('response data is',response.data)
+    // console.log('response data is',response.data)
     return response.data
 }
 
@@ -36,7 +36,7 @@ export const getAllPosts=async()=>{
     const response=await axiosUserInstance.get(
         END_POINT.GET_ALL_POSTS
     )
-    console.log('post data in api call ',response.data)
+    // console.log('post data in api call ',response.data)
     return response.data
 }
 

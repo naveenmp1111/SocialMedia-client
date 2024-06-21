@@ -16,3 +16,10 @@ export interface PostDataInterface {
     updatedAt: string,
     createdAt: string,
 }
+
+export interface SavedPostDataInterface {
+    status:string,
+    message:string,
+    posts:PostDataInterface[]
+}
+

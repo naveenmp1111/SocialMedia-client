@@ -34,7 +34,8 @@ const END_POINT={
     LIKE_POST:'api/post/likePost',
     UNLIKE_POST:'api/post/unlikePost',
     SAVE_POST:'api/user/savePost',
-    UNSAVE_POST:'api/user/unsavePost'
+    UNSAVE_POST:'api/user/unsavePost',
+    GET_SAVED_POSTS:'api/user/getSavedPosts'
 }
 
 export default END_POINT

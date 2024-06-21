@@ -12,10 +12,12 @@ import FollowersModal from '../../../modals/profile/ConnectionsModal'
 import ConnectionsModal from '../../../modals/profile/ConnectionsModal'
 import { isAxiosError } from 'axios'
 import {toast} from 'react-toastify'
+import { PostDataInterface } from '../../../types/post'
 
-const TopSection = ({ posts }: { posts: string[] }) => {
+const TopSection = ({ postsLength}: { postsLength: number}) => {
 
     const [reload, setReload] = useState<boolean>(false)
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
         fetchMyData()
@@ -23,12 +25,12 @@ const TopSection = ({ posts }: { posts: string[] }) => {
 
     useEffect(() => {
         fetchAdditionalData()
-    }, [reload])
+    }, [reload,openModal])
 
 
     const { username } = useParams<{ username: string }>();
 
-    const [openModal, setOpenModal] = useState(false)
+    
     const [openConnectionsModal,setOpenConnectionsModal]=useState(false)
     const [userData, setUserData] = useState<User>()
     const userInRedux = useSelector((state: StoreType) => state.auth.user)
@@ -125,7 +127,7 @@ const TopSection = ({ posts }: { posts: string[] }) => {
                         <div className="w-full text-center mt-20">
                             <div className="flex justify-center lg:pt-4 pt-8 pb-0">
                                 <div className="p-3 text-center">
-                                    <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">{posts?.length || 0}</span>
+                                    <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">{postsLength || 0}</span>
                                     <span className="text-sm text-slate-400">Photos</span>
                                 </div>
                                 <div className="p-3 text-center cursor-pointer" onClick={handleFollowersModal}>
