@@ -6,7 +6,7 @@ import { User } from '../../types/loginUser'
 
 
 
-const RequestModal = ({ isOpen, onClose, requests, onAccept }: { isOpen: boolean, onClose: () => void, requests: User[] | null, onAccept: (username: string) => void }) => {
+const RequestModal = ({ isOpen, onClose, requests, onAccept,onDecline }: { isOpen: boolean, onClose: () => void, requests: User[] | null, onAccept: (username: string) => void,onDecline:(username:string)=>void }) => {
     if (!isOpen) {
         return null;
     }
@@ -73,7 +73,11 @@ const RequestModal = ({ isOpen, onClose, requests, onAccept }: { isOpen: boolean
                                     <span className="block text-gray-300 text-xs">{user.name}</span>
                                 </div>
                             </div>
-                            <button className="px-2  text-md max-h-6 bg-white rounded-md mt-2" onClick={() => onAccept(user.username)}>Confirm</button>
+                            <div>
+                            <button className="px-2 mx-2  text-md max-h-6 bg-white rounded-md mt-2" onClick={() => onAccept(user.username)}>Accept</button>
+                            <button className="px-2  text-md max-h-6 bg-red-500 text-white rounded-md mt-2" onClick={() => onDecline(user.username)}>Decline</button>
+                                                            
+                            </div>
                         </div>
                     )) :<h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">
                     No new requests.

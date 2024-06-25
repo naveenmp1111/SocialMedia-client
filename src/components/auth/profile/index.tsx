@@ -76,7 +76,9 @@ const Profile = () => {
                         )}
                     </>
                 ) : (
+                    <>
                     <p className='font-bold text-gray-400 text-4xl m-20'>No posts yet.</p>
+                    </>
                 )}
             </div>
 

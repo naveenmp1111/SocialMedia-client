@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FollowerData } from '../../types/userProfile';
 import { User } from '../../types/loginUser';
-import { followUser, getUserByUsername, removeFollower, unfollowUser } from '../../api/user';
+import { followUser, getUserByUsername, unfollowUser } from '../../api/user';
 import { useSelector } from 'react-redux';
 import { StoreType } from '../../redux/store';
 import { useParams } from 'react-router-dom';
@@ -20,8 +20,6 @@ const ConnectionsModal = ({ isOpen, onClose, followers, following, isFollowersLi
     const fetchMyData = async () => {
         const loggedUser = await getUserByUsername(userInRedux?.username as string);
         setLoggedInUser(loggedUser.user);
-        console.log('loggedUser data is ', loggedUser.user.following)
-        console.log('followers userid ', followers)
     };
 
     useEffect(() => {
@@ -29,21 +27,17 @@ const ConnectionsModal = ({ isOpen, onClose, followers, following, isFollowersLi
     }, [reload]);
 
     const handleFollow= async(username:string) => {
-        // Handle follow logic here
         await followUser({friendUsername:username})
         setReload(prev=>!prev)
     };
 
     const handleUnfollow = async(username:string) => {
-        // Handle Unfollow logic here
         await unfollowUser({friendUsername:username})
         setReload(prev=>!prev)
     };
 
     const handleRemove = async(username:string) => {
         handleRemoveFollower(username)
-        // await removeFollower(username)
-        // Handle remove follower logic here
         setReload(prev=>!prev)
     };
 

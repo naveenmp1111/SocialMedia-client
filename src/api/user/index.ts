@@ -78,6 +78,7 @@ export const getRequests = async (
   const response = await axiosUserInstance.get<GetUsersResponse>(
     `${END_POINT.GET_REQUESTS}/${username}`
   )
+  console.log('requests data is ', response.data)
   return response.data
 }
 
@@ -87,6 +88,15 @@ export const acceptRequest = async (
   const response = await axiosUserInstance.post<FollowUserResponse>(
     END_POINT.ACCEPT_REQUEST,
     payload
+  )
+  return response.data
+}
+
+export const declineRequest = async (
+  friendUsername: string
+): Promise<FollowUserResponse> => {
+  const response = await axiosUserInstance.delete<FollowUserResponse>(
+    `${END_POINT.DECLINE_REQUEST}/${friendUsername}`
   )
   return response.data
 }
@@ -112,6 +122,15 @@ export const unsavePost = async (
 export const getSavedPost = async (): Promise<SavedPostDataInterface> => {
   const response = await axiosUserInstance.get<SavedPostDataInterface>(
     END_POINT.GET_SAVED_POSTS
+  )
+  return response.data
+}
+
+export const cancelRequest = async (
+  friendUsername: string
+) => {
+  const response = await axiosUserInstance.patch(
+    `${END_POINT.CANCEL_REQUEST}/${friendUsername}`
   )
   return response.data
 }

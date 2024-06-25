@@ -6,15 +6,17 @@ import { resetPassword, sendOtp, verifyOtp } from '../../../api/auth';
 import { TOAST_ACTION } from '../../../constants/common';
 import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => {
     const [step, setStep] = useState(1);
     const [otp, setOtp] = useState<number>();
     const [timer, setTimer] = useState(60);
     const [otpExpired, setOtpExpired] = useState(false);
-    const [recoveryEmail,setRecoveryEmail]=useState('email')
+    const [recoveryEmail, setRecoveryEmail] = useState('email')
+    const [passwordVisible, setPasswordVisible] = useState(false)
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (timer > 0) {
@@ -29,8 +31,8 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
     }, [timer]);
 
     const handleResend = async () => {
-        const email= recoveryEmail 
-        await sendOtp({ email ,message:'passwordRecovery'});
+        const email = recoveryEmail
+        await sendOtp({ email, message: 'passwordRecovery' });
 
         toast.success('Otp sent to your mail', TOAST_ACTION);
         setTimer(60);
@@ -45,20 +47,20 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
             email: Yup.string().email('Invalid email address').required('Email is required'),
         }),
         onSubmit: async (values) => {
-           try {
-            console.log('Email is', values.email);
-            // localStorage.setItem('passwordRecoveryEmail', values.email);
-            setRecoveryEmail(values.email)
-            // console.log('recovery email is ',recoveryEmail)
-            await sendOtp({ email:values.email ,message:'passwordRecovery'});
-            toast.success('Otp sent to your mail', TOAST_ACTION);
-            setStep(2);
-           } catch (error) {
-            console.log(error)
-             if(isAxiosError(error)){
-                toast.error(error.response?.data.message)
-             }
-           }
+            try {
+                console.log('Email is', values.email);
+                // localStorage.setItem('passwordRecoveryEmail', values.email);
+                setRecoveryEmail(values.email)
+                // console.log('recovery email is ',recoveryEmail)
+                await sendOtp({ email: values.email, message: 'passwordRecovery' });
+                toast.success('Otp sent to your mail', TOAST_ACTION);
+                setStep(2);
+            } catch (error) {
+                console.log(error)
+                if (isAxiosError(error)) {
+                    toast.error(error.response?.data.message)
+                }
+            }
         },
     });
 
@@ -76,18 +78,18 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
                 .required('Confirm password is required'),
         }),
         onSubmit: async (values) => {
-           try {
-            console.log('Password is', values.password);
-            const response=await resetPassword({email:recoveryEmail,password:values.password})
-            toast.success('Password reset successfully', TOAST_ACTION);
-            setStep(1)
-            onClose()
-         
-           } catch (error) {
-             if(isAxiosError(error)){
-                toast.error(error.response?.data.message)
-             }
-           }
+            try {
+                console.log('Password is', values.password);
+                const response = await resetPassword({ email: recoveryEmail, password: values.password })
+                toast.success('Password reset successfully', TOAST_ACTION);
+                setStep(1)
+                onClose()
+
+            } catch (error) {
+                if (isAxiosError(error)) {
+                    toast.error(error.response?.data.message)
+                }
+            }
         },
     });
 
@@ -95,7 +97,7 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
         try {
             if (!otp?.toString().length) return;
             // const email = JSON.parse(localStorage.getItem('passwordRecoveryEmail') as string);
-            const email=recoveryEmail
+            const email = recoveryEmail
             const response = await verifyOtp({ email, otp });
             if (response.status === 'success') {
                 toast.success('Otp verification successful', TOAST_ACTION);
@@ -151,11 +153,10 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
                                 onChange={formikEmail.handleChange}
                                 onBlur={formikEmail.handleBlur}
                                 value={formikEmail.values.email}
-                                className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    formikEmail.touched.email && formikEmail.errors.email
+                                className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${formikEmail.touched.email && formikEmail.errors.email
                                         ? 'border-red-500'
                                         : 'border-gray-300'
-                                }`}
+                                    }`}
                             />
                             {formikEmail.touched.email && formikEmail.errors.email && (
                                 <div className="text-red-500 text-sm">{formikEmail.errors.email}</div>
@@ -211,38 +212,61 @@ const EmailModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;
                 {step === 3 && (
                     <form onSubmit={formikPassword.handleSubmit} className="mt-6 space-y-4">
                         <div className="flex flex-col space-y-4">
+                            <div className='relative'>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={passwordVisible ? "text" : "password"}
                                 placeholder="Enter new password"
                                 onChange={formikPassword.handleChange}
                                 onBlur={formikPassword.handleBlur}
                                 value={formikPassword.values.password}
-                                className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    formikPassword.touched.password && formikPassword.errors.password
+                                className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${formikPassword.touched.password && formikPassword.errors.password
                                         ? 'border-red-500'
                                         : 'border-gray-300'
-                                }`}
+                                    }`}
                             />
+                            <button
+                                type="button"
+                                className="absolute right-2 top-2 text-gray-500"
+                                onClick={() => setPasswordVisible(!passwordVisible)}
+                            >
+                                {passwordVisible ? (
+                                    <AiFillEyeInvisible className="h-6 w-6" />
+                                ) : (
+                                    <AiFillEye className="h-6 w-6" />
+                                )}
+                            </button>
+                            </div>
                             {formikPassword.touched.password && formikPassword.errors.password && (
                                 <div className="text-red-500 text-sm">{formikPassword.errors.password}</div>
                             )}
-
+                            <div className='relative'>
                             <input
                                 id="confirmPassword"
                                 name="confirmPassword"
-                                type="password"
+                                type={passwordVisible ? "text" : "password"}
                                 placeholder="Confirm new password"
                                 onChange={formikPassword.handleChange}
                                 onBlur={formikPassword.handleBlur}
                                 value={formikPassword.values.confirmPassword}
-                                className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    formikPassword.touched.confirmPassword && formikPassword.errors.confirmPassword
+                                className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${formikPassword.touched.confirmPassword && formikPassword.errors.confirmPassword
                                         ? 'border-red-500'
                                         : 'border-gray-300'
-                                }`}
+                                    }`}
                             />
+                             <button
+                                type="button"
+                                className="absolute right-2 top-2 text-gray-500"
+                                onClick={() => setPasswordVisible(!passwordVisible)}
+                            >
+                                {passwordVisible ? (
+                                    <AiFillEyeInvisible className="h-6 w-6" />
+                                ) : (
+                                    <AiFillEye className="h-6 w-6" />
+                                )}
+                            </button>
+                            </div>
                             {formikPassword.touched.confirmPassword && formikPassword.errors.confirmPassword && (
                                 <div className="text-red-500 text-sm">{formikPassword.errors.confirmPassword}</div>
                             )}

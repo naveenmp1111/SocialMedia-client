@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { StoreType } from '../../../redux/store'
 import EditProfile from '../../../modals/profile/EditProfile'
-import { followUser, getFollowers, getFollowing, getUserByUsername, removeFollower, unfollowUser } from '../../../api/user'
+import { cancelRequest, followUser, getFollowers, getFollowing, getUserByUsername, removeFollower, unfollowUser } from '../../../api/user'
 import { FollowerData } from '../../../types/userProfile'
 import { getUserById } from '../../../api/profile'
 import { useParams } from 'react-router-dom'
@@ -70,6 +70,11 @@ const TopSection = ({ postsLength}: { postsLength: number}) => {
         if (typeof username == 'string')
             await unfollowUser({ friendUsername: username })
         setReload(prev => !prev);
+    }
+
+    const handleCancelRequest=async()=>{
+        await cancelRequest(username as string)
+        setReload(prev=>!prev)
     }
 
     const handleFollowersModal=async()=>{
@@ -157,6 +162,7 @@ const TopSection = ({ postsLength}: { postsLength: number}) => {
                                     loggedInUser={loggedInUser}
                                     handleFollow={handleFollow}
                                     handleUnfollow={handleUnfollow}
+                                    handleCancelRequest={handleCancelRequest}
                                 />
                             )
                         }

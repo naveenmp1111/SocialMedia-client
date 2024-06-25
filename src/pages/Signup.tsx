@@ -9,11 +9,16 @@ import { TOAST_ACTION } from '../constants/common';
 import LoginWithGoogle from '../utils/LoginWithGoogle';
 import { useNavigate } from 'react-router-dom';
 import { isAxiosError } from 'axios';
+import { setCredentials } from '../redux/authSlice';
+import { useDispatch } from 'react-redux';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const Signup = () => {
-    const navigate=useNavigate()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [passwordVisible, setPasswordVisible] = useState<boolean>(false)
     const [initialValues, setInitialValues] = useState({
         name: '',
         username: '',
@@ -79,8 +84,8 @@ const Signup = () => {
     const onSubmit = async (values: { name: string, username: string, email: string, password: string, confirmPassword: string }) => {
         try {
             setLoading(true);
-            toast.success('Processing Data',TOAST_ACTION)
-            const data = await sendOtp({ email:values.email });
+            toast.success('Processing Data', TOAST_ACTION)
+            const data = await sendOtp({ email: values.email });
             localStorage.setItem('registrationData', JSON.stringify(values));
             setLoading(false);
             toast.success(data.message);
@@ -91,20 +96,23 @@ const Signup = () => {
         }
     };
 
-    const GoogleSignin=async()=>{
+    const GoogleSignin = async () => {
         try {
-          const result=  await LoginWithGoogle()
-          if(result){
-            setLoading(true)
-            toast.success('Login successfull')
-            setTimeout(()=>{
-                setLoading(false)
-                navigate('/home')
-            },1500)
-          }
+            const result = await LoginWithGoogle()
+            if (result) {
+                setLoading(true)
+                localStorage.setItem('userData', JSON.stringify(result.user))
+                // console.log('result is',result)
+                dispatch(setCredentials(result))
+                toast.success('Login successfull')
+                setTimeout(() => {
+                    setLoading(false)
+                    navigate('/home')
+                }, 1500)
+            }
         } catch (error) {
-            console.log('error occured',error)
-            if(isAxiosError(error)){
+            console.log('error occured', error)
+            if (isAxiosError(error)) {
                 toast.error(error.response?.data.message)
             }
         }
@@ -150,19 +158,33 @@ const Signup = () => {
                                             <Field validate={validateUsername} type="text" name="username" id="username" autoComplete="username" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your username" />
                                             <ErrorMessage name="username" component="div" className="text-sm text-red-500" />
                                         </div>
-                                        <div>
+                                        <div className='relative'>
                                             <label className="block mb-2 text-sm font-medium dark:text-white">Your email</label>
                                             <Field validate={validateEmail} type="email" name="email" id="email" autoComplete="email" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
                                             <ErrorMessage name="email" component="div" className="text-sm text-red-500" />
                                         </div>
-                                        <div>
+                                        <div className='relative'>
                                             <label className="block mb-2 text-sm font-medium dark:text-white">Password</label>
-                                            <Field type="password" name="password" id="password" placeholder="••••••••" autoComplete="new-password" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                            <Field type={passwordVisible ? "text" : "password"} name="password" id="password" placeholder="••••••••" autoComplete="new-password" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                            <button type="button" className="absolute right-2 top-9 text-gray-600" onClick={() => setPasswordVisible(!passwordVisible)}>
+                                                {passwordVisible ? (
+                                                    <AiFillEye className="h-6 w-6 text-gray-400" />
+                                                ) : (
+                                                    <AiFillEyeInvisible className="h-6 w-6 text-gray-400" />
+                                                )}
+                                            </button>
                                             <ErrorMessage name="password" component="div" className="text-sm text-red-500" />
                                         </div>
-                                        <div>
+                                        <div className='relative'>
                                             <label className="block mb-2 text-sm font-medium dark:text-white">Confirm password</label>
-                                            <Field type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" autoComplete="new-password" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" />
+                                            <Field type={passwordVisible ? "text" : "password"} name="confirmPassword" id="confirmPassword" placeholder="••••••••" autoComplete="new-password" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" />
+                                            <button type="button" className="absolute right-2 top-9 text-gray-600" onClick={() => setPasswordVisible(!passwordVisible)}>
+                                                {passwordVisible ? (
+                                                    <AiFillEye className="h-6 w-6 text-gray-400" />
+                                                ) : (
+                                                    <AiFillEyeInvisible className="h-6 w-6 text-gray-400" />
+                                                )}
+                                            </button>
                                             <ErrorMessage name="confirmPassword" component="div" className="text-sm text-red-500 " />
                                         </div>
                                         <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an account</button>

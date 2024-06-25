@@ -5,7 +5,7 @@ import { logout } from '../../../redux/authSlice'
 import { useSelector } from 'react-redux'
 // import RequestsPart from './RequestsPart'
 import { User } from '../../../types/loginUser'
-import { acceptRequest, getRequests } from '../../../api/user'
+import { acceptRequest, declineRequest, getRequests } from '../../../api/user'
 import RequestModal from '../../../modals/home/RequestModal'
 import { isAxiosError } from 'axios'
 import { toast } from 'react-toastify'
@@ -46,9 +46,22 @@ const LeftSideBar = () => {
       }
    };
 
+   const handelDecline=async(username:string)=>{
+      try {
+         console.log('username fetched is ',username)
+         await declineRequest(username)
+         setRequests((prevRequests) => (prevRequests || []).filter((request) => request.username !== username));
+      } catch (error) {
+         if(isAxiosError(error)){
+            toast.error(error.message)
+            console.log(error)
+         }
+      }
+   }
+
    return (
       <>
-         <RequestModal isOpen={openRequestModal} onClose={() => setOpenRequestModal(false)} requests={requests} onAccept={handleAccept} />
+         <RequestModal isOpen={openRequestModal} onClose={() => setOpenRequestModal(false)} requests={requests} onAccept={handleAccept} onDecline={handelDecline}/>
          <CreatePost isOpen={openModal} onClose={() => setOpenModal(false)} />
          <aside id="default-sidebar" className="fixed top-24  z-40    w-64 h-screen max-h-[650px] transition-transform -translate-x-full md:translate-x-0 md:bottom-bar-hidden" aria-label="Sidebar">
             <div className="h-full px-5 py-3 overflow-y-auto bg-white  rounded-lg">

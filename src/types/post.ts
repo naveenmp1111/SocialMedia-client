@@ -23,3 +23,18 @@ export interface SavedPostDataInterface {
     posts:PostDataInterface[]
 }
 
+export interface CommentInterface {
+    _id: string,
+    postId: string,
+    comment: string,
+    createdAt: Date,
+    updatedAt: Date,
+    parentId:string,
+    user?: {
+        _id: string,
+        name: string,
+        username: string,
+        profilePic: string,
+    }
+}
+

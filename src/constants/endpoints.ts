@@ -35,7 +35,12 @@ const END_POINT={
     UNLIKE_POST:'api/post/unlikePost',
     SAVE_POST:'api/user/savePost',
     UNSAVE_POST:'api/user/unsavePost',
-    GET_SAVED_POSTS:'api/user/getSavedPosts'
+    GET_SAVED_POSTS:'api/user/getSavedPosts',
+    CANCEL_REQUEST:'api/user/cancelRequest',
+    DECLINE_REQUEST:'api/user/declineRequest',
+    ADD_COMMENT:'api/post/addComment',
+    GET_COMMENTS:'api/post/getComments',
+    ADD_REPLY:'api/post/addReply'
 }
 
 export default END_POINT
