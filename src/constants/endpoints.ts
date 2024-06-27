@@ -40,7 +40,10 @@ const END_POINT={
     DECLINE_REQUEST:'api/user/declineRequest',
     ADD_COMMENT:'api/post/addComment',
     GET_COMMENTS:'api/post/getComments',
-    ADD_REPLY:'api/post/addReply'
+    ADD_REPLY:'api/post/addReply',
+    BLOCK_USER_BY_USERNAME:'api/user/blockUserByUsername',
+    UNBLOCK_USER_BY_USERNAME:'api/user/unblockUserByUsername',
+    GET_BLOCKED_USERS:'api/user/getBlockedUsers',
 }
 
 export default END_POINT

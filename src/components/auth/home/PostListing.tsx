@@ -8,6 +8,7 @@ import { StoreType } from '../../../redux/store'
 import { MdBookmark } from 'react-icons/md'
 import { savePost, unsavePost } from '../../../api/user'
 import { User } from '../../../types/loginUser'
+import UserBlockProvision from '../../../modals/post/UserBlockProvision'
 
 const PostListing = ({ post,loggedinUser }: { post: PostDataInterface,loggedinUser:User | undefined }) => {
 
@@ -16,6 +17,8 @@ const PostListing = ({ post,loggedinUser }: { post: PostDataInterface,loggedinUs
   const [postId, setPostId] = useState<string>()
   const [noOfLikes, setNoOfLikes] = useState(post.likes?.length || 0)
   const userInRedux = useSelector((state: StoreType) => state.auth.user)
+
+  const [openUserBlockModal,setOpenUserBlockModal]=useState<boolean>(false)
   
   const toggleDropdown = () => {
     setIsopen(prev => !prev)
@@ -24,7 +27,7 @@ const PostListing = ({ post,loggedinUser }: { post: PostDataInterface,loggedinUs
   const handleReportModal = (postId: string) => {
     setPostId(postId)
     setOpenReportModal(true)
-    setIsopen(false)
+    setIsopen(false) 
   }
 
   const [isLiked, setIsLiked] = useState(post.likes?.includes(userInRedux?._id as string));
@@ -70,7 +73,8 @@ const PostListing = ({ post,loggedinUser }: { post: PostDataInterface,loggedinUs
 
   return (
     <>
-      <ReportPost isOpen={OpenReportModal} onClose={() => setOpenReportModal(false)} postId={postId as string} />
+    <UserBlockProvision isOpen={openUserBlockModal} onClose={()=>setOpenUserBlockModal(false)} username={post.user.username}/>
+      <ReportPost isOpen={OpenReportModal} onClose={() => setOpenReportModal(false)} postId={postId as string} openUserBlockModal={()=>setOpenUserBlockModal(true)}/>
       <div key={post._id} className="bg-white border rounded-md md:max-w-[672px] w-full mb-5">
         <div className="flex  px-4 py-3">
           <a href={`/profile/${post.user.username}`} className="flex items-center space-x-3">
@@ -93,12 +97,15 @@ const PostListing = ({ post,loggedinUser }: { post: PostDataInterface,loggedinUs
                 </ul>
               </div>
             )}
-            <div onClick={toggleDropdown}>
+            {post.userId !== loggedinUser?._id && 
+              <div onClick={toggleDropdown}>
               {/* Three-dot vertical menu */}
               <svg fill="#262626" height="24" viewBox="0 0 48 48" width="24">
                 <path d="M24 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"></path>
               </svg>
             </div>
+            }
+            
           </div>
 
 

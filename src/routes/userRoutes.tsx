@@ -10,6 +10,9 @@ import PrivateRoutes from '../components/PrivateRoutes'
 import EmailModal from '../modals/other/password/EmailModal'
 import RequestModal from '../modals/home/RequestModal'
 import ReportPost from '../modals/post/ReportPost'
+import MessagesPage from '../pages/auth/MessagesPage'
+import UserBlockProvision from '../modals/post/UserBlockProvision'
+import SettingsModal from '../modals/home/SettingsModal'
 // import SettingsModal from '../modals/home/SettingsModal'
 
 
@@ -18,6 +21,7 @@ const UserRoutes = () => {
     <>
       <Routes>
         <Route path='/' element={<Navigate to='/home'/>}/>
+        <Route path='/messages' element={<MessagesPage/>}/>
         <Route element={<PublicRoutes />}>
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
@@ -27,7 +31,7 @@ const UserRoutes = () => {
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
           <Route path='/profile/:username' element={<UserProfile />} />
-          {/* <Route path='/modal' element={<ReportPost isOpen={true} onClose={()=>{}}/>}/> */}
+          {/* <Route path='/modal' element={<SettingsModal isOpen={true} onClose={()=>{}}/>}/> */}
         </Route>
 
       </Routes>

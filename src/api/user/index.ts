@@ -123,6 +123,7 @@ export const getSavedPost = async (): Promise<SavedPostDataInterface> => {
   const response = await axiosUserInstance.get<SavedPostDataInterface>(
     END_POINT.GET_SAVED_POSTS
   )
+  console.log('response data of get saved posts ',response.data)
   return response.data
 }
 
@@ -131,6 +132,32 @@ export const cancelRequest = async (
 ) => {
   const response = await axiosUserInstance.patch(
     `${END_POINT.CANCEL_REQUEST}/${friendUsername}`
+  )
+  return response.data
+}
+
+export const blockUserByUsername=async(
+  username:string
+)=>{
+  const response=await axiosUserInstance.patch(
+    `${END_POINT.BLOCK_USER_BY_USERNAME}/${username}`
+  )
+  return response.data
+}
+
+export const unblockUserByUsername=async(
+  username:string
+)=>{
+  const response=await axiosUserInstance.patch(
+    `${END_POINT.UNBLOCK_USER_BY_USERNAME}/${username}`
+  )
+  return response.data
+}
+
+
+export const getBlockedUsers=async(): Promise<GetUsersResponse>=>{
+  const response=await axiosUserInstance.get<GetUsersResponse>(
+    END_POINT.GET_BLOCKED_USERS
   )
   return response.data
 }

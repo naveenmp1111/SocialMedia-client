@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {toast} from 'react-toastify'
 import { reportPost } from '../../api/post';
+import UserBlockProvision from './UserBlockProvision';
 
-const ReportPost = ({ isOpen, onClose,postId }: { isOpen: boolean; onClose: () => void;postId:string}) => {
+const ReportPost = ({ isOpen, onClose,postId,openUserBlockModal }: { isOpen: boolean; onClose: () => void;postId:string;openUserBlockModal:()=>void}) => {
     const [selectedReason, setSelectedReason] = useState('');
     const [error, setError] = useState('');
 
@@ -25,6 +26,7 @@ const ReportPost = ({ isOpen, onClose,postId }: { isOpen: boolean; onClose: () =
             // console.log(selectedReason);
             await reportPost({postId,reason:selectedReason})
             toast.success('Report submitted successfully')
+            openUserBlockModal()
             onClose(); // Close the modal after reporting
         } else {
             setError('Please select a reason for reporting.');
@@ -32,6 +34,7 @@ const ReportPost = ({ isOpen, onClose,postId }: { isOpen: boolean; onClose: () =
     };
 
     return isOpen ? (
+        <>
         <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-80">
             <div className="relative w-full max-w-md max-h-full mx-4 overflow-hidden bg-white rounded-lg shadow dark:bg-gray-700">
                 {/* Modal header */}
@@ -99,6 +102,7 @@ const ReportPost = ({ isOpen, onClose,postId }: { isOpen: boolean; onClose: () =
                 </div>
             </div>
         </div>
+        </>
     ) : null;
 };
 

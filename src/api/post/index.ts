@@ -18,7 +18,7 @@ export const getPostsByUser = async (
     const response = await axiosUserInstance.get(
         `${END_POINT.GET_POSTS_BY_USER}/${username}`
     )
-    // console.log('response data is',response.data)
+    console.log('response data of posts by user ',response.data)
     return response.data
 }
 

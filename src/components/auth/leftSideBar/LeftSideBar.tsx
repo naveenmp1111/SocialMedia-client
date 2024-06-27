@@ -9,6 +9,7 @@ import { acceptRequest, declineRequest, getRequests } from '../../../api/user'
 import RequestModal from '../../../modals/home/RequestModal'
 import { isAxiosError } from 'axios'
 import { toast } from 'react-toastify'
+import SettingsModal from '../../../modals/home/SettingsModal'
 
 const LeftSideBar = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -48,7 +49,6 @@ const LeftSideBar = () => {
 
    const handelDecline=async(username:string)=>{
       try {
-         console.log('username fetched is ',username)
          await declineRequest(username)
          setRequests((prevRequests) => (prevRequests || []).filter((request) => request.username !== username));
       } catch (error) {
@@ -59,8 +59,13 @@ const LeftSideBar = () => {
       }
    }
 
+   //----------------------------------------settindgs--------------------------------------//
+
+   const [isOpenSettingsModal,setIsOpenSettingsModal]=useState(false)
+
    return (
       <>
+        
          <RequestModal isOpen={openRequestModal} onClose={() => setOpenRequestModal(false)} requests={requests} onAccept={handleAccept} onDecline={handelDecline}/>
          <CreatePost isOpen={openModal} onClose={() => setOpenModal(false)} />
          <aside id="default-sidebar" className="fixed top-24  z-40    w-64 h-screen max-h-[650px] transition-transform -translate-x-full md:translate-x-0 md:bottom-bar-hidden" aria-label="Sidebar">
@@ -112,6 +117,14 @@ const LeftSideBar = () => {
                         <span className="flex-1 ms-3 whitespace-nowrap">Profile</span>
                      </a>
                   </li>
+                  <li>
+                     <a onClick={()=>setIsOpenSettingsModal(true)} className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-200  group">
+                        <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                           <path d="M15 0H3a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3ZM5 2h8a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm4 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-4H4V8h10v6Z" />
+                        </svg>
+                        <span className="flex-1 ms-3 whitespace-nowrap">Settings</span>
+                     </a>
+                  </li>
                   <li onClick={() => store.dispatch(logout())}>
                      <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-200  group">
                         <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -152,6 +165,7 @@ const LeftSideBar = () => {
                </svg>
             </a>
          </div>
+          <SettingsModal isOpen={isOpenSettingsModal} onClose={()=>setIsOpenSettingsModal(false)} />
       </>
    )
 }

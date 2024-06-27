@@ -19,6 +19,7 @@ interface ModalProps {
 }
 
 const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, post }) => {
+    console.log('post coming is ',post)
     if (!isOpen) {
         return null
     }
@@ -89,6 +90,7 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
     const [replyComments,setReplyComments]=useState<CommentInterface[]>([])
     const [replyingCommentId,setReplyingCommentId]=useState<string | null>(null)
     const [isReply,setIsReply]=useState(false)
+    const [refreshComments,setRefreshComments]=useState<boolean>(false)
 
     const handleAddComment=async()=>{
         let comment=commentInputRef?.current?.value
@@ -99,12 +101,12 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
                 // console.log('comment is ',comment,post?._id)
                 if(isReply){
                     const response=await addReply({postId:post?._id as string,parentId:replyingCommentId as string,comment:comment})
-                    console.log('response is ',response)
+                    // console.log('response is ',response)
                 }else{
                     const response=  await addComment({postId:post?._id as string,comment:comment})
-                    console.log('response is ',response)
+                    // console.log('response is ',response)
                 }
-               
+               setRefreshComments(!refreshComments)
                 
                } catch (error) {
                  console.log('error is ',error)
@@ -116,7 +118,7 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
 
     useEffect(()=>{
         fetchComments()
-    },[])
+    },[refreshComments])
 
     const fetchComments=async()=>{
        const response= await getComments(post?._id as string)
@@ -150,7 +152,7 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
 
                 <div className="relative p-4 w-full max-w-screen-xl max-h-full">
 
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 pb-0.5">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-800 pb-0.5">
 
 
                         <div className="flex ">
@@ -205,15 +207,15 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
                                     </div>
 
                                 </div>
-                                <div className="h-full  overflow-y-auto max-h-96  pb-14" > 
+                                <div className="h-full  overflow-y-auto max-h-96  pb-24" > 
                                     {mainComments && mainComments?.map(comment=>(
                                        <>
-                                        <CommentList comment={comment} allComments={replyComments} handleTargetCommentId={handleSetReplyingCommentId} setIsReply={setIsReply}/>
+                                        <CommentList comment={comment} allComments={replyComments} handleTargetCommentId={handleSetReplyingCommentId} setIsReply={setIsReply} depth={1}/>
                                         {/* <span>reply</span> */}
                                        </>
                                     ))};
                                 </div>
-                                <div className="bg-gray-700 h-32 absolute bottom-0 left-0 right-0">
+                                <div className="bg-gray-800 h-32 absolute bottom-0 left-0 right-0">
                                     <hr />
                                     <div className="flex items-center justify-between mx-4 mt-3 mb-2">
                                         <div className="flex gap-5">
