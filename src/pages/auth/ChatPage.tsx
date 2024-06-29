@@ -2,17 +2,18 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { StoreType } from '../../redux/store'
 import { Navigate } from 'react-router-dom'
+import Chat from '../../components/auth/chat'
 
-const MessagesPage = () => {
+const ChatPage = () => {
     const isAuthenticated = useSelector((state: StoreType) => state.auth.isAuthenticated)
 
     if (isAuthenticated) {
         return (<>
-           <div>MessagesPage</div>
+          <Chat/>
         </>)
     }
     return <Navigate to='/login' />
 
 }
 
-export default MessagesPage
+export default ChatPage
