@@ -4,6 +4,7 @@ import { User } from "./loginUser";
 
 
 export interface ChatInterface {
+    latestMessage?: string;
     _id: string;
     // chatName: string;
     members: User[];
@@ -12,10 +13,11 @@ export interface ChatInterface {
     updatedAt: string;
 }
 
-// export interface FetchOtherUserChatResponse {
-//     status: string;
-//     chat: ChatInterface;
-// }
+export interface FetchOtherUserChatResponse {
+    status: string;
+    message:string;
+    chat: ChatInterface;
+}
 
 export interface FetchUserChatsResponse {
     status: string;

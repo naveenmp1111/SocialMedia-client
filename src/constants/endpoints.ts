@@ -45,7 +45,9 @@ const END_POINT={
     UNBLOCK_USER_BY_USERNAME:'api/user/unblockUserByUsername',
     GET_BLOCKED_USERS:'api/user/getBlockedUsers',
     CREATE_CHAT:'api/chat/createOrAccessChat',
-    FETCH_CHATS:'api/chat/fetchChats'
+    FETCH_CHATS:'api/chat/fetchChats',
+    GET_FULL_MESSAGES_FROM_CHAT:'api/message/getFullMessagesFromChat',
+    SEND_MESSAGE:'api/message/sendMessage'
 }
 
 export default END_POINT

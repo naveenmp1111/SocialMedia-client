@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { getFollowing } from '../../api/user'
 import { useSelector } from 'react-redux'
-import { User } from '../../types/loginUser'
+import {  User } from '../../types/loginUser'
 import { StoreType } from '../../redux/store'
 import { FollowerData } from '../../types/userProfile'
 import { FaRegCommentDots } from 'react-icons/fa';
 import { createOrAccessChat } from '../../api/chat'
 
-const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
+const NewChatList = ({isOpen,onClose,handleChatSelection}:{isOpen:boolean,onClose:()=>void,handleChatSelection:(chatId:string,selectedUser:{name:string,profilePic:string})=>void}) => {
     if(!isOpen)return null
 
     const userinRedux=useSelector((state:StoreType)=>state.auth.user)
@@ -18,8 +18,15 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
         setFollowing(response.users)
     }
 
-    const handleStartChat=async(userId:string)=>{
-        const chat=await createOrAccessChat({otherUserId:userId})
+    const handleStartChat=async(user:FollowerData)=>{
+        const response=await createOrAccessChat({otherUserId:user?._id as string})
+        // setSelectedFriend(user.name)
+        const selectedUserObj={
+            name:user.name as string,
+            profilePic:user.profilePic as string
+        }
+        handleChatSelection(response.chat._id,selectedUserObj)
+        onClose()
     }
 
     useEffect(()=>{
@@ -73,13 +80,13 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
                             </div>
                             <div>
                             <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
-                            <FaRegCommentDots size={25} className='cursor-pointer text-gray-300' onClick={()=>handleStartChat(user._id)}/>
+                            <FaRegCommentDots size={25} className='cursor-pointer text-gray-300' onClick={()=>handleStartChat(user)}/>
                         </div>
                                                             
                             </div>
                         </div>
                     )) :<h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">
-                    No new requests.
+                    Follow friends to start chat.
                 </h3>}
                 </div>
             </div>

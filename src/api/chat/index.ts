@@ -1,11 +1,11 @@
 import END_POINT from "../../constants/endpoints"
-import { FetchUserChatsResponse} from "../../types/chat"
+import { FetchOtherUserChatResponse, FetchUserChatsResponse} from "../../types/chat"
 import axiosUserInstance from "../axiosInstance/axiosUserInstance"
 
 export const createOrAccessChat=async(
    payload:{otherUserId:string}
-)=>{
-    const response=await axiosUserInstance.post(
+):Promise<FetchOtherUserChatResponse>=>{
+    const response=await axiosUserInstance.post<FetchOtherUserChatResponse>(
         END_POINT.CREATE_CHAT,
         payload
     )
