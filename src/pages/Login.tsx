@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import EmailModal from '../modals/other/password/EmailModal';
 import { setAdminCredentials } from '../redux/adminSlice';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { io } from 'socket.io-client';
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -57,10 +58,7 @@ const Login = () => {
           dispatch(setCredentials(result))
          return navigate("/home");
         }, 1500);
-        }
-
-
-        
+        }        
       }
     } catch (error) {
       setLoading(false)

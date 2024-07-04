@@ -15,3 +15,8 @@ export interface GetAllMessagesFromChatResponse {
     status: string;
     messages: MessageInterface[];
 }
+
+export interface SingleMessageFromChat{
+    status:string;
+    message:MessageInterface
+}

@@ -6,15 +6,20 @@ import { Provider } from 'react-redux'
 import store from './redux/store/index.ts'
 import { BrowserRouter } from 'react-router-dom'
 import CommentInputProvider from './contexts/CommentInputContext.tsx'
+import { SocketProvider } from './contexts/SocketContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
-    <Provider store={store}>
-      <BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+
       <CommentInputProvider>
-        <App />
-        </CommentInputProvider>
-      </BrowserRouter>
-    </Provider>
+        <SocketProvider>
+          <App />
+        </SocketProvider>
+      </CommentInputProvider>
+
+    </BrowserRouter>
+  </Provider>
 
 )

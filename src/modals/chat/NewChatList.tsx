@@ -6,12 +6,14 @@ import { StoreType } from '../../redux/store'
 import { FollowerData } from '../../types/userProfile'
 import { FaRegCommentDots } from 'react-icons/fa';
 import { createOrAccessChat } from '../../api/chat'
+import useConversation from '../../zustand/useConversation'
 
-const NewChatList = ({isOpen,onClose,handleChatSelection}:{isOpen:boolean,onClose:()=>void,handleChatSelection:(chatId:string,selectedUser:{name:string,profilePic:string})=>void}) => {
+const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
     if(!isOpen)return null
 
     const userinRedux=useSelector((state:StoreType)=>state.auth.user)
     const [following,setFollowing]=useState<FollowerData[]>([])
+    const {setSelectedFriend,setSelectedConversation}=useConversation()
 
     const fetchFollowing=async()=>{
         const response=await getFollowing(userinRedux?.username as string)
@@ -25,7 +27,9 @@ const NewChatList = ({isOpen,onClose,handleChatSelection}:{isOpen:boolean,onClos
             name:user.name as string,
             profilePic:user.profilePic as string
         }
-        handleChatSelection(response.chat._id,selectedUserObj)
+        // handleChatSelection(response.chat._id,selectedUserObj)
+        setSelectedConversation(response.chat)
+        setSelectedFriend(selectedUserObj)
         onClose()
     }
 
@@ -70,7 +74,7 @@ const NewChatList = ({isOpen,onClose,handleChatSelection}:{isOpen:boolean,onClos
                 {/* Modal body */}
                 <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-96 overflow-y-auto">
                     {following?.length ? following?.map(user => (
-                        <div key={user._id} className="flex justify-between items-center p-1 mb-4">
+                        <div  onClick={()=>handleStartChat(user)} key={user._id} className="flex justify-between items-center p-1 mb-4">
                             <div className="flex items-center">
                                 <img className="w-14 h-14 rounded-full" src={user.profilePic ||  "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"} alt={`${user.username} profile`} />
                                 <div className="ml-3 text-white">
@@ -80,7 +84,7 @@ const NewChatList = ({isOpen,onClose,handleChatSelection}:{isOpen:boolean,onClos
                             </div>
                             <div>
                             <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
-                            <FaRegCommentDots size={25} className='cursor-pointer text-gray-300' onClick={()=>handleStartChat(user)}/>
+                            <FaRegCommentDots size={25} className='cursor-pointer text-gray-300' />
                         </div>
                                                             
                             </div>

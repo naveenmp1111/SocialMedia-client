@@ -86,7 +86,7 @@ const BlockedUsersList = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =>
                             </div>
                         </div>
                     )) : <h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">
-                        No new requests.
+                        No Blocked users.
                     </h3>}
                 </div>
             </div>

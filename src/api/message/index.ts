@@ -1,5 +1,5 @@
 import END_POINT from "../../constants/endpoints"
-import { GetAllMessagesFromChatResponse } from "../../types/message"
+import { GetAllMessagesFromChatResponse, MessageInterface, SingleMessageFromChat } from "../../types/message"
 import axiosUserInstance from "../axiosInstance/axiosUserInstance"
 
 export const getFullMessagesFromChat=async(
@@ -14,8 +14,8 @@ export const getFullMessagesFromChat=async(
 
 export const sendMessage=async(
     payload:{chatId:string,message:string}
-)=>{
-    const response=await axiosUserInstance.post(
+):Promise<SingleMessageFromChat>=>{
+    const response=await axiosUserInstance.post<SingleMessageFromChat>(
         END_POINT.SEND_MESSAGE,
         payload
     )
