@@ -14,6 +14,8 @@ interface ConversationState {
   setMessages: (messages: MessageInterface[]) => void;
   selectedFriend: SelectedFriend | null;
   setSelectedFriend: (friendData: SelectedFriend) => void;
+  // onlineUsers:string[];
+  // setOnlineUsers:(users:string[])=>void
 }
 
 const useConversation = create<ConversationState>((set) => ({
@@ -23,6 +25,8 @@ const useConversation = create<ConversationState>((set) => ({
   setMessages: (messages) => set({ messages }),
   selectedFriend: null,
   setSelectedFriend: (friendData) => set({ selectedFriend: friendData }),
+  // onlineUsers:[],
+  // setOnlineUsers:(users)=>set({onlineUsers:users})
 }));
 
 export default useConversation;

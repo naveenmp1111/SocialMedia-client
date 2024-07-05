@@ -12,12 +12,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
   <Provider store={store}>
     <BrowserRouter>
-
+    <SocketProvider>
       <CommentInputProvider>
-        <SocketProvider>
+       
           <App />
-        </SocketProvider>
+       
       </CommentInputProvider>
+      </SocketProvider>
 
     </BrowserRouter>
   </Provider>

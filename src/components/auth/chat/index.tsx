@@ -164,6 +164,7 @@ import useGetConversations from '../../../hooks/useGetConversation';
 import useConversation from '../../../zustand/useConversation';
 import useSendMessage from '../../../hooks/useSendMessages';
 import useGetMessages from '../../../hooks/useGetMessages';
+import useListenMessages from '../../../hooks/useListenMessages';
 
 
 const Chat: React.FC = () => {
@@ -176,43 +177,14 @@ const Chat: React.FC = () => {
     const [newMessage, setNewMessage] = useState<string>('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const { socket } = useSocket();
+    // const { socket } = useSocket();
 
     const {chats}=useGetConversations()
     const {sendmessage}=useSendMessage()
     const {messages}=useGetMessages()
     const {selectedConversation,setSelectedConversation,selectedFriend,setSelectedFriend}=useConversation()
 
-    // useEffect(() => {
-    //     handleFetchChats() 
-    // }, [newMessage])
-
-    // const handleFetchChats = async () => {
-        // const response = await fetchChats()
-        // console.log('handlefetchfunctionresponse is ', response)
-        // setChats(response.chats)
-        // console.log('state chat is ', chats)
-    // }
-
-    // console.log('selected chat id is ', selectedChatId)
-
-    // const HandleChatSelection = async (chatId: string, selectedUser: { name: string, profilePic: string }) => {
-    //     setSelectedChatId(chatId)
-    //     const response = await getFullMessagesFromChat({ chatId })
-    //     setMessages(response?.messages)
-    //     // setSelectedFriend(selectedUser)
-    // }
-
-
-    // const handleSendMessage = async () => {
-    //     if (newMessage.trim() !== '' && selectedChatId) {
-    //         const response = await sendMessage({ chatId: selectedChatId, message: newMessage });
-    //         setMessages([...messages, response.message]); // Assuming response contains the new message
-    //         setNewMessage(''); // Clear the input field
-    //         // socket?.emit('message',response.message)
-    //     }
-    // };
-
+   
     const handleEmojiClick = (emojiObject: EmojiClickData) => {
         setNewMessage((prevMessage) => prevMessage + emojiObject.emoji);
     };
@@ -225,6 +197,7 @@ const Chat: React.FC = () => {
       },[messages])
 
 
+      
       const handleSubmit=async()=>{
         if(!newMessage.trim())return setNewMessage('')
         try {
@@ -237,6 +210,7 @@ const Chat: React.FC = () => {
         }
       }
 
+      useListenMessages()
       console.log('MESSAGES ARE ',messages)
 
     return (
