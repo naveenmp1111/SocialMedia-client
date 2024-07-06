@@ -165,11 +165,14 @@ import useConversation from '../../../zustand/useConversation';
 import useSendMessage from '../../../hooks/useSendMessages';
 import useGetMessages from '../../../hooks/useGetMessages';
 import useListenMessages from '../../../hooks/useListenMessages';
+import { FaArrowLeft } from "react-icons/fa";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const Chat: React.FC = () => {
     // const [selectedFriend, setSelectedFriend] = useState<{ name: string, profilePic: string }>();
     const [isOpenNewChatModal, setIsOpenNewChatModal] = useState(false)
+    const navigate=useNavigate()
     // const [chats, setChats] = useState<ChatInterface[]>([])
     const [selectedChatId, setSelectedChatId] = useState<string>('')
     // const [messages, setMessages] = useState<MessageInterface[]>([])
@@ -219,6 +222,7 @@ const Chat: React.FC = () => {
             <div className='flex h-screen px-28 '>
                 <div className='bg-gray-300 w-2/6 p-3 flex flex-col max-h-[740px] mt-4 rounded-lg'>
                     <header className="p-4 border-b border-gray-300 flex justify-between items-center bg-indigo-800 text-white">
+                    <FaArrowLeft onClick={()=>navigate('/home')}/>
                         <h1 className="text-2xl font-semibold">Messages</h1>
                         <FaRegEdit size={24} className="cursor-pointer" onClick={() => setIsOpenNewChatModal(true)} />
                     </header>

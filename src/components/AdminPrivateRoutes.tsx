@@ -11,7 +11,7 @@ const AdminPrivateRoutes = () => {
 
     if (isAdminAuthenticated) {
         return (<>
-            <div className='custom-size:px-28 md:pt-16 pt-10 pb-5 bg-gray-200 h-fit min-h-screen'>
+            <div className='custom-size:px-28 md:pt-6 pt-10 pb-5 bg-gray-200 h-fit min-h-screen'>
                 
                 <AdminLeftSideBar/>
 

@@ -134,6 +134,15 @@ const LeftSideBar = () => {
                         <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
                      </a>
                   </li>
+
+                  <li>
+                     <a href={`/messages`} className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-200  group">
+                        <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                           <path d="M15 0H3a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3ZM5 2h8a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm4 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-4H4V8h10v6Z" />
+                        </svg>
+                        <span className="flex-1 ms-3 whitespace-nowrap">Messages</span>
+                     </a>
+                  </li>
                </ul>
             </div>
          </aside>

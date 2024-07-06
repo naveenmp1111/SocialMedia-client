@@ -19,7 +19,7 @@ interface ModalProps {
 }
 
 const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, post }) => {
-    console.log('post coming is ',post)
+    // console.log('post coming is ',post)
     if (!isOpen) {
         return null
     }

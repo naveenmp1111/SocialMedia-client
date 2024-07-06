@@ -16,6 +16,7 @@ const END_POINT={
     EDIT_POST:'api/post/editPost',
     DELETE_POST:'api/post/deletePost',
     GET_ALL_POSTS:'api/post/getAllPosts',
+    GET_ALL_POSTS_TO_EXPLORE:'api/post/getAllPostsToExplore',
     RESET_PASSWORD:'api/auth/resetPassword',
     GET_REST_OF_ALL_USERS:'api/user/getRestOfAllUsers',
     GET_USER_BY_ID:'api/profile/getUserById',

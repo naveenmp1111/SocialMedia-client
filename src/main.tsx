@@ -7,6 +7,8 @@ import store from './redux/store/index.ts'
 import { BrowserRouter } from 'react-router-dom'
 import CommentInputProvider from './contexts/CommentInputContext.tsx'
 import { SocketProvider } from './contexts/SocketContext.tsx'
+import { SearchBarProvider } from './contexts/SearchBarContext.tsx'
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
@@ -14,9 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
     <SocketProvider>
       <CommentInputProvider>
-       
+        <SearchBarProvider>
           <App />
-       
+          </SearchBarProvider> 
       </CommentInputProvider>
       </SocketProvider>
 

@@ -74,6 +74,7 @@ const Signup = () => {
             .min(3, 'Name must be at least 3 characters long'),
         password: Yup.string()
             .trim()
+            .min(8, 'Password must be at least 8 characters')
             .required('Password is required'),
         confirmPassword: Yup.string()
             .trim()

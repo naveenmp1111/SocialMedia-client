@@ -40,6 +40,13 @@ export const getAllPosts = async () => {
     return response.data
 }
 
+export const getAllPostsToExplore=async()=>{
+    const response=await axiosUserInstance.get(
+        END_POINT.GET_ALL_POSTS_TO_EXPLORE
+    )
+    return response.data
+}
+
 export const deletePost = async (
     payload: string
 ) => {

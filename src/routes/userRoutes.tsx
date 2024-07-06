@@ -14,6 +14,7 @@ import ChatPage from '../pages/auth/ChatPage'
 import UserBlockProvision from '../modals/post/UserBlockProvision'
 import SettingsModal from '../modals/home/SettingsModal'
 import NewChatList from '../modals/chat/NewChatList'
+import ExplorePage from '../pages/auth/ExplorePage'
 // import SettingsModal from '../modals/home/SettingsModal'
 
 
@@ -32,6 +33,7 @@ const UserRoutes = () => {
         <Route element={<PrivateRoutes />}>
           <Route path='/home' element={<Home />} />
           <Route path='/profile/:username' element={<UserProfile />} />
+          <Route path='/explore' element={<ExplorePage />} />
           {/* <Route path='/modal' element={<NewChatList isOpen={true} onClose={()=>{}}/>}/> */}
         </Route>
 

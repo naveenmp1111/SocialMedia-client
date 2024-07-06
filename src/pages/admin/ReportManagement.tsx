@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { blockPost, blockUser, getAllUsers, getPostReports, unblockPost, unblockUser } from '../../api/admin'
-import { User } from '../../types/loginUser';
+import React, { useEffect, useState } from 'react';
+import { blockPost, getPostReports, unblockPost } from '../../api/admin';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { isAxiosError } from 'axios';
 import { Report, SingleReport } from '../../types/admin';
 import Reports from '../../modals/admin/Reports';
 
-
-
 const ReportManagement = () => {
-    const [reports, setReports] = useState<Report[]>();
-    const [singlePostReports,setSinglePostReports]=useState<SingleReport[]>([])
-    const [isOpen,setIsOpen]=useState(false)
-    const [reload,setReload]=useState(false)
+    const [reports, setReports] = useState<Report[]>([]);
+    const [singlePostReports, setSinglePostReports] = useState<SingleReport[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [reload, setReload] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
     useEffect(() => {
-        fetchPosts()
-    }, [reload])
+        fetchPosts();
+    }, [reload]);
 
     const fetchPosts = async () => {
-       const reports=await getPostReports()
-       setReports(reports?.reports)
-    }
+        const response = await getPostReports();
+        setReports(response?.reports);
+    };
 
     const blockUnblock = (postId: string, isBlock: boolean) => {
         Swal.fire({
             title: isBlock ? 'Unblock' : 'Block',
-            text: `Are you sure you want to ${isBlock ? 'Unblock' : 'Block'} Post ?`,
+            text: `Are you sure you want to ${isBlock ? 'Unblock' : 'Block'} Post?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: isBlock ? 'Unblock Post' : 'Block Post',
@@ -34,47 +34,60 @@ const ReportManagement = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (isBlock) {
-                    handleUnBlockPost(postId)
+                    handleUnBlockPost(postId);
                 } else {
-                    handleBlockPost(postId)
+                    handleBlockPost(postId);
                 }
             }
-        })
-    }
+        });
+    };
 
     const handleBlockPost = async (postId: string) => {
         try {
-            const response = await blockPost(postId)
-            toast.success(response.message)
-            setReload(prev=>!prev)
+            const response = await blockPost(postId);
+            toast.success(response.message);
+            setReload((prev) => !prev);
         } catch (error) {
             if (isAxiosError(error)) {
-                toast.error(error.response?.data.message)
+                toast.error(error.response?.data.message);
             }
-
         }
-    }
+    };
 
     const handleUnBlockPost = async (postId: string) => {
         try {
-            const response = await unblockPost(postId)
-            toast.success(response.message)
-            setReload(prev=>!prev)
+            const response = await unblockPost(postId);
+            toast.success(response.message);
+            setReload((prev) => !prev);
         } catch (error) {
             if (isAxiosError(error)) {
-                toast.error(error.response?.data.message)
+                toast.error(error.response?.data.message);
             }
         }
-    }
+    };
 
-    const handleModal=(reports:SingleReport[])=>{
-        setSinglePostReports(reports)
-        setIsOpen(true)
-    }
+    const handleModal = (reports: SingleReport[]) => {
+        setSinglePostReports(reports);
+        setIsOpen(true);
+    };
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentReports = reports.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(reports.length / itemsPerPage);
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    };
+
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    };
 
     return (
         <>
-            <Reports isOpen={isOpen} onClose={()=>setIsOpen(false)} reports={singlePostReports}/>
+            <Reports isOpen={isOpen} onClose={() => setIsOpen(false)} reports={singlePostReports} />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900 px-5">
                     <div>
@@ -116,7 +129,6 @@ const ReportManagement = () => {
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-
                             <th scope="col" className="px-6 py-3">
                                 Post
                             </th>
@@ -135,39 +147,66 @@ const ReportManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-
-                         {reports && reports.map((report,index) => ( 
-                             <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-
+                        {currentReports && currentReports.map((report, index) => (
+                            <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                    <img className="w-20 h-20 " src={report?.post?.image[0]} alt="Post image" />
-                                    
+                                    <img className="w-20 h-20" src={report?.post?.image[0]} alt="Post image" />
                                 </th>
-                                <td className="px-6 py-4 ">
-                                    <button className='bg-blue-600 px-2 rounded-md py-1 text-white hover:bg-blue-400 w-16' onClick={()=>handleModal(report.reporters)}>Reasons</button>
+                                <td className="px-6 py-4">
+                                    <button className='bg-blue-600 px-2 rounded-md py-1 text-white hover:bg-blue-400 w-16' onClick={() => handleModal(report.reporters)}>Reasons</button>
                                 </td>
                                 <td className="px-6 py-4">
                                     <p className='ml-10 text-red-500 font-bold'>{report.count}</p>
                                 </td>
                                 <td className="px-6 py-4">
-                                    {report.post.isBlock ? (<div className="flex items-center">
-                                        <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Blocked
-                                    </div>) : (<div className="flex items-center">
-                                        <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
-                                    </div>)}
+                                    {report.post.isBlock ? (
+                                        <div className="flex items-center">
+                                            <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Blocked
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center">
+                                            <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
+                                        </div>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {report.post.isBlock ? (<button className='bg-green-600 px-2 rounded-md py-1 text-white hover:bg-green-400 w-16' onClick={() => blockUnblock(report.post._id, report.post.isBlock)}>Unblock</button>) : (<button className='bg-red-600 px-2 w-16 rounded-md py-1 text-white hover:bg-red-400' onClick={() => blockUnblock(report.post._id, report.post.isBlock)}>Block</button>)}
-
+                                    {report.post.isBlock ? (
+                                        <button className='bg-green-600 px-2 rounded-md py-1 text-white hover:bg-green-400 w-16' onClick={() => blockUnblock(report.post._id, report.post.isBlock)}>Unblock</button>
+                                    ) : (
+                                        <button className='bg-red-600 px-2 w-16 rounded-md py-1 text-white hover:bg-red-400' onClick={() => blockUnblock(report.post._id, report.post.isBlock)}>Block</button>
+                                    )}
                                 </td>
                             </tr>
-                        ))} 
+                        ))}
                     </tbody>
                 </table>
+                <div className="flex justify-between items-center px-4 py-3 bg-white border-t border-gray-200 sm:px-6 dark:bg-gray-800 dark:border-gray-600">
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div>
+                        <button
+                            onClick={handlePreviousPage}
+                            disabled={currentPage === 1}
+                            className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                                }`}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                            className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                                }`}
+                        >
+                            Next
+                        </button>
+                    </div>
+
+                </div>
             </div>
-    </>
+        </>
+    );
+};
 
-    )
-}
-
-export default ReportManagement
+export default ReportManagement;
