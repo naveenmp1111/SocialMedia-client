@@ -21,7 +21,7 @@ const DeletePost=async()=>{
         postDeleteModalOnClose()
         closeViewModal()
 
-        console.log('response is ',response)
+        // console.log('response is ',response)
     if(response){
         toast.success(response?.message)
     }

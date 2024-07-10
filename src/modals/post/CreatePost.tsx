@@ -54,9 +54,9 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                console.log('form values', { ...values, image: imageUrl });
+                // console.log('form values', { ...values, image: imageUrl });
                 const response = await createPost({ ...values, image: imageUrl as string })
-                console.log(response)
+                // console.log(response)
                 if (response) {
                     onClose()
                     toast.success('Post created successfully')

@@ -24,6 +24,7 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
         const response=await createOrAccessChat({otherUserId:user?._id as string})
         // setSelectedFriend(user.name)
         const selectedUserObj={
+            _id:user._id as string,
             name:user.name as string,
             profilePic:user.profilePic as string
         }
@@ -36,6 +37,10 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
     useEffect(()=>{
         fetchFollowing()
     },[])
+
+    //search
+    const [searchInput,setSearchInput]=useState<string>('')
+    const filteredFollowing=following.filter(item=>item.name.toLowerCase().includes(searchInput.toLowerCase()))
 
     return (
         <div
@@ -72,8 +77,12 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
                     </button>
                 </div>
                 {/* Modal body */}
+                <div className='w-full px-3'>
+                    <input onChange={(e)=>setSearchInput(e.target.value)} type="text" placeholder='Search...' className='w-full p-2 my-2 rounded-2xl outline-none bg-gray-500 text-white' />
+                </div>
                 <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-96 overflow-y-auto">
-                    {following?.length ? following?.map(user => (
+                    
+                    {filteredFollowing?.length ? filteredFollowing?.map(user => (
                         <div  onClick={()=>handleStartChat(user)} key={user._id} className="flex justify-between items-center p-1 mb-4">
                             <div className="flex items-center">
                                 <img className="w-14 h-14 rounded-full" src={user.profilePic ||  "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"} alt={`${user.username} profile`} />

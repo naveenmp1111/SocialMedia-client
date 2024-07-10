@@ -25,7 +25,7 @@ const SearchBar = () => {
                 <div className='w-2/4 flex justify-center relative'>
                     <input
                         type='text'
-                        className='w-full h-10 p-2 pl-4 pr-10 border-2 rounded-full focus:border-gray-400'
+                        className='w-full h-10 p-2 pl-4 pr-10 border-2 rounded-full outline-none'
                         placeholder='Search...'
                         onClick={handleRedirect}
                         value={searchValue}

@@ -122,17 +122,17 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
 
     const fetchComments=async()=>{
        const response= await getComments(post?._id as string)
-       console.log('comments fetched are ',response)
+    //    console.log('comments fetched are ',response)
        let MainComments=response.comments.filter((item:CommentInterface)=>item.parentId===null)
        let ReplyComments=response.comments.filter((item:CommentInterface)=>item.parentId!==null)
-       console.log('maincomments',MainComments)
+    //    console.log('maincomments',MainComments)
        setMainComments(MainComments)
        setReplyComments(ReplyComments)
     }
 
     const handleSetReplyingCommentId=(commentId:string)=>{
         setReplyingCommentId(commentId)
-        console.log('new replying commnet id is ',commentId)
+        // console.log('new replying commnet id is ',commentId)
     }
 
     const handleCancelReply=()=>{

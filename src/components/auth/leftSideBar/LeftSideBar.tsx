@@ -10,6 +10,9 @@ import RequestModal from '../../../modals/home/RequestModal'
 import { isAxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import SettingsModal from '../../../modals/home/SettingsModal'
+import useConversation from '../../../zustand/useConversation'
+import useGetConversations from '../../../hooks/useGetConversation'
+import useGetMessages from '../../../hooks/useGetMessages'
 
 const LeftSideBar = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -62,6 +65,15 @@ const LeftSideBar = () => {
    //----------------------------------------settindgs--------------------------------------//
 
    const [isOpenSettingsModal,setIsOpenSettingsModal]=useState(false)
+   const { chats } = useGetConversations()
+   console.log('chats from leftsidebar are ',chats)
+
+   //messages------->
+   const [noOfUnreadMessages,setNoOfUnreadMessages]=useState(0)
+   useEffect(()=>{
+      console.log('check for no of messsages ',noOfUnreadMessages)
+      setNoOfUnreadMessages(chats.length)
+   },[chats])
 
    return (
       <>
@@ -137,10 +149,17 @@ const LeftSideBar = () => {
 
                   <li>
                      <a href={`/messages`} className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-200  group">
+                     <div className='flex justify-between w-full'>
+                           <div className='flex items-center'>
                         <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                            <path d="M15 0H3a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3ZM5 2h8a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm4 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-4H4V8h10v6Z" />
                         </svg>
                         <span className="flex-1 ms-3 whitespace-nowrap">Messages</span>
+                        </div>
+                            {/* <span className="flex items-center justify-center w-6 h-6 text-white bg-red-600 rounded-full">
+                              {noOfUnreadMessages || ''}
+                           </span>  */}
+                        </div>
                      </a>
                   </li>
                </ul>

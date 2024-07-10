@@ -48,7 +48,12 @@ const END_POINT={
     CREATE_CHAT:'api/chat/createOrAccessChat',
     FETCH_CHATS:'api/chat/fetchChats',
     GET_FULL_MESSAGES_FROM_CHAT:'api/message/getFullMessagesFromChat',
-    SEND_MESSAGE:'api/message/sendMessage'
+    GET_UNREAD_MESSAGES_FROM_CHAT:'api/message/getUnreadMessagesFromChat',
+    GET_ALL_UNREAD_MESSAGES:'api/message/getAllUnreadMessages',
+    SEND_MESSAGE:'api/message/sendMessage',
+    SET_UNREAD_MESSAGES_READ:'api/message/setUnreadMessagesRead',
+    DELETE_MESSAGE:'api/message/deleteMessage',
+    DELETE_MESSAGE_FOR_ME:'api/message/deleteMessageForMe'
 }
 
 export default END_POINT

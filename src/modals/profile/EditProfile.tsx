@@ -67,10 +67,10 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         onSubmit: async (values) => {
             // Call the function to update profile with form values and imageUrl
             try {
-                console.log('form values', {
-                    ...values,
-                    profilePic: imageUrl,
-                });
+                // console.log('form values', {
+                //     ...values,
+                //     profilePic: imageUrl,
+                // });
                 const result = await editProfile({
                     ...values,
                     profilePic: imageUrl as string,

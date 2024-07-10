@@ -28,7 +28,7 @@ const EditPost: React.FC<ModalProps> = ({ isOpen, postEditModalOnClose, post,clo
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                console.log('form values', values);
+                // console.log('form values', values);
                const response=await  editPost({postId:post?._id,description:values?.description})
                if(response){
                 toast.success(response.message)

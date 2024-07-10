@@ -7,6 +7,7 @@ export interface MessageInterface{
     message: string;
     image?: string;
     chatId: ChatInterface;
+    isSeen:boolean;
     createdAt: string;
     updatedAt: string;
 }

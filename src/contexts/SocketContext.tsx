@@ -26,7 +26,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const userInRedux = useSelector((state: StoreType) => state.auth.user)
 
   useEffect(() => {
-    console.log('useEffect working')
+    // console.log('useEffect working')
     if (userInRedux) {
       const newSocket = io('http://localhost:3000', {
         query: {
@@ -42,7 +42,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       })
 
       return () => {
-        console.log('coming in return why cdlsjflksdjflksdjflksdjflksdjfklsdjflksdj')
+        // console.log('coming in return why cdlsjflksdjflksdjflksdjflksdjfklsdjflksdj')
         newSocket.off('getOnlineUsers')
         newSocket.disconnect();
       };

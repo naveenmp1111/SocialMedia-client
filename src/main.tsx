@@ -14,12 +14,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
   <Provider store={store}>
     <BrowserRouter>
-    <SocketProvider>
-      <CommentInputProvider>
-        <SearchBarProvider>
-          <App />
-          </SearchBarProvider> 
-      </CommentInputProvider>
+      <SocketProvider>
+        <CommentInputProvider>
+          <SearchBarProvider>
+            <App />
+          </SearchBarProvider>
+        </CommentInputProvider>
       </SocketProvider>
 
     </BrowserRouter>

@@ -16,7 +16,7 @@ const BlockedUsersList = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =>
     const fetchBlockedUsers = async () => {
         try {
             const response = await getBlockedUsers()
-            console.log('response from geting blocked users ', response)
+            // console.log('response from geting blocked users ', response)
             setBlockedUsers(response?.users)
         } catch (error) {
             console.log('error in fetchin Blocked users')
