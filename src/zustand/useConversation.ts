@@ -2,11 +2,13 @@ import { create } from 'zustand';
 import { MessageInterface } from '../types/message';
 import { ChatInterface } from '../types/chat';
 import { setUnreadMessagesRead } from '../api/message';
+import { reload } from 'firebase/auth';
 
 interface SelectedFriend {
   _id:string;
   name: string;
   profilePic: string;
+  username:string
 }
 
 interface ConversationState {
@@ -19,7 +21,7 @@ interface ConversationState {
   typingUsers:string[];
   setTypingUsers:(userId:string)=>void; 
   removeTypingUser:(userId:string)=>void;
-  UnreadMessages:MessageInterface[];
+  unreadMessages:MessageInterface[];
   setUnreadMessages:(messages: MessageInterface[]) => void;
 }
 
@@ -44,8 +46,8 @@ const useConversation = create<ConversationState>((set) => ({
   removeTypingUser: (userId) => set((state) => ({
     typingUsers: state.typingUsers.filter((id) => id !== userId)
   })),
-  UnreadMessages:[],
-  setUnreadMessages:(UnreadMessages)=>set({UnreadMessages})
+  unreadMessages:[],
+  setUnreadMessages:(unreadMessages)=>set({unreadMessages}),
 }));
 
 export default useConversation;

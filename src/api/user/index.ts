@@ -14,6 +14,14 @@ export const getRestofAllUsers = async (): Promise<GetUsersResponse> => {
   return response.data
 }
 
+export const getSuggestedUsers=async():Promise<GetUsersResponse>=>{
+  const response = await axiosUserInstance.get<GetUsersResponse>(
+    END_POINT.GET_SUGGESTED_USERS
+  )
+  // console.log('getalluserresponse ',response.data)
+  return response.data 
+}
+
 export const followUser = async (
   payload: { friendUsername: string }
 ) => {

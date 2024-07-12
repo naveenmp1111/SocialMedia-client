@@ -3,6 +3,7 @@ import { MessageInterface } from '../../../types/message';
 import useConversation from '../../../zustand/useConversation';
 import useGetMessages from '../../../hooks/useGetMessages';
 import { deleteMessage, deleteMessageForMe } from '../../../api/message';
+import { format, isToday } from 'date-fns';
 
 const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) => {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -24,13 +25,17 @@ const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) 
         messages=messages.filter(item=>item._id!=message._id)
         setMessages(messages)
     }
-
     
+    const messageDate = new Date(message.createdAt);
+    const displayDate = isToday(messageDate) ? format(messageDate, 'p') : format(messageDate, 'P p');
 
     return (
         <>
+        <div className='w-full flex justify-center'>
+            <span className='text-gray-500 text-xs'>{ displayDate}</span>
+        </div>
             <div className={`group flex mb-4 cursor-pointer ${own ? 'justify-end' : ''}`}>
-                {own ? (
+                {own  ? (
                     <>
                         <div className='relative'>
                             <div className='cursor-pointer hidden group-hover:block' onClick={toggleDropdown}>
@@ -40,7 +45,7 @@ const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) 
                             </div>
 
                             {showDropdown && (
-                                <div id="dropdownDotsHorizontal" className="absolute right-2 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-800 dark:divide-gray-600">
+                                <div id="dropdownDotsHorizontal" className="absolute right-5 top-0 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-800 dark:divide-gray-600">
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
                                         <li onClick={handleDeleteMessageForMe}>
                                             <a className="block px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Delete for me</a>

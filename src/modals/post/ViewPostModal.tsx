@@ -179,7 +179,7 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
                                         {isopen && (
                                             <div
                                                 id="dropdownDotsHorizontal"
-                                                className="z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-800 dark:divide-gray-600 absolute mt-2 right-0"
+                                                className="z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-900 dark:divide-gray-600 absolute mt-2 right-0"
                                             >
                                                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
                                                     <li>

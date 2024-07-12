@@ -22,12 +22,12 @@ export const getUnreadMessagesFromChat=async(
     return response.data
 } 
 
-// export const getAllUnreadMessages=async():Promise<GetAllMessagesFromChatResponse>=>{
-//     const response=await axiosUserInstance.get(
-//         END_POINT.GET_ALL_UNREAD_MESSAGE
-//     )
-//     return response.data
-// } 
+export const getAllUnreadMessages=async():Promise<GetAllMessagesFromChatResponse>=>{
+    const response=await axiosUserInstance.get(
+        END_POINT.GET_ALL_UNREAD_MESSAGES
+    )
+    return response.data
+} 
 
 export const setUnreadMessagesRead=async(
     payload:{chatId:string}
@@ -45,7 +45,7 @@ export const sendMessage=async(
         END_POINT.SEND_MESSAGE,
         payload
     )
-    console.log('sendMessageREsponse ',response.data)
+    // console.log('sendMessageREsponse ',response.data)
     return response.data
 }
 
@@ -66,6 +66,6 @@ export const deleteMessageForMe=async(
         END_POINT.DELETE_MESSAGE_FOR_ME,
         payload
     )
-    console.log('response from deletemessage for me',response.data)
+    // console.log('response from deletemessage for me',response.data)
 }
 

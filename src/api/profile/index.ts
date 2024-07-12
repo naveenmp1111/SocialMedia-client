@@ -20,6 +20,7 @@ export const getUserById=async(
   const response=await axiosUserInstance.get<EditProfileResponse>(
       `${END_POINT.GET_USER_BY_ID}/${userId}`
   )
+  // console.log('response from getUserby id ',response)
   
   return response.data
 }

@@ -19,7 +19,8 @@ export interface User{
     isBlock?: boolean;
     role?:string,
     requests?:string[],
-    isPrivate?:boolean
+    isPrivate?:boolean,
+    blocklist:string[]
 }
 
 export interface LoginUserResponse{

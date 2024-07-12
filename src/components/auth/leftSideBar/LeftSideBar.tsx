@@ -13,6 +13,8 @@ import SettingsModal from '../../../modals/home/SettingsModal'
 import useConversation from '../../../zustand/useConversation'
 import useGetConversations from '../../../hooks/useGetConversation'
 import useGetMessages from '../../../hooks/useGetMessages'
+import useGetUnreadMessages from '../../../hooks/useGetUnreadMessages'
+import useListenMessages from '../../../hooks/useListenMessages'
 
 const LeftSideBar = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -66,14 +68,11 @@ const LeftSideBar = () => {
 
    const [isOpenSettingsModal,setIsOpenSettingsModal]=useState(false)
    const { chats } = useGetConversations()
-   console.log('chats from leftsidebar are ',chats)
 
    //messages------->
-   const [noOfUnreadMessages,setNoOfUnreadMessages]=useState(0)
-   useEffect(()=>{
-      console.log('check for no of messsages ',noOfUnreadMessages)
-      setNoOfUnreadMessages(chats.length)
-   },[chats])
+   useListenMessages()
+   const {unreadMessages}=useGetUnreadMessages()
+
 
    return (
       <>
@@ -156,9 +155,12 @@ const LeftSideBar = () => {
                         </svg>
                         <span className="flex-1 ms-3 whitespace-nowrap">Messages</span>
                         </div>
-                            {/* <span className="flex items-center justify-center w-6 h-6 text-white bg-red-600 rounded-full">
-                              {noOfUnreadMessages || ''}
-                           </span>  */}
+                        {unreadMessages.length>0 && (
+                           <span className="flex items-center justify-center w-6 h-6 text-white bg-red-600 rounded-full">
+                           {unreadMessages.length}
+                        </span>
+                        )}
+                             
                         </div>
                      </a>
                   </li>

@@ -26,7 +26,8 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
         const selectedUserObj={
             _id:user._id as string,
             name:user.name as string,
-            profilePic:user.profilePic as string
+            profilePic:user.profilePic as string,
+            username:user.username as string
         }
         // handleChatSelection(response.chat._id,selectedUserObj)
         setSelectedConversation(response.chat)

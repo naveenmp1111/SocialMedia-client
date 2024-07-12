@@ -19,6 +19,7 @@ const END_POINT={
     GET_ALL_POSTS_TO_EXPLORE:'api/post/getAllPostsToExplore',
     RESET_PASSWORD:'api/auth/resetPassword',
     GET_REST_OF_ALL_USERS:'api/user/getRestOfAllUsers',
+    GET_SUGGESTED_USERS:'api/user/getSuggestedUsers',
     GET_USER_BY_ID:'api/profile/getUserById',
     GET_USER_BY_USERNAME:'api/profile/getUserByUsername',
     FOLLOW_USER:'api/user/followUser',

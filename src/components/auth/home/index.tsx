@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import PostListing from './PostListing'
 import { getAllPosts } from '../../../api/post'
-import { getRestofAllUsers, getUserByUsername } from '../../../api/user'
+import {  getSuggestedUsers, getUserByUsername } from '../../../api/user'
 import { User } from '../../../types/loginUser'
 import { PostDataInterface } from '../../../types/post'
 import { useNavigate } from 'react-router-dom'
@@ -23,7 +23,7 @@ const Home = () => {
     try {
       const response = await getAllPosts()
       setPosts(response.posts)
-      const data = await getRestofAllUsers()
+      const data = await getSuggestedUsers()
       setUsers(data.users)
       const loggedUser = await getUserByUsername(userInRedux?.username as string)
       setLoggedInUser(loggedUser.user)
@@ -42,7 +42,7 @@ const Home = () => {
         </div>
         <div className='min-w-72 h-screen max-h-[650px] bg-white fixed  top-24 hidden right-nav-size:block ml-[750px] rounded-lg p-5'>
           <h2 className='text-xl font-semibold mb-7 text-center'>Suggested for you</h2>
-          <div>
+          <div className='max-h-[570px] overflow-y-auto'>
             {users.map(user => (
               <div onClick={() => navigate(`/profile/${user.username}`)} key={user._id} className='flex items-center mb-4 cursor-pointer'>
                 <img className='w-10 h-10 rounded-full' src={user.profilePic || "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"} alt={`${user.username} profile`} />
