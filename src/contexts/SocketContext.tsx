@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { useSelector } from 'react-redux'
 import { io, Socket } from 'socket.io-client';
 import { StoreType } from '../redux/store';
-import useConversation from '../zustand/useConversation';
 
 interface SocketContextType {
   socket: Socket | null;

@@ -6,7 +6,6 @@ const SearchBar = () => {
     const navigate = useNavigate();
 
     const handleRedirect = () => {
-        console.log('make it done')
         navigate('/explore'); // Replace '/search' with the desired URL
     };
 

@@ -5,7 +5,7 @@ import { StoreType } from '../../../redux/store'
 import useConversation from '../../../zustand/useConversation'
 import { useSocket } from '../../../contexts/SocketContext'
 import { User } from '../../../types/loginUser'
-import { format } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import { getUnreadMessagesFromChat } from '../../../api/message'
 
 const Conversation = ({ chat }: { chat: ChatInterface }) => {
@@ -24,7 +24,7 @@ const Conversation = ({ chat }: { chat: ChatInterface }) => {
         }
         return message
     }
-    const truncatedMessage = truncateMessage(chat.latestMessage || '', 12)
+    const truncatedMessage = truncateMessage(chat.latestMessage.message || '', 12)
 
 
     useEffect(()=>{
@@ -40,6 +40,11 @@ const Conversation = ({ chat }: { chat: ChatInterface }) => {
     const handleSelectConversation=()=>{
         setSelectedConversation(chat)
     }
+
+    console.log('chat is ',chat)
+
+    const messageDate = new Date(chat.latestMessage.createdAt);
+    const displayDate = isToday(messageDate) ? format(messageDate, 'p') : format(messageDate, 'P');
 
     return (
         <div
@@ -63,7 +68,7 @@ const Conversation = ({ chat }: { chat: ChatInterface }) => {
                 </div>
                 <div className='flex justify-between'>
                 <p className="text-gray-600 break-words">: {truncatedMessage}</p>
-                <span className="text-gray-500 text-xs">{ format(new Date(chat.createdAt), 'p')}</span>
+                <span className="text-gray-500 text-xs">{displayDate}</span>
                 </div>
                 
             </div>

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSocket } from '../contexts/SocketContext'
 import useConversation from '../zustand/useConversation'
-import { MessageInterface } from '../types/message'
+import { useDispatch } from 'react-redux'
+import { endCall, setIncomingAudioCall, setIncomingVideoCall } from '../redux/authSlice'
 
 const useListenMessages = () => {
     const { socket } = useSocket()
     const { messages, setMessages,setTypingUsers,removeTypingUser,selectedConversation,setUnreadMessages,unreadMessages } = useConversation()
+    const dispatch=useDispatch()
 
     useEffect(()=>{
         socket?.on('newMessage', (newMessage) => {
@@ -31,12 +33,32 @@ const useListenMessages = () => {
             removeTypingUser(userId)
         })
 
+        socket?.on('incoming-audio-call',(data)=>{
+            dispatch(setIncomingAudioCall(data))
+        })
+
+        socket?.on('incoming-video-call',(data)=>{
+            dispatch(setIncomingVideoCall(data))
+        })
+
+        socket?.on('call-rejected',()=>{
+            dispatch(endCall())
+        })
+
+        socket?.on('accept-call',()=>{
+
+        })
+
         return () =>{ 
             console.log('cleaning up socket')
             socket?.off('newMessage'),
             socket?.off('TypingUsers'),
             socket?.off('RemoveTypingUser'),
-            socket?.off('deleteMessage')
+            socket?.off('deleteMessage'),
+            socket?.off('incoming-audio-call')
+            socket?.off('incoming-video-call')
+            socket?.off('call-rejected')
+            socket?.off('accept-call')
     }
 
     }, [messages, setMessages, socket])

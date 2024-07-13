@@ -1,16 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/loginUser";
 
+type Calltype=User & {
+    type:string;
+    callType:string;
+    roomId:string;
+}
+
 interface AuthState {
     user: User | null;
     accessToken: string | null;
     isAuthenticated?: boolean;
+    videoCall:Calltype | null;
+    incomingVideoCall:Calltype | null;
+    audioCall:Calltype | null;
+    incomingAudioCall:Calltype | null;
 }
 
 const initialState: AuthState = {
     user: JSON.parse(localStorage.getItem('userData') as  string) || null,
     accessToken: localStorage.getItem('accessToken') || null,
-    isAuthenticated: !!localStorage.getItem('accessToken')
+    isAuthenticated: !!localStorage.getItem('accessToken'),
+    videoCall:null,
+    incomingVideoCall:null,
+    audioCall:null,
+    incomingAudioCall:null,
 }
 
 const authSlice = createSlice({
@@ -35,8 +49,29 @@ const authSlice = createSlice({
             localStorage.removeItem('accessToken')
             localStorage.removeItem('userData')
         },
+        setVideoCall:(state,action)=>{
+            console.log('action is ',action)
+            state.videoCall=action.payload
+        },
+        setIncomingVideoCall:(state,action)=>{
+            state.incomingVideoCall=action.payload
+        },
+        setAudioCall:(state,action)=>{
+            console.log('action is ',action)
+            state.audioCall=action.payload
+        },
+        setIncomingAudioCall:(state,action)=>{
+            console.log('incoming audio call data is ',action)
+            state.incomingVideoCall=action.payload
+        },
+        endCall:(state)=>{
+            state.videoCall=null
+            state.incomingVideoCall=null
+            state.audioCall=null
+            state.incomingAudioCall=null
+        }
     }
 })
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout,setVideoCall,setIncomingVideoCall,setAudioCall,setIncomingAudioCall,endCall } = authSlice.actions;
 export default authSlice.reducer;

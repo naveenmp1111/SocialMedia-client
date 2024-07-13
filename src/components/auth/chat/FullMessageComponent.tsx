@@ -4,7 +4,7 @@ import useSendMessage from '../../../hooks/useSendMessages';
 import { useSocket } from '../../../contexts/SocketContext';
 import useGetMessages from '../../../hooks/useGetMessages';
 import useConversation from '../../../zustand/useConversation';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StoreType } from '../../../redux/store';
 import Message from './Message';
 import Typing from '../../../animations/Typing';
@@ -13,6 +13,10 @@ import { User } from '../../../types/loginUser';
 import { getUserByUsername, unblockUserByUsername } from '../../../api/user';
 import { unblockUser } from '../../../api/admin';
 import { reload } from 'firebase/auth';
+import { setVideoCall,setAudioCall } from '../../../redux/authSlice';
+import { UseDispatch } from 'react-redux';
+import VideoCall from './VideoCall';
+import AudioCall from './AudioCall';
 
 
 const FullMessageComponent = () => {
@@ -104,6 +108,33 @@ const FullMessageComponent = () => {
         }
     }
 
+    //--------------------VIDEO CALL---------------------->>>
+    const {videoCall,incomingVideoCall,audioCall}=useSelector((state:StoreType)=>state.auth)
+    const dispatch=useDispatch()
+
+    console.log('state of video call is ',videoCall)
+
+    const handleSetVideoCall=()=>{
+        dispatch(setVideoCall({
+            ...selectedFriend,
+            type:"out-going",
+            callType:"video",
+            roomId:Date.now()
+        }))
+        console.log('state of video call is ',videoCall)
+    }
+
+    const handleSetAudioCall=()=>{
+        dispatch(setAudioCall({
+            ...selectedFriend,
+            type:"out-going",
+            callType:"audio",
+            roomId:Date.now()
+        }))
+        console.log('state of audio call is ',videoCall)
+    }
+    
+
     return (
         <>
             <header className="bg-white p-4 text-gray-700 flex rounded-lg shadow-gray-300 shadow-lg z-20 ">
@@ -117,9 +148,16 @@ const FullMessageComponent = () => {
                     </>
                 )}
                 </div>
-                
+                <div onClick={handleSetAudioCall}>
+                    <button className='p-2 bg-red-600 text-white rounded-lg'>audiocall</button>
+                </div>  
+                <div onClick={handleSetVideoCall}>
+                    <button className='p-2 bg-red-600 text-white rounded-lg'>videocall</button>
+                </div>  
                 
             </header>
+            {videoCall &&  <VideoCall/>}
+            {audioCall && <AudioCall/>}
             <div className="flex-1 overflow-y-auto p-4">
 
                 {messages.map(message => (

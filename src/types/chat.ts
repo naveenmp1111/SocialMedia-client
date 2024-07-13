@@ -1,14 +1,15 @@
 import { User } from "./loginUser";
+import { MessageInterface } from "./message";
 
 
 
 
 export interface ChatInterface {
-    latestMessage?: string;
+    // latestMessage?: string;
     _id: string;
     // chatName: string;
     members: User[];
-    // latestMessage: MessageInterface;
+    latestMessage: MessageInterface;
     createdAt: string;
     updatedAt: string;
 }
