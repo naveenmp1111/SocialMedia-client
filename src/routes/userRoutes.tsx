@@ -15,6 +15,7 @@ import UserBlockProvision from '../modals/post/UserBlockProvision'
 import SettingsModal from '../modals/home/SettingsModal'
 import NewChatList from '../modals/chat/NewChatList'
 import ExplorePage from '../pages/auth/ExplorePage'
+import Room from '../components/auth/chat/Room'
 // import SettingsModal from '../modals/home/SettingsModal'
 
 
@@ -24,10 +25,10 @@ const UserRoutes = () => {
       <Routes>
         <Route path='/' element={<Navigate to='/home'/>}/>
         <Route path='/messages' element={<ChatPage/>}/>
+        <Route path='/room/:roomId' element={<Room/>}/>
         <Route element={<PublicRoutes />}>
           <Route path='/signup' element={<Signup />} />
-          <Route path='/login' element={<Login />} />
-          
+          <Route path='/login' element={<Login />} /> 
         </Route>
 
         <Route element={<PrivateRoutes />}>

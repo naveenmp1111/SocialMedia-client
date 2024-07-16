@@ -10,11 +10,11 @@ const AudioCall = () => {
 
     useEffect(() => {
       if(audioCall?.type=='out-going'){
-        console.log('redy to emit event',audioCall)
+        // console.log('redy to emit event',audioCall)
         socket?.emit('outgoing-audio-call',{
             to:audioCall._id,
             from:{
-                id:user?._id,
+                _id:user?._id,
                 profilePic:user?.profilePic,
                 name:user?.name
             },

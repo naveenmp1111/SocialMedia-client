@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/loginUser";
 
-type Calltype=User & {
+export type Calltype=User & {
     type:string;
     callType:string;
     roomId:string;
@@ -54,7 +54,9 @@ const authSlice = createSlice({
             state.videoCall=action.payload
         },
         setIncomingVideoCall:(state,action)=>{
+            console.log('actionData is ',action)
             state.incomingVideoCall=action.payload
+            console.log('incoming video call state is ',state.incomingVideoCall)
         },
         setAudioCall:(state,action)=>{
             console.log('action is ',action)
@@ -62,7 +64,8 @@ const authSlice = createSlice({
         },
         setIncomingAudioCall:(state,action)=>{
             console.log('incoming audio call data is ',action)
-            state.incomingVideoCall=action.payload
+            state.incomingAudioCall=action.payload
+            console.log('incoming audio call state is ',state.incomingAudioCall)
         },
         endCall:(state)=>{
             state.videoCall=null

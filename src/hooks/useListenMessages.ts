@@ -3,9 +3,11 @@ import { useSocket } from '../contexts/SocketContext'
 import useConversation from '../zustand/useConversation'
 import { useDispatch } from 'react-redux'
 import { endCall, setIncomingAudioCall, setIncomingVideoCall } from '../redux/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const useListenMessages = () => {
     const { socket } = useSocket()
+    const navigate=useNavigate()
     const { messages, setMessages,setTypingUsers,removeTypingUser,selectedConversation,setUnreadMessages,unreadMessages } = useConversation()
     const dispatch=useDispatch()
 
@@ -34,19 +36,20 @@ const useListenMessages = () => {
         })
 
         socket?.on('incoming-audio-call',(data)=>{
-            dispatch(setIncomingAudioCall(data))
+            dispatch(setIncomingAudioCall({...data.from,callType:data.callType,roomId:data.roomId}))
         })
 
         socket?.on('incoming-video-call',(data)=>{
-            dispatch(setIncomingVideoCall(data))
+            dispatch(setIncomingVideoCall({...data.from,callType:data.callType,roomId:data.roomId}))
         })
 
         socket?.on('call-rejected',()=>{
             dispatch(endCall())
         })
 
-        socket?.on('accept-call',()=>{
-
+        socket?.on('accept-call',(data)=>{
+            dispatch(setIncomingVideoCall(null))
+            navigate(`/room/${data.roomId}`)
         })
 
         return () =>{ 

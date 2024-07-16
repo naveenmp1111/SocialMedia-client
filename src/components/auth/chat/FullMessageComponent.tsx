@@ -75,12 +75,12 @@ const FullMessageComponent = () => {
     }, [selectedFriend])
 
     const handleGetFriendData = async () => {
-        console.log('selected friend is ', selectedFriend)
+        // console.log('selected friend is ', selectedFriend)
         const response = await getUserByUsername(selectedFriend?.username as string)
         setFullFriendData(response.user)
         const myData = await getUserByUsername(userInRedux?.username as string)
         setOurFullData(myData.user)
-        console.log('full friend data is ', response)
+        // console.log('full friend data is ', response)
     }
 
 
@@ -112,8 +112,6 @@ const FullMessageComponent = () => {
     const {videoCall,incomingVideoCall,audioCall}=useSelector((state:StoreType)=>state.auth)
     const dispatch=useDispatch()
 
-    console.log('state of video call is ',videoCall)
-
     const handleSetVideoCall=()=>{
         dispatch(setVideoCall({
             ...selectedFriend,
@@ -131,7 +129,7 @@ const FullMessageComponent = () => {
             callType:"audio",
             roomId:Date.now()
         }))
-        console.log('state of audio call is ',videoCall)
+        console.log('state of audio call is ',audioCall)
     }
     
 

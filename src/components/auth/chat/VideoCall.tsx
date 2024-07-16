@@ -10,10 +10,10 @@ const VideoCall = () => {
 
 useEffect(()=>{
   if(videoCall?.type=='out-going'){
-    socket?.emit('out-going-videoCall',{
+    socket?.emit('outgoing-video-call',{
         to:videoCall._id,
         from:{
-            id:user?._id,
+            _id:user?._id,
             profilePic:user?.profilePic,
             name:user?.name
         },
