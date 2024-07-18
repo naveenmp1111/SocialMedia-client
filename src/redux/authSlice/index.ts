@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/loginUser";
 
+const RoomId=localStorage.getItem('roomId')
+const ShowVideoCall=localStorage.getItem('ShowVideoCall')
+
 export type Calltype=User & {
     type:string;
     callType:string;
@@ -15,6 +18,8 @@ interface AuthState {
     incomingVideoCall:Calltype | null;
     audioCall:Calltype | null;
     incomingAudioCall:Calltype | null;
+    showVideoCall:Boolean;
+    roomId:string | null;
 }
 
 const initialState: AuthState = {
@@ -22,9 +27,11 @@ const initialState: AuthState = {
     accessToken: localStorage.getItem('accessToken') || null,
     isAuthenticated: !!localStorage.getItem('accessToken'),
     videoCall:null,
-    incomingVideoCall:null,
+    incomingVideoCall:JSON.parse(localStorage.getItem('IncomingVideoCall') as string)  || null,
     audioCall:null,
     incomingAudioCall:null,
+    showVideoCall:ShowVideoCall? true : false,
+    roomId:RoomId || null,
 }
 
 const authSlice = createSlice({
@@ -50,31 +57,53 @@ const authSlice = createSlice({
             localStorage.removeItem('userData')
         },
         setVideoCall:(state,action)=>{
-            console.log('action is ',action)
+            // console.log('action is ',action)
             state.videoCall=action.payload
         },
         setIncomingVideoCall:(state,action)=>{
-            console.log('actionData is ',action)
+            // console.log('actionData is ',action)
             state.incomingVideoCall=action.payload
-            console.log('incoming video call state is ',state.incomingVideoCall)
+            if(action.payload){
+                localStorage.setItem('IncomingVideoCall',JSON.stringify(action.payload))
+            }else{
+                localStorage.removeItem('IncomingVideoCall')
+            }
+            
         },
         setAudioCall:(state,action)=>{
-            console.log('action is ',action)
+            // console.log('action is ',action)
             state.audioCall=action.payload
         },
         setIncomingAudioCall:(state,action)=>{
-            console.log('incoming audio call data is ',action)
+            // console.log('incoming audio call data is ',action)
             state.incomingAudioCall=action.payload
-            console.log('incoming audio call state is ',state.incomingAudioCall)
+            // console.log('incoming audio call state is ',state.incomingAudioCall)
         },
         endCall:(state)=>{
             state.videoCall=null
             state.incomingVideoCall=null
             state.audioCall=null
             state.incomingAudioCall=null
+        },
+        setShowVideoCall:(state,action)=>{
+            // console.log('action of show video call is ',action)
+            state.showVideoCall=action.payload
+            if(action.payload){
+                localStorage.setItem('ShowVideoCall','true')
+            }else{
+                localStorage.removeItem('ShowVideoCall')
+            }
+        },
+        setRoomId:(state,action)=>{
+            state.roomId=action.payload
+            if(action.payload){
+                localStorage.setItem('roomId',action.payload)
+            }else{
+                localStorage.removeItem('roomId')
+            }
         }
     }
 })
 
-export const { setCredentials, logout,setVideoCall,setIncomingVideoCall,setAudioCall,setIncomingAudioCall,endCall } = authSlice.actions;
+export const { setCredentials, logout,setVideoCall,setIncomingVideoCall,setAudioCall,setIncomingAudioCall,endCall,setShowVideoCall,setRoomId } = authSlice.actions;
 export default authSlice.reducer;

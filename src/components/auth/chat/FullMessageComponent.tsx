@@ -13,10 +13,12 @@ import { User } from '../../../types/loginUser';
 import { getUserByUsername, unblockUserByUsername } from '../../../api/user';
 import { unblockUser } from '../../../api/admin';
 import { reload } from 'firebase/auth';
-import { setVideoCall,setAudioCall } from '../../../redux/authSlice';
+import { setVideoCall, setAudioCall } from '../../../redux/authSlice';
 import { UseDispatch } from 'react-redux';
 import VideoCall from './VideoCall';
 import AudioCall from './AudioCall';
+import { HiOutlineVideoCamera } from "react-icons/hi2";
+import { IoCallOutline } from "react-icons/io5";
 
 
 const FullMessageComponent = () => {
@@ -29,7 +31,7 @@ const FullMessageComponent = () => {
     const [OurFullData, setOurFullData] = useState<User>()
 
     const { sendmessage } = useSendMessage()
-    const { socket,onlineUsers } = useSocket()
+    const { socket, onlineUsers } = useSocket()
     let { messages } = useGetMessages()
     const { selectedConversation, setSelectedConversation, selectedFriend, setSelectedFriend, typingUsers, setMessages } = useConversation()
 
@@ -99,63 +101,71 @@ const FullMessageComponent = () => {
         markasRead()
     }, [messages])
 
-    const handleUnblock=async()=>{
+    const handleUnblock = async () => {
         try {
             await unblockUserByUsername(selectedFriend?.username as string)
             handleGetFriendData()
         } catch (error) {
-         console.log(error)   
+            console.log(error)
         }
     }
 
     //--------------------VIDEO CALL---------------------->>>
-    const {videoCall,incomingVideoCall,audioCall}=useSelector((state:StoreType)=>state.auth)
-    const dispatch=useDispatch()
+    const { videoCall, incomingVideoCall, audioCall } = useSelector((state: StoreType) => state.auth)
+    const dispatch = useDispatch()
 
-    const handleSetVideoCall=()=>{
+    const handleSetVideoCall = () => {
         dispatch(setVideoCall({
             ...selectedFriend,
-            type:"out-going",
-            callType:"video",
-            roomId:Date.now()
+            type: "out-going",
+            callType: "video",
+            roomId: Date.now()
         }))
-        console.log('state of video call is ',videoCall)
+        console.log('state of video call is ', videoCall)
     }
 
-    const handleSetAudioCall=()=>{
+    const handleSetAudioCall = () => {
         dispatch(setAudioCall({
             ...selectedFriend,
-            type:"out-going",
-            callType:"audio",
-            roomId:Date.now()
+            type: "out-going",
+            callType: "audio",
+            roomId: Date.now()
         }))
-        console.log('state of audio call is ',audioCall)
+        console.log('state of audio call is ', audioCall)
     }
-    
+
 
     return (
         <>
-            <header className="bg-white p-4 text-gray-700 flex rounded-lg shadow-gray-300 shadow-lg z-20 ">
-                <img className='w-10 h-10 rounded-full' src={selectedFriend?.profilePic} alt="" />
-                <div className='flex flex-col'>
-                <span className="text-2xl font-semibold mx-3 align-middle">{selectedFriend?.name}</span>
-                {isOnline && (
-                    <>
-                    <span className='text-xs ml-3'>online</span>
-                    
-                    </>
-                )}
+            <header className="bg-white p-4 text-gray-700 flex justify-between rounded-lg shadow-gray-300 shadow-lg z-20 ">
+                <div className='flex'>
+                    <img className='w-10 h-10 rounded-full' src={selectedFriend?.profilePic} alt="" />
+                    <div className='flex flex-col'>
+                        <span className="text-2xl font-semibold mx-3 align-middle">{selectedFriend?.name}</span>
+                        {isOnline && (
+                            <>
+                                <span className='text-xs ml-3'>online</span>
+
+                            </>
+                        )}
+                    </div>
                 </div>
-                <div onClick={handleSetAudioCall}>
-                    <button className='p-2 bg-red-600 text-white rounded-lg'>audiocall</button>
-                </div>  
-                <div onClick={handleSetVideoCall}>
-                    <button className='p-2 bg-red-600 text-white rounded-lg'>videocall</button>
-                </div>  
-                
+                <div className='flex'>
+                    {/* <div onClick={handleSetAudioCall}>
+                        <button className='p-2 bg-red-600 text-white rounded-lg'>audiocall</button>
+                    </div> */}
+                    {/* <div className=' cursor-pointer' onClick={handleSetAudioCall}>
+                        <IoCallOutline className='w-10 h-10 mt-1'/>
+                    </div> */}
+                    <div className='mx-5 cursor-pointer' onClick={handleSetVideoCall}>
+                        <HiOutlineVideoCamera className='w-12 h-12'/>
+                    </div>
+                    
+                </div>
+
             </header>
-            {videoCall &&  <VideoCall/>}
-            {audioCall && <AudioCall/>}
+            {/* {videoCall &&  <VideoCall/>}
+            {audioCall && <AudioCall/>} */}
             <div className="flex-1 overflow-y-auto p-4">
 
                 {messages.map(message => (
@@ -210,10 +220,10 @@ const FullMessageComponent = () => {
                 </footer>
             }
 
-            {fullFriendData?.blocklist && OurFullData?._id && fullFriendData.blocklist.includes(OurFullData._id as string) && 
+            {fullFriendData?.blocklist && OurFullData?._id && fullFriendData.blocklist.includes(OurFullData._id as string) &&
                 <footer className="bg-white border-t border-gray-300 p-4 rounded-lg bottom-0 w-full ">
-                <button>Something went wrong...</button>
-            </footer>
+                    <button>Something went wrong...</button>
+                </footer>
             }
 
         </>
