@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { CommentInterface, PostDataInterface } from "../../types/post";
 import EditPost from "./EditPost";
 import PostDeleteConfirmation from "./PostDeleteConfirmation";
@@ -10,7 +10,7 @@ import { MdBookmark } from "react-icons/md";
 import { getUserByUsername, savePost, unsavePost } from "../../api/user";
 import { User } from "../../types/loginUser";
 import CommentList from "./CommentList";
-import CommentInputProvider, { useCommentInputContext } from "../../contexts/CommentInputContext";
+import { useCommentInputContext } from "../../contexts/CommentInputContext";
 
 interface ModalProps {
     isOpen: boolean;
@@ -19,7 +19,6 @@ interface ModalProps {
 }
 
 const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, post }) => {
-    // console.log('post coming is ',post)
     if (!isOpen) {
         return null
     }
@@ -82,9 +81,8 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
     }, [loggedInUser])
 
 
-
     //--------------------------------------commentsection----------------------------------->
-    // const commentInputRef=useRef<HTMLInputElement>(null)
+
     const { commentInputRef } = useCommentInputContext();
     const [mainComments,setMainComments]=useState<CommentInterface[]>([])
     const [replyComments,setReplyComments]=useState<CommentInterface[]>([])
@@ -98,13 +96,10 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
          if(commentInputRef?.current?.value){
             if(comment?.trim()){
                try {
-                // console.log('comment is ',comment,post?._id)
                 if(isReply){
                     const response=await addReply({postId:post?._id as string,parentId:replyingCommentId as string,comment:comment})
-                    // console.log('response is ',response)
                 }else{
                     const response=  await addComment({postId:post?._id as string,comment:comment})
-                    // console.log('response is ',response)
                 }
                setRefreshComments(!refreshComments)
                 
@@ -122,17 +117,14 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
 
     const fetchComments=async()=>{
        const response= await getComments(post?._id as string)
-    //    console.log('comments fetched are ',response)
        let MainComments=response.comments.filter((item:CommentInterface)=>item.parentId===null)
        let ReplyComments=response.comments.filter((item:CommentInterface)=>item.parentId!==null)
-    //    console.log('maincomments',MainComments)
        setMainComments(MainComments)
        setReplyComments(ReplyComments)
     }
 
     const handleSetReplyingCommentId=(commentId:string)=>{
         setReplyingCommentId(commentId)
-        // console.log('new replying commnet id is ',commentId)
     }
 
     const handleCancelReply=()=>{
@@ -140,7 +132,7 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
         if(commentInputRef?.current?.value)
         commentInputRef.current.value=''
     }
-6
+
     //--------------------------------------commentsection----end------------------------------->
 
     return (
@@ -157,12 +149,12 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
 
                         <div className="flex ">
 
-                            <img className="w-8/12 max-h-[740px]" src={post?.image[0]} alt="" />
+                            <img className="w-8/12 max-h-[740px] hidden md:block" src={post?.image[0]} alt="" />
 
                             <div className="p-4 md:p-3 space-y-4 w-full overflow-hidden relative"> {/* Added relative positioning here */}
 
                                 <div className="flex justify-between">
-                                    <div></div>
+                                    <div><span className="md:hidden text-lg text-white ">Comments</span></div>
                                     <div className="relative inline-block text-left">
                                         {post?.userId === userInRedux?._id && (
                                             <button
@@ -205,17 +197,19 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
                                         <div className="text-lg font-bold  ml-4 text-white">{post?.user?.username}</div>
                                         <div className="break-words text-gray-100 ml-4 text-lg font-normal">{post?.description}</div>
                                     </div>
-
                                 </div>
                                 <div className="h-full  overflow-y-auto max-h-96  pb-24" > 
-                                    {mainComments && mainComments?.map(comment=>(
+                                    {mainComments && mainComments.length>0 ? mainComments?.map(comment=>(
                                        <>
                                         <CommentList comment={comment} allComments={replyComments} handleTargetCommentId={handleSetReplyingCommentId} setIsReply={setIsReply} depth={1}/>
-                                        {/* <span>reply</span> */}
                                        </>
-                                    ))};
+                                    )) : (
+                                        <div className="min-h-16 text-2xl flex justify-center">
+                                            <span className="text-white">No comments yet.</span>
+                                        </div>
+                                    )};
                                 </div>
-                                <div className="bg-gray-800 h-32 absolute bottom-0 left-0 right-0">
+                                <div className="bg-gray-800 min-h-32 absolute bottom-0 left-0 right-0">
                                     <hr />
                                     <div className="flex items-center justify-between mx-4 mt-3 mb-2">
                                         <div className="flex gap-5">
@@ -229,7 +223,7 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
                                             </>
 
                                             <svg onClick={()=>{commentInputRef.current?.focus()}} fill="#FFFFFF" height="24" viewBox="0 0 48 48" width="24"><path clip-rule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fill-rule="evenodd"></path></svg>
-                                            <svg fill="#FFFFFF" height="24" viewBox="0 0 48 48" width="24"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg>
+                                            {/* <svg fill="#FFFFFF" height="24" viewBox="0 0 48 48" width="24"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg> */}
                                         </div>
                                         <div className="flex" onClick={() => handleSaveToggle(post?._id as string)}>
                                             <MdBookmark
@@ -238,9 +232,11 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
                                         </div>
                                     </div>
                                     {noOfLikes > 0 && (<div className="font-semibold text-white text-sm mx-4 mt-2 mb-4">{noOfLikes} {noOfLikes > 1 ? "Likes" : "Like"}</div>)}
-                                    
+                                    <div className="flex w-full">
                                     <input ref={commentInputRef}  className={`bg-gray-900 m-1 p-2 ${isReply ? 'w-8/12' : 'w-10/12'} rounded-xl text-gray-100`} type="text" placeholder="Add comment..." /><button onClick={handleAddComment} className="btn bg-gray-900 p-2 px-3 rounded-xl ml-1 text-gray-300 hover:bg-gray-800">Post</button>
                                     {isReply && <button onClick={handleCancelReply} className="btn bg-red-600 p-2  rounded-xl ml-1 text-white  hover:bg-red-500">cancel</button>}
+                                    </div>
+                                    
                                 </div>
 
                             </div>

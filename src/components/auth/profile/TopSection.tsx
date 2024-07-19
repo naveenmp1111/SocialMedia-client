@@ -5,21 +5,18 @@ import { StoreType } from '../../../redux/store'
 import EditProfile from '../../../modals/profile/EditProfile'
 import { blockUserByUsername, cancelRequest, followUser, getFollowers, getFollowing, getUserByUsername, removeFollower, unfollowUser } from '../../../api/user'
 import { FollowerData } from '../../../types/userProfile'
-import { getUserById } from '../../../api/profile'
-import { useParams,useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import FollowButton from './FollowButton'
-import FollowersModal from '../../../modals/profile/ConnectionsModal'
 import ConnectionsModal from '../../../modals/profile/ConnectionsModal'
 import { isAxiosError } from 'axios'
-import {toast} from 'react-toastify'
-import { PostDataInterface } from '../../../types/post'
+import { toast } from 'react-toastify'
 
-const TopSection = ({ postsLength}: { postsLength: number}) => {
+const TopSection = ({ postsLength }: { postsLength: number }) => {
 
     const [reload, setReload] = useState<boolean>(false)
     const [openModal, setOpenModal] = useState(false)
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchMyData()
@@ -27,20 +24,20 @@ const TopSection = ({ postsLength}: { postsLength: number}) => {
 
     useEffect(() => {
         fetchAdditionalData()
-    }, [reload,openModal])
+    }, [reload, openModal])
 
 
     const { username } = useParams<{ username: string }>();
 
-    
-    const [openConnectionsModal,setOpenConnectionsModal]=useState(false)
+
+    const [openConnectionsModal, setOpenConnectionsModal] = useState(false)
     const [userData, setUserData] = useState<User>()
     const userInRedux = useSelector((state: StoreType) => state.auth.user)
     const user = userData?._id == userInRedux?._id ? userInRedux : userData
     const [followers, setFollowers] = useState<FollowerData[]>([])
     const [following, setFollowing] = useState<FollowerData[]>([])
     const [loggedInUser, setLoggedInUser] = useState<User>()
-    const [isFollowersList,setIsFollowersList]=useState<boolean>(false)
+    const [isFollowersList, setIsFollowersList] = useState<boolean>(false)
     const [showDropdown, setShowDropdown] = useState(false);
 
     const toggleDropdown = () => {
@@ -79,92 +76,80 @@ const TopSection = ({ postsLength}: { postsLength: number}) => {
         setReload(prev => !prev);
     }
 
-    const handleCancelRequest=async()=>{
+    const handleCancelRequest = async () => {
         await cancelRequest(username as string)
-        setReload(prev=>!prev)
+        setReload(prev => !prev)
     }
 
-    const handleFollowersModal=async()=>{
-        if(userData?.isPrivate && userData._id!=userInRedux?._id && !userData.followers?.includes(userInRedux?._id as string))return
+    const handleFollowersModal = async () => {
+        if (userData?.isPrivate && userData._id != userInRedux?._id && !userData.followers?.includes(userInRedux?._id as string)) return
         setIsFollowersList(true)
         setOpenConnectionsModal(true)
     }
 
-    const handleFollowingModal=async()=>{
-        if(userData?.isPrivate && userData._id!=userInRedux?._id && !userData.followers?.includes(userInRedux?._id as string))return
+    const handleFollowingModal = async () => {
+        if (userData?.isPrivate && userData._id != userInRedux?._id && !userData.followers?.includes(userInRedux?._id as string)) return
         setIsFollowersList(false)
         setOpenConnectionsModal(true)
     }
 
-    const closeConnectionModal=()=>{
+    const closeConnectionModal = () => {
         setOpenConnectionsModal(false)
-        setReload(prev=>!prev)
+        setReload(prev => !prev)
     }
 
-    const handleRemoveFollower = async(username: string) => {
-        // Handle accept logic
-       try {
-        await removeFollower(username)
-        setFollowers((prev) => (prev || []).filter((user) => user.username !== username));
-       } catch (error) {
-         if(isAxiosError(error)){
-           toast.error(error.message)
-           console.log(error)
-         }
-       }
-     };
-
-     const BlockUser=async()=>{
+    const handleRemoveFollower = async (username: string) => {
         try {
-           await blockUserByUsername(user?.username as string)
-           toast.success(`Blocked ${user?.username} `)
-           navigate('/home')
+            await removeFollower(username)
+            setFollowers((prev) => (prev || []).filter((user) => user.username !== username));
         } catch (error) {
-           console.log(error)
+            if (isAxiosError(error)) {
+                toast.error(error.message)
+                console.log(error)
+            }
         }
-       }
+    };
+
+    const BlockUser = async () => {
+        try {
+            await blockUserByUsername(user?.username as string)
+            toast.success(`Blocked ${user?.username} `)
+            navigate('/home')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
-            <ConnectionsModal isOpen={openConnectionsModal} onClose={closeConnectionModal} followers={followers} following={following} isFollowersList={isFollowersList} handleRemoveFollower={handleRemoveFollower}/>
+            <ConnectionsModal isOpen={openConnectionsModal} onClose={closeConnectionModal} followers={followers} following={following} isFollowersList={isFollowersList} handleRemoveFollower={handleRemoveFollower} />
             <EditProfile isOpen={openModal} onClose={() => setOpenModal(false)} />
-            <div className="relative mt-6 min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded-xl">
 
-
-                {/* {(user?._id == userInRedux?._id) ? (
-                    <div className="absolute top-4 right-4">
-                        <button className='m-1 bg-gray-600 text-white p-1 px-2 rounded-md' onClick={() => setOpenModal(true)}>Edit profile</button>
+            <div className="relative md:mt-6 mt-12 min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded-xl">
+                <div className='absolute top-4 right-4'>
+                    <div className='cursor-pointer' onClick={toggleDropdown}>
+                        <svg fill="#262626" height="30" viewBox="0 0 48 48" width="30">
+                            <path d="M24 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"></path>
+                        </svg>
                     </div>
-                ) :( */}
-                    <div className='absolute top-4 right-4'>
-                            <div className='cursor-pointer' onClick={toggleDropdown}>
-                                <svg fill="#262626" height="30" viewBox="0 0 48 48" width="30">
-                                    <path d="M24 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"></path>
-                                </svg>
-                            </div>
 
-                            {showDropdown && (
-                                <div id="dropdownDotsHorizontal" className="absolute right-6 top-0 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200 cursor-pointer" aria-labelledby="dropdownMenuIconHorizontalButton">
-                                    {(user?._id == userInRedux?._id) ? (
-                                        <li onClick={() =>{ setOpenModal(true); setShowDropdown(prev=>!prev)}}>
+                    {showDropdown && (
+                        <div id="dropdownDotsHorizontal" className="absolute right-6 top-0 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                            <ul className="py-1 text-sm text-gray-700 dark:text-gray-200 cursor-pointer" aria-labelledby="dropdownMenuIconHorizontalButton">
+                                {(user?._id == userInRedux?._id) ? (
+                                    <li onClick={() => { setOpenModal(true); setShowDropdown(prev => !prev) }}>
                                         <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white w-full">Edit Profile</a>
                                     </li>
-                                    ) :(
-                                        <li onClick={BlockUser}>
-                                            <a className="block px-4 py-2 text-red-500 font-semibold  dark:hover:text-white w-full">Block {user?.name}</a>
-                                        </li>
-                                    )}
-                                        
-                                        
-                                        
-                                    </ul>
-                                </div>
-                            )}
+                                ) : (
+                                    <li onClick={BlockUser}>
+                                        <a className="block px-4 py-2 text-red-500 font-semibold  dark:hover:text-white w-full">Block {user?.name}</a>
+                                    </li>
+                                )}
+                            </ul>
                         </div>
-                
+                    )}
 
-
+                </div>
                 <div className="px-6">
                     <div className="flex flex-wrap justify-center">
                         <div className="w-full flex justify-center">
@@ -217,7 +202,7 @@ const TopSection = ({ postsLength}: { postsLength: number}) => {
                     {user?.bio && (<div className="mt-1 py-3 border-t border-slate-200 text-center">
                         <div className="flex flex-wrap justify-center">
                             <div className="w-full">
-                                <p className="font-light font-medium leading-relaxed text-slate-600 mb-2">{user?.bio}</p>
+                                <p className="font-medium leading-relaxed text-slate-600 mb-2">{user?.bio}</p>
                             </div>
                         </div>
                     </div>)}

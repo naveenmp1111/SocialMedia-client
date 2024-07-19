@@ -4,7 +4,6 @@ import PostSection from './PostSection';
 import { getPostsByUser } from '../../../api/post';
 import { PostDataInterface } from '../../../types/post';
 import { useParams } from 'react-router-dom';
-import { getUserById } from '../../../api/profile';
 import { User } from '../../../types/loginUser';
 import { getSavedPost, getUserByUsername } from '../../../api/user';
 import { useSelector } from 'react-redux';
@@ -46,7 +45,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="pt-8 md:pl-8 pb-5 md:pl-11 md:mt-5">
+    <div className="pt-8 md:pl-8 pb-5 md:mt-5">
       <TopSection postsLength={postLength} />
       {(visitedUser?.username !== userInRedux?.username && visitedUser?.isPrivate) ? (
         visitedUser?.followers?.includes(userInRedux?._id as string) ? (
@@ -110,9 +109,9 @@ const Profile = () => {
             </div>
           ) : (
             <div className='flex w-full justify-center'>
-                 <p className='font-bold text-gray-400 text-4xl mt-20'>No posts yet.</p>
+              <p className='font-bold text-gray-400 text-4xl mt-20'>No posts yet.</p>
             </div>
-           
+
           )}
         </>
       )}

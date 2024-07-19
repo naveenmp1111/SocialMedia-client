@@ -1,22 +1,20 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios, { isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { PostDataInterface } from '../../types/post';
 import { editPost } from '../../api/post';
-import { useNavigate } from 'react-router-dom';
 
 interface ModalProps {
     isOpen: boolean;
     postEditModalOnClose: () => void;
     post: PostDataInterface | null;
-    closeViewModal:()=>void;
+    closeViewModal: () => void;
 }
 
-const EditPost: React.FC<ModalProps> = ({ isOpen, postEditModalOnClose, post,closeViewModal }) => {
+const EditPost: React.FC<ModalProps> = ({ isOpen, postEditModalOnClose, post, closeViewModal }) => {
     if (!isOpen) return null;
-    const navigate=useNavigate()
     const validationSchema = Yup.object({
         description: Yup.string().required('Required').min(3, 'Must be at least 3 characters'),
     });
@@ -28,13 +26,12 @@ const EditPost: React.FC<ModalProps> = ({ isOpen, postEditModalOnClose, post,clo
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                // console.log('form values', values);
-               const response=await  editPost({postId:post?._id,description:values?.description})
-               if(response){
-                toast.success(response.message)
-               }
-               postEditModalOnClose()
-               closeViewModal()
+                const response = await editPost({ postId: post?._id, description: values?.description })
+                if (response) {
+                    toast.success(response.message)
+                }
+                postEditModalOnClose()
+                closeViewModal()
             } catch (error) {
                 console.log('error is ', error);
                 if (isAxiosError(error)) {

@@ -1,19 +1,17 @@
-import React from 'react'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import { blockUserByUsername } from '../../api/user'
 
-const UserBlockProvision = ({isOpen,onClose,username}:{isOpen:boolean,onClose:()=>void,username:string}) => {
+const UserBlockProvision = ({ isOpen, onClose, username }: { isOpen: boolean, onClose: () => void, username: string }) => {
 
-    const BlockUser=async()=>{
-     try {
-        await blockUserByUsername(username)
-        toast.success(`Blocked ${username} `)
-        onClose()
-     } catch (error) {
-        console.log(error)
-     }
+    const BlockUser = async () => {
+        try {
+            await blockUserByUsername(username)
+            toast.success(`Blocked ${username} `)
+            onClose()
+        } catch (error) {
+            console.log(error)
+        }
     }
-
 
     return isOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-80">
@@ -68,7 +66,6 @@ const UserBlockProvision = ({isOpen,onClose,username}:{isOpen:boolean,onClose:()
                             Thanks for letting us know
                         </p>
                         <div className="w-full flex justify-center">
-                            {/* <h2 className='text-red-500'>Block {username}</h2> */}
                             <button onClick={BlockUser} className='w-full p-2 bg-gray-800 text-red-500 rounded-lg font-semibold'>Block {username}</button>
                         </div>
                     </div>
@@ -76,7 +73,7 @@ const UserBlockProvision = ({isOpen,onClose,username}:{isOpen:boolean,onClose:()
             </div>
         </div>
     ) : null;
-    
+
 }
 
 export default UserBlockProvision

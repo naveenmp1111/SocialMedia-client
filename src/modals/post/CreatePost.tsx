@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios, { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { setCredentials } from '../../redux/authSlice';
 import { createPost } from '../../api/post';
-
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-
-
 const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-    const dispatch = useDispatch();
-
     if (!isOpen) return null;
 
     const preset_key = 'xdxoqisy';
@@ -54,9 +47,7 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                // console.log('form values', { ...values, image: imageUrl });
                 const response = await createPost({ ...values, image: imageUrl as string })
-                // console.log(response)
                 if (response) {
                     onClose()
                     toast.success('Post created successfully')
@@ -95,8 +86,6 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-
-
 
                     <form onSubmit={formik.handleSubmit}>
                         {imageUrl && <img src={imageUrl} className='w-56' alt="Uploaded" />}

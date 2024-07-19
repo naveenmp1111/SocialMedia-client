@@ -19,6 +19,7 @@ import VideoCall from './VideoCall';
 import AudioCall from './AudioCall';
 import { HiOutlineVideoCamera } from "react-icons/hi2";
 import { IoCallOutline } from "react-icons/io5";
+import { FaArrowLeft } from "react-icons/fa";
 
 
 const FullMessageComponent = () => {
@@ -33,7 +34,7 @@ const FullMessageComponent = () => {
     const { sendmessage } = useSendMessage()
     const { socket, onlineUsers } = useSocket()
     let { messages } = useGetMessages()
-    const { selectedConversation, setSelectedConversation, selectedFriend, setSelectedFriend, typingUsers, setMessages } = useConversation()
+    const { selectedConversation, selectedFriend, setSelectedFriend, typingUsers, setMessages,setSelectedConversation } = useConversation()
 
     const isOnline = selectedFriend && selectedFriend._id ? onlineUsers?.includes(selectedFriend?._id) : false;
 
@@ -110,6 +111,11 @@ const FullMessageComponent = () => {
         }
     }
 
+    const handleBackToChat=()=>{
+        setSelectedFriend(null)
+        setSelectedConversation(null)
+    }
+
     //--------------------VIDEO CALL---------------------->>>
     const { videoCall, incomingVideoCall, audioCall } = useSelector((state: StoreType) => state.auth)
     const dispatch = useDispatch()
@@ -134,11 +140,14 @@ const FullMessageComponent = () => {
         console.log('state of audio call is ', audioCall)
     }
 
-
     return (
         <>
             <header className="bg-white p-4 text-gray-700 flex justify-between rounded-lg shadow-gray-300 shadow-lg z-20 ">
                 <div className='flex'>
+                    <span className='mr-3 flex items-center md:hidden cursor-pointer'>
+                    <FaArrowLeft onClick={handleBackToChat}/>
+                    </span>
+                
                     <img className='w-10 h-10 rounded-full' src={selectedFriend?.profilePic} alt="" />
                     <div className='flex flex-col'>
                         <span className="text-2xl font-semibold mx-3 align-middle">{selectedFriend?.name}</span>
@@ -158,7 +167,7 @@ const FullMessageComponent = () => {
                         <IoCallOutline className='w-10 h-10 mt-1'/>
                     </div> */}
                     <div className='mx-5 cursor-pointer' onClick={handleSetVideoCall}>
-                        <HiOutlineVideoCamera className='w-12 h-12'/>
+                        <HiOutlineVideoCamera className='md:w-12 md:h-12 w-9 h-9'/>
                     </div>
                     
                 </div>
@@ -166,7 +175,7 @@ const FullMessageComponent = () => {
             </header>
             {/* {videoCall &&  <VideoCall/>}
             {audioCall && <AudioCall/>} */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-4 md:max-h-[560px] md:min-h-[560px]">
 
                 {messages.map(message => (
                     <div key={message._id} ref={scrollRef}>

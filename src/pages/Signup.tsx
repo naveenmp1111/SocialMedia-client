@@ -126,11 +126,11 @@ const Signup = () => {
     return (
         <div className="flex align-middle self-center flex-col lg:flex-row h-screen dark:bg-gray-900">
             <Otp isOpen={openModal} onClose={() => setOpenModal(false)} />
-            <div className="w-full lg:w-1/2 flex items-center justify-center dark:bg-gray-900">
+            <div className="w-full lg:w-1/2 flex items-center justify-center  dark:bg-gray-900">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
-                <h1 className="text-4xl font-bold text-center text-white">CONNECTIFY</h1>
+                <h1 className="text-4xl font-bold mt-3 md:mt-0 text-center text-white">CONNECTIFY</h1>
             </div>
-            <div className="w-full lg:w-1/2 flex items-center justify-center">
+            <div className="w-full lg:w-1/2 flex items-center justify-center bg-white">
                 <section className="dark:bg-gray-900 w-full h-max">
                     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 h-screen">
                         <div className="w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 ">

@@ -35,7 +35,7 @@ const Home = () => {
   return (
     <>
       <div className='flex relative'>
-        <div className="bg-gray-00 md:px-10 pt-4 w-fit">
+        <div className="bg-gray-00 md:px-10 pt-4 w-fit md:pb-0 pb-16">
           {posts.map((post: PostDataInterface) => (
             <PostListing key={post._id} post={post} loggedinUser={loggedInUser} />
           ))}

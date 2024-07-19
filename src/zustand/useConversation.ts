@@ -13,11 +13,11 @@ interface SelectedFriend {
 
 interface ConversationState {
   selectedConversation: ChatInterface | null;
-  setSelectedConversation: (selectedConversation: ChatInterface) => void;
+  setSelectedConversation: (selectedConversation: ChatInterface | null) => void;
   messages: MessageInterface[];
   setMessages: (messages: MessageInterface[]) => void;
   selectedFriend: SelectedFriend | null;
-  setSelectedFriend: (friendData: SelectedFriend) => void;
+  setSelectedFriend: (friendData: SelectedFriend | null) => void;
   typingUsers:string[];
   setTypingUsers:(userId:string)=>void; 
   removeTypingUser:(userId:string)=>void;
@@ -29,7 +29,9 @@ const useConversation = create<ConversationState>((set) => ({
   selectedConversation: null,
   setSelectedConversation: async(selectedConversation) =>{
     set({ selectedConversation })
-    await setUnreadMessagesRead({chatId:selectedConversation._id})
+    if(selectedConversation){
+      await setUnreadMessagesRead({chatId:selectedConversation._id})
+    }
   } ,
   messages: [],
   setMessages: (messages) => set({ messages }),

@@ -16,7 +16,7 @@ const PrivateRoutes = () => {
         return (<>
          
          
-            <div className='custom-size:px-28 md:pt-20 pt-10 bg-gray-200 h-fit min-h-screen'>
+            <div className='custom-size:px-28 md:pt-20 pt-16 bg-gray-200 h-fit min-h-screen'>
                 
                 <Searchbar/>
               

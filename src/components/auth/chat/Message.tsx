@@ -32,7 +32,7 @@ const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) 
     return (
         <>
         <div className='w-full flex justify-center'>
-            <span className='text-gray-500 text-xs'>{ displayDate}</span>
+            <span className='text-gray-500 text-xs mb-4 md:mb-0'>{ displayDate}</span>
         </div>
             <div className={`group flex mb-4 cursor-pointer ${own ? 'justify-end' : ''}`}>
                 {own  ? (
