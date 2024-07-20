@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const useListenMessages = () => {
     const { socket } = useSocket()
     const navigate=useNavigate()
-    const { messages, setMessages,setTypingUsers,removeTypingUser,selectedConversation,setUnreadMessages,unreadMessages } = useConversation()
+    const { setNotifications,notifications,addNotification, messages, setMessages,setTypingUsers,removeTypingUser,selectedConversation,setUnreadMessages,unreadMessages } = useConversation()
     const dispatch=useDispatch()
 
     useEffect(()=>{
@@ -54,6 +54,14 @@ const useListenMessages = () => {
             dispatch(setShowVideoCall(true))
         })
 
+        socket?.on('notification',(data)=>{
+            console.log('data is ',data)
+            console.log('coming in socker server',notifications)
+            // setNotifications([...notifications,data])
+            addNotification(data)
+            console.log('notifications are after ',notifications)
+        })
+
         return () =>{ 
             console.log('cleaning up socket')
             socket?.off('newMessage'),
@@ -63,7 +71,8 @@ const useListenMessages = () => {
             socket?.off('incoming-audio-call')
             socket?.off('incoming-video-call')
             socket?.off('call-rejected')
-            socket?.off('accept-call')
+            socket?.off('accept-call'),
+            socket?.off('notification')
     }
 
     }, [messages, setMessages, socket])

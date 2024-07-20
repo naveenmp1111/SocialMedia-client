@@ -1,4 +1,5 @@
 import { User } from "./loginUser";
+import { Notification } from "../zustand/useConversation";
 
 export interface PostDataInterface {
     _id: string,
@@ -36,5 +37,11 @@ export interface CommentInterface {
         username: string,
         profilePic: string,
     }
+}
+
+export interface GetNotifications{
+    status:string,
+    message:string,
+    notifications:Notification[]
 }
 

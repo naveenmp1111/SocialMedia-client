@@ -11,6 +11,15 @@ interface SelectedFriend {
   username:string
 }
 
+export interface Notification{
+  _id:string;
+  event:string;
+  senderId:string;
+  recieverId:string;
+  postId?:string;
+  isSeen:boolean
+}
+
 interface ConversationState {
   selectedConversation: ChatInterface | null;
   setSelectedConversation: (selectedConversation: ChatInterface | null) => void;
@@ -23,6 +32,9 @@ interface ConversationState {
   removeTypingUser:(userId:string)=>void;
   unreadMessages:MessageInterface[];
   setUnreadMessages:(messages: MessageInterface[]) => void;
+  notifications:Notification[],
+  setNotifications:(notification:Notification[])=>void;
+  addNotification:(notification:Notification)=>void;
 }
 
 const useConversation = create<ConversationState>((set) => ({
@@ -50,6 +62,15 @@ const useConversation = create<ConversationState>((set) => ({
   })),
   unreadMessages:[],
   setUnreadMessages:(unreadMessages)=>set({unreadMessages}),
+  notifications:[],
+  setNotifications:(notifications)=>{
+    console.log('notification going to setup is ',notifications)
+    set({notifications})
+  },
+  addNotification: (newNotification) =>
+    set((state) => ({
+      notifications: [...state.notifications, newNotification],
+    })),
 }));
 
 export default useConversation;

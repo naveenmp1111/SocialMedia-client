@@ -54,7 +54,9 @@ const END_POINT={
     SEND_MESSAGE:'api/message/sendMessage',
     SET_UNREAD_MESSAGES_READ:'api/message/setUnreadMessagesRead',
     DELETE_MESSAGE:'api/message/deleteMessage',
-    DELETE_MESSAGE_FOR_ME:'api/message/deleteMessageForMe'
+    DELETE_MESSAGE_FOR_ME:'api/message/deleteMessageForMe',
+    GET_NOTIFICATIONS:'api/notification/getNotifications',
+    READ_NOTIFICATIONS:'api/notification/readNotifications'
 }
 
 export default END_POINT

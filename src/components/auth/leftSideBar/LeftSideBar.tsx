@@ -18,6 +18,8 @@ import useListenMessages from '../../../hooks/useListenMessages'
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { GoHome } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
+import { getNotifications } from '../../../api/notfication'
+import NotificationModal from '../../../modals/home/NotificationModal'
 
 const LeftSideBar = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -28,11 +30,27 @@ const LeftSideBar = () => {
 
    const [openRequestModal, setOpenRequestModal] = useState<boolean>(false)
    const [requests, setRequests] = useState<User[] | null>([])
+   const {notifications,setNotifications}=useConversation()
+   const [openNofificationModal,setOpenNotificationModal]=useState(false)
+   // const [unreadNotifications,setUnreadNotifications]=useState(0)
 
 
    useEffect(() => {
       fetchRequests()
-   }, [])
+      fetchNotifications()
+   }, [openNofificationModal])
+
+   const fetchNotifications=async()=>{
+      try {
+         const response=await getNotifications()
+         console.log('response from get notificaoins is ',response)
+         setNotifications(response.notifications)
+         // let UnreadNotifications=notifications.filter(item=>item.isSeen==false)
+         // setUnreadNotifications(UnreadNotifications.length)
+      } catch (error) {
+         console.log('error is ',error)
+      }
+   }
 
    const fetchRequests = async () => {
       try {
@@ -76,10 +94,14 @@ const LeftSideBar = () => {
    useListenMessages()
    const {unreadMessages}=useGetUnreadMessages()
 
+   //---------------------------------------notitification-----------------------------------//
+
+   
+
 
    return (
       <>
-        
+         <NotificationModal isOpen={openNofificationModal} onClose={()=>setOpenNotificationModal(false)}/>
          <RequestModal isOpen={openRequestModal} onClose={() => setOpenRequestModal(false)} requests={requests} onAccept={handleAccept} onDecline={handelDecline}/>
          <CreatePost isOpen={openModal} onClose={() => setOpenModal(false)} />
          <aside id="default-sidebar" className="fixed top-24  z-40    w-64 h-screen max-h-[650px] transition-transform -translate-x-full md:translate-x-0 md:bottom-bar-hidden" aria-label="Sidebar">
@@ -137,6 +159,24 @@ const LeftSideBar = () => {
                            <path d="M15 0H3a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3ZM5 2h8a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm4 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-4H4V8h10v6Z" />
                         </svg>
                         <span className="flex-1 ms-3 whitespace-nowrap">Settings</span>
+                     </a>
+                  </li>
+                  <li>
+                     <a onClick={()=>setOpenNotificationModal(true)} className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-200  group">
+                     <div className='flex justify-between w-full'>
+                           <div className='flex items-center'>
+                        <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                           <path d="M15 0H3a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3ZM5 2h8a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm4 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-4H4V8h10v6Z" />
+                        </svg>
+                        <span className="flex-1 ms-3 whitespace-nowrap">Notificatons</span>
+                        </div>
+                        {notifications.filter(item=>item.isSeen==false).length>0 && (
+                           <span className="flex items-center justify-center w-6 h-6 text-white bg-red-600 rounded-full">
+                           {notifications.filter(item=>item.isSeen==false).length}
+                        </span>
+                        )}
+                             
+                        </div>
                      </a>
                   </li>
                   <li onClick={() => store.dispatch(logout())}>
