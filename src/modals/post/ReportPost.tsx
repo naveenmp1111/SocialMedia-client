@@ -12,7 +12,7 @@ const ReportPost = ({ isOpen, onClose, postId, openUserBlockModal }: { isOpen: b
         'Hate Speech',
         'Misinformation',
         'Violence',
-        'Other',
+        // 'Other',
     ];
 
     const handleChange = (event: any) => {
@@ -91,7 +91,7 @@ const ReportPost = ({ isOpen, onClose, postId, openUserBlockModal }: { isOpen: b
                         {error && <p className="text-red-500 text-sm">{error}</p>}
                         <button
                             type="button"
-                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            className="bottom text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                             onClick={handleReport}
                         >
                             Report

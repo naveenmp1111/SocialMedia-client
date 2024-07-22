@@ -3,6 +3,8 @@ import { MessageInterface } from '../types/message';
 import { ChatInterface } from '../types/chat';
 import { setUnreadMessagesRead } from '../api/message';
 import { reload } from 'firebase/auth';
+import { User } from '../types/loginUser';
+import { PostDataInterface } from '../types/post';
 
 interface SelectedFriend {
   _id:string;
@@ -14,10 +16,11 @@ interface SelectedFriend {
 export interface Notification{
   _id:string;
   event:string;
-  senderId:string;
+  senderId:User;
   recieverId:string;
-  postId?:string;
-  isSeen:boolean
+  postId?:PostDataInterface;
+  isSeen:boolean;
+  createdAt:Date;
 }
 
 interface ConversationState {

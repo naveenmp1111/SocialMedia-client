@@ -1,43 +1,33 @@
 import { useEffect, useState } from 'react'
-import { getUserById } from '../../api/profile'
-import { StoreType } from '../../redux/store'
-import { useSelector } from 'react-redux'
-import { User } from '../../types/loginUser'
 import useConversation from '../../zustand/useConversation'
-import { readNofifications } from '../../api/notfication'
+import { readNotifications } from '../../api/notfication'
+import moment from 'moment'
 
 
 
-const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+const NotificationModal = ({ isOpen, onClose, fetchNotification }: { isOpen: boolean, onClose: () => void, fetchNotification: () => void }) => {
     if (!isOpen) {
         return null;
     }
 
-    const user = useSelector((state: StoreType) => state.auth.user);
-
-    const [loggedInUser, setLoggedInUser] = useState<User>();
-    // const [reload,setReload]=useState<boolean>(false)
     const { notifications } = useConversation()
 
     useEffect(() => {
-        fetchUserData();
         ReadNotifications()
-    }, []);
+    }, [notifications]);
 
-    const fetchUserData = async () => {
-        const userData = await getUserById(user?._id as string);
-        setLoggedInUser(userData.user);
-    };
 
-    const ReadNotifications=async()=>{
+    const ReadNotifications = async () => {
         try {
-            const response=await readNofifications()
+            await readNotifications()
         } catch (error) {
-            console.log('error in reading notificaions ',error)
+            console.log('error in reading notificaions ', error)
         }
     }
 
     const handleClose = () => {
+        ReadNotifications()
+        fetchNotification()
         onClose()
     }
 
@@ -76,23 +66,90 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                     </button>
                 </div>
                 {/* Modal body */}
-                <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-96 overflow-y-auto">
-                    {notifications?.length ? notifications?.map(item => (
-                        <div className="flex justify-between items-center p-1 mb-4">
-                            <div className="flex items-center">
-                                <img className="w-14 h-14 rounded-full" src={"https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"} alt={` profile`} />
-                                <div className="ml-3 text-white">
-                                    <span className="block text-md font-semibold">{'some one like something....'}</span>
-                                    {/* <span className="block text-gray-300 text-xs">{user.name}</span> */}
+                <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-[600px] overflow-y-auto">
+                    {notifications?.length ? (
+                        <>
+                            {/* New Notifications */}
+                            {notifications.filter(item => !item.isSeen).length > 0 && (
+                                <div className='mb-10'>
+                                    <h3 className="text-2xl font-medium text-gray-900 dark:text-white m-2 mb-5">New Notifications</h3>
+                                    {notifications.filter(item => !item.isSeen).map(item => (
+                                        <div key={item._id} className="flex justify-between items-center p-1 mb-4">
+                                            <div className="flex items-center">
+                                                <img
+                                                    className="w-10 h-10 rounded-full"
+                                                    src={item.senderId.profilePic || "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"}
+                                                    alt={`${item.senderId.username} profile`}
+                                                />
+                                                <div className="ml-3 text-white">
+                                                    <span className="block text-md font-semibold">
+                                                        {`${item.senderId.username} ${item.event === 'follow'
+                                                            ? 'started following you'
+                                                            : item.event === 'like'
+                                                                ? 'liked your post.'
+                                                                : 'commented on your post.'}`}
+                                                    </span>
+                                                    <span className="text-sm font-thin text-gray-300">{moment(item.createdAt).fromNow()}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                {item.postId?.image && (
+                                                    <img
+                                                    className="w-12 h-12 rounded-lg object-cover"
+                                                    src={item.postId?.image[0]}
+                                                    alt={`post`}
+                                                />
+                                                )}
+                                                
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            </div>
-                            <div>
-                            </div>
-                        </div>
-                    )) : <h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">
-                        No new Notifications.
-                    </h3>}
+                            )}
+
+                            {/* Seen Notifications */}
+                            {notifications.filter(item => item.isSeen).length > 0 && (
+                                <div>
+                                    <h3 className="text-2xl font-medium text-gray-900 dark:text-white m-2 mb-4">Earlier Notifications</h3>
+                                    {notifications.filter(item => item.isSeen).map(item => (
+                                        <div key={item._id} className="flex justify-between items-center p-1 mb-4">
+                                            <div className="flex items-center">
+                                                <img
+                                                    className="w-10 h-10 rounded-full"
+                                                    src={item.senderId.profilePic || "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"}
+                                                    alt={`${item.senderId.username} profile`}
+                                                />
+                                                <div className="ml-3 text-white">
+                                                    <span className="block text-md font-semibold">
+                                                        {`${item.senderId.username} ${item.event === 'follow'
+                                                            ? 'started following you'
+                                                            : item.event === 'like'
+                                                                ? 'liked your post.'
+                                                                : 'commented on your post.'}`}
+                                                    </span>
+                                                    <span className="text-sm font-thin text-gray-300">{moment(item.createdAt).fromNow()}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                {item.postId?.image && (
+                                                    <img
+                                                    className="w-12 h-12 rounded-lg object-cover"
+                                                    src={item.postId?.image[0]}
+                                                    alt={`post`}
+                                                />
+                                                )}
+                                                
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">No new Notifications.</h3>
+                    )}
                 </div>
+
             </div>
         </div>
     );

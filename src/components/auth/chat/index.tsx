@@ -93,7 +93,7 @@ const Chat: React.FC = () => {
                         <h1 className="text-2xl font-semibold">Messages</h1>
                         <FaRegEdit size={24} className="cursor-pointer" onClick={() => setIsOpenNewChatModal(true)} />
                     </header>
-                    <input type="text" placeholder='Search...' onChange={(e) => setSearchInput(e.target.value)} className=' mt-2 rounded-lg p-1 px-2 outline-none ' />
+                    <input type="text" placeholder='Search...' onChange={(e) => setSearchInput(e.target.value)} className=' mt-2 rounded-lg p-1 px-2 outline-none  w-full' />
                     <div className="overflow-y-auto flex-1 p-3">
                         {filteredChats?.map(chat => {
                             const { _id: chatId, members } = chat;

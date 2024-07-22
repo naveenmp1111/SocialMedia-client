@@ -11,7 +11,7 @@ export const getNotifications = async ():Promise<GetNotifications> => {
 
 }
 
-export const readNofifications=async()=>{
+export const readNotifications=async()=>{
     const response=await axiosUserInstance.patch(
         END_POINT.READ_NOTIFICATIONS
     )

@@ -37,8 +37,11 @@ const LeftSideBar = () => {
 
    useEffect(() => {
       fetchRequests()
+   }, [])
+
+   useEffect(() => {
       fetchNotifications()
-   }, [openNofificationModal])
+   }, [requests])
 
    const fetchNotifications=async()=>{
       try {
@@ -101,7 +104,7 @@ const LeftSideBar = () => {
 
    return (
       <>
-         <NotificationModal isOpen={openNofificationModal} onClose={()=>setOpenNotificationModal(false)}/>
+         <NotificationModal isOpen={openNofificationModal} onClose={()=>setOpenNotificationModal(false)} fetchNotification={fetchNotifications}/>
          <RequestModal isOpen={openRequestModal} onClose={() => setOpenRequestModal(false)} requests={requests} onAccept={handleAccept} onDecline={handelDecline}/>
          <CreatePost isOpen={openModal} onClose={() => setOpenModal(false)} />
          <aside id="default-sidebar" className="fixed top-24  z-40    w-64 h-screen max-h-[650px] transition-transform -translate-x-full md:translate-x-0 md:bottom-bar-hidden" aria-label="Sidebar">
