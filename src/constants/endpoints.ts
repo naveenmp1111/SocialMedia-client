@@ -38,6 +38,7 @@ const END_POINT={
     SAVE_POST:'api/user/savePost',
     UNSAVE_POST:'api/user/unsavePost',
     GET_SAVED_POSTS:'api/user/getSavedPosts',
+    GET_TAGGED_POSTS:'api/post/getTaggedPosts',
     CANCEL_REQUEST:'api/user/cancelRequest',
     DECLINE_REQUEST:'api/user/declineRequest',
     ADD_COMMENT:'api/post/addComment',
@@ -56,7 +57,11 @@ const END_POINT={
     DELETE_MESSAGE:'api/message/deleteMessage',
     DELETE_MESSAGE_FOR_ME:'api/message/deleteMessageForMe',
     GET_NOTIFICATIONS:'api/notification/getNotifications',
-    READ_NOTIFICATIONS:'api/notification/readNotifications'
+    READ_NOTIFICATIONS:'api/notification/readNotifications',
+    GET_WEEKLY_DATA:'api/admin/getWeeklyData',
+    GET_MONTHLY_DATA:'api/admin/getMonthlyData',
+    GET_YEARLY_DATA:'api/admin/getYearlyData',
+    GET_ALL_POSTS_FOR_ADMIN:'api/admin/getAllPostsForAdmin'
 }
 
 export default END_POINT

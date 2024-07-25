@@ -2,7 +2,7 @@ import axiosUserInstance from "../axiosInstance/axiosUserInstance";
 import END_POINT from "../../constants/endpoints";
 
 export const createPost = async (
-    payload: { description: string, image: string }
+    payload: { description: string, image: string,taggedUsers?:any }
 ) => {
     const response = await axiosUserInstance.post(
         END_POINT.CREATE_POST,
@@ -118,3 +118,5 @@ export const addReply=async(
         )
         return response.data
     }
+
+

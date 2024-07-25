@@ -14,17 +14,17 @@ const useListenMessages = () => {
     useEffect(()=>{
         socket?.on('newMessage', (newMessage) => {
             // console.log('newmessage coming through socket is ',newMessage)
-            // if(newMessage.chatId == selectedConversation?._id)
-            setMessages([...messages, newMessage])
+            
             if(!selectedConversation || selectedConversation && selectedConversation._id as string != newMessage.chatId as unknown as string){
                 setUnreadMessages([...unreadMessages,newMessage])
             }
+            if(newMessage.chatId == selectedConversation?._id)
+            setMessages([...messages, newMessage])
         })
 
         socket?.on('deleteMessage',(messageId)=>{
             let updatedMessages=messages.filter(item=>item._id!=messageId)
-            setMessages(updatedMessages);
-                
+            setMessages(updatedMessages);            
         })
 
         socket?.on('TypingUsers',(userId)=>{

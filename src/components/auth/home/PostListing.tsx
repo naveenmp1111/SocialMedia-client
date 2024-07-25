@@ -117,7 +117,7 @@ const PostListing = ({ post,loggedinUser }: { post: PostDataInterface,loggedinUs
 
         </div>
         <div className="relative w-full">
-          <img className="w-full object-cover min-w-[200px] min-h-[200px] max-h-[750px]" src={post.image[0]} alt="post" />
+          <img className="w-full object-cover min-w-[200px] min-h-[200px] rounded-sm max-h-[750px]" src={post.image[0]} alt="post" />
         </div>
         <div className="flex items-center justify-between mx-4 mt-3 mb-2">
           <div className="flex gap-5">

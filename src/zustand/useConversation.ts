@@ -38,6 +38,8 @@ interface ConversationState {
   notifications:Notification[],
   setNotifications:(notification:Notification[])=>void;
   addNotification:(notification:Notification)=>void;
+  reload:boolean;
+  setReload:()=>void;
 }
 
 const useConversation = create<ConversationState>((set) => ({
@@ -74,6 +76,8 @@ const useConversation = create<ConversationState>((set) => ({
     set((state) => ({
       notifications: [...state.notifications, newNotification],
     })),
+    reload:false,
+    setReload:()=>set((state)=>({reload:!state.reload}))
 }));
 
 export default useConversation;

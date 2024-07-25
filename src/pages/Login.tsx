@@ -46,6 +46,7 @@ const Login = () => {
       if (result.status == 'success') {
 
         if (result.user?.role == 'admin') {
+          localStorage.setItem('adminData', JSON.stringify(result.user))
           dispatch(setAdminCredentials(result))
           toast.success(result.message)
           return navigate('/admin')

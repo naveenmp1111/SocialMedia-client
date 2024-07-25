@@ -84,6 +84,7 @@ const authSlice = createSlice({
             state.incomingVideoCall=null
             state.audioCall=null
             state.incomingAudioCall=null
+            localStorage.removeItem('IncomingVideoCall')
         },
         setShowVideoCall:(state,action)=>{
             // console.log('action of show video call is ',action)

@@ -11,7 +11,7 @@ import { getUnreadMessagesFromChat } from '../../../api/message'
 const Conversation = ({ chat }: { chat: ChatInterface }) => {
     const userInRedux = useSelector((state: StoreType) => state.auth.user)
     const friend: User | undefined = chat.members.find(item => item._id !== userInRedux?._id)
-    const { selectedConversation, setSelectedConversation,messages,selectedFriend} = useConversation()
+    const { selectedConversation, setSelectedConversation,messages,selectedFriend,unreadMessages} = useConversation()
     const isSelected = selectedConversation?._id === chat._id
     const { onlineUsers } = useSocket()
     const isOnline = friend && friend._id ? onlineUsers?.includes(friend?._id) : false;
@@ -35,13 +35,13 @@ const Conversation = ({ chat }: { chat: ChatInterface }) => {
             setNoOfUnreadMessages(response.messages.length)
         }
         getUnreadMessages()
-    },[selectedConversation,messages])
+    },[selectedConversation,messages,unreadMessages])
 
     const handleSelectConversation=()=>{
         setSelectedConversation(chat)
     }
 
-    console.log('chat is ',chat)
+    // console.log('chat is ',chat)
 
     const messageDate = new Date(chat.latestMessage.createdAt);
     const displayDate = isToday(messageDate) ? format(messageDate, 'p') : format(messageDate, 'P');

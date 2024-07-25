@@ -135,6 +135,13 @@ export const getSavedPost = async (): Promise<SavedPostDataInterface> => {
   return response.data
 }
 
+export const getTaggedPosts=async(username:string):Promise<SavedPostDataInterface>=>{
+  const response=await axiosUserInstance.get<SavedPostDataInterface>(
+    `${END_POINT.GET_TAGGED_POSTS}/${username}`
+  )
+  return response.data
+}
+
 export const cancelRequest = async (
   friendUsername: string
 ) => {

@@ -10,6 +10,7 @@ import { SocketProvider } from './contexts/SocketContext.tsx'
 import { SearchBarProvider } from './contexts/SearchBarContext.tsx'
 
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
   <Provider store={store}>

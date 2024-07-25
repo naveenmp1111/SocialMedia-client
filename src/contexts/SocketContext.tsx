@@ -23,13 +23,15 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([])
   const userInRedux = useSelector((state: StoreType) => state.auth.user)
+  const adminInRedux =useSelector((state:StoreType)=>state.admin.admin)
+  const loggedUser=userInRedux ? userInRedux :adminInRedux
 
   useEffect(() => {
     // console.log('useEffect working')
-    if (userInRedux) {
+    if (loggedUser ) {
       const newSocket = io('http://localhost:3000', {
         query: {
-          userId: userInRedux._id
+          userId: loggedUser._id
         }
       }); // Replace with your server URL
       setSocket(newSocket);
@@ -48,7 +50,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     } else {
       setSocket(null)
     }
-  }, [userInRedux]);
+  }, [loggedUser]);
 
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>

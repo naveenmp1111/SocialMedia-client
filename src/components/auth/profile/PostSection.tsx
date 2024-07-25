@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { PostDataInterface } from '../../../types/post'
 import ViewPostModal from '../../../modals/post/ViewPostModal'
+import useConversation from '../../../zustand/useConversation';
 
 const PostSection = ({ item, refreshPost }: { item: PostDataInterface; refreshPost: () => void }) => {
 
     const [openPostViewModal, setOpenPostViewModal] = useState(false)
     const [postData, setPostData] = useState<PostDataInterface | null>(null)
+    const {reload}=useConversation()
 
     const PostViewControl = (item: PostDataInterface) => {
         setPostData(item)
@@ -14,7 +16,7 @@ const PostSection = ({ item, refreshPost }: { item: PostDataInterface; refreshPo
 
     useEffect(() => {
         refreshPost()
-    }, [openPostViewModal])
+    }, [openPostViewModal,reload])
 
     return (
         <>

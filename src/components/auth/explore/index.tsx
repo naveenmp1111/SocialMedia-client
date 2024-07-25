@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Postlist from './Postlist';
 import { getAllPostsToExplore } from '../../../api/post';
 import { PostDataInterface } from '../../../types/post';
@@ -25,18 +25,18 @@ const Explore = () => {
         fetchPosts();
     }, [target]);
 
-    const { searchValue } = useSearchBar();
+    const { searchValue, setSearchValue } = useSearchBar();
 
     const [filteredPosts, setFilteredPosts] = useState<PostDataInterface[]>([]);
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
     useEffect(() => {
         if (target === 'posts') {
-            setFilteredPosts(posts.filter(item => 
+            setFilteredPosts(posts.filter(item =>
                 item.description?.toLowerCase().includes(searchValue.toLowerCase())
             ));
         } else {
-            setFilteredUsers(users.filter(item => 
+            setFilteredUsers(users.filter(item =>
                 item.name.toLowerCase().includes(searchValue.toLowerCase())
             ));
         }
@@ -44,15 +44,29 @@ const Explore = () => {
 
     return (
         <>
-            <div className='p-5'>
-            <button 
-                    className={`p-2 px-3 rounded-lg m-1 mb-2 font-semibold ${target === 'posts' ? 'bg-white' : 'bg-gray-100'}`} 
+            <div className='fixed top-16 left-0 right-0 z-10 md:hidden'>
+                <div className='md:w-2/4 w-full flex justify-center mr-3 md:mr-0 relative p-2 bg-gray-200'>
+                    <input
+                        type='text'
+                        className='w-full h-10 p-2 pl-4 pr-10 border-2 rounded-full outline-none '
+                        placeholder='Search...'
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                    <svg className='w-6 h-6 absolute right-4 top-4 text-gray-500' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1111.5 3.5a7.5 7.5 0 015.65 13.15z" />
+                    </svg>
+                </div>
+            </div>
+            <div className='pt-16 md:pt-20 p-5'>
+                <button
+                    className={`p-2 px-3 rounded-lg m-1 mb-2 font-semibold ${target === 'posts' ? 'bg-white' : 'bg-gray-100'}`}
                     onClick={() => setTarget('posts')}
                 >
                     Posts
                 </button>
-                <button 
-                    className={`p-2 px-3 rounded-lg m-1 mb-2 font-semibold ${target === 'users' ? 'bg-white' : 'bg-gray-100'}`} 
+                <button
+                    className={`p-2 px-3 rounded-lg m-1 mb-2 font-semibold ${target === 'users' ? 'bg-white' : 'bg-gray-100'}`}
                     onClick={() => setTarget('users')}
                 >
                     Users

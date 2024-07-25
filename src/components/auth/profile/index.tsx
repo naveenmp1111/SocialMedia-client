@@ -5,7 +5,7 @@ import { getPostsByUser } from '../../../api/post';
 import { PostDataInterface } from '../../../types/post';
 import { useParams } from 'react-router-dom';
 import { User } from '../../../types/loginUser';
-import { getSavedPost, getUserByUsername } from '../../../api/user';
+import { getSavedPost, getTaggedPosts, getUserByUsername } from '../../../api/user';
 import { useSelector } from 'react-redux';
 import { StoreType } from '../../../redux/store';
 import { FaLock } from 'react-icons/fa';
@@ -32,6 +32,9 @@ const Profile = () => {
     } else if (postType === 'saved') {
       const postData = await getSavedPost();
       setPosts(postData.posts);
+    }else if(postType === 'tagged'){
+      const postData=await getTaggedPosts(username as string);
+      setPosts(postData.posts)
     }
   };
 
@@ -56,6 +59,12 @@ const Profile = () => {
                 onClick={() => setPostType('myposts')}
               >
                 Posts
+              </button>
+              <button
+                className={`mx-7 p-1 border-b-4 ${postType === 'tagged' ? 'border-b-black' : ''} font-bold`}
+                onClick={() => setPostType('tagged')}
+              >
+                Tagged
               </button>
               {userInRedux?.username === username && (
                 <button
@@ -92,6 +101,12 @@ const Profile = () => {
             >
               Posts
             </button>
+            <button
+                className={`mx-7 p-1 border-b-4 ${postType === 'tagged' ? 'border-b-black' : ''} font-bold`}
+                onClick={() => setPostType('tagged')}
+              >
+                Tagged
+              </button>
             {userInRedux?.username === username && (
               <button
                 className={`mx-7 p-1 border-b-4 ${postType === 'saved' ? 'border-b-black' : ''} font-bold`}

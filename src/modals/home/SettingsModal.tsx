@@ -1,5 +1,7 @@
 import React ,{useState} from 'react'
 import BlockedUsersList from './BlockedUsersList'
+import store from '../../redux/store'
+import { logout } from '../../redux/authSlice'
 
 const SettingsModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
     if (!isOpen) return null
@@ -16,8 +18,8 @@ const SettingsModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
                 
                 <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700  dark:border-gray-600 dark:text-white">
                     <li onClick={()=>setIsOpenBlockList(true)} className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:dark:bg-gray-600">Block list</li>
-                    {/* <li className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:dark:bg-gray-600">Settings</li>
-                    <li className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:dark:bg-gray-600">Messages</li> */}
+                     <li onClick={() => store.dispatch(logout())} className="md:hidden w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:dark:bg-gray-600 text-red-600">Logout</li>
+                    {/*<li className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:dark:bg-gray-600">Messages</li> */}
                     <li onClick={()=>onClose()} className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-gray-600">Cancel</li>
                 </ul>
             </div>

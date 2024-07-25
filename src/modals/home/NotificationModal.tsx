@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react'
 import useConversation from '../../zustand/useConversation'
 import { readNotifications } from '../../api/notfication'
 import moment from 'moment'
+import useGetNotifications from '../../hooks/useGetNotifications';
 
 
 
-const NotificationModal = ({ isOpen, onClose, fetchNotification }: { isOpen: boolean, onClose: () => void, fetchNotification: () => void }) => {
+const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void, }) => {
     if (!isOpen) {
         return null;
     }
 
-    const { notifications } = useConversation()
+    const { notifications ,setReload} = useConversation()
 
     useEffect(() => {
         ReadNotifications()
@@ -27,7 +28,7 @@ const NotificationModal = ({ isOpen, onClose, fetchNotification }: { isOpen: boo
 
     const handleClose = () => {
         ReadNotifications()
-        fetchNotification()
+        setReload()
         onClose()
     }
 

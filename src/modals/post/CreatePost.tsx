@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios, { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { createPost } from '../../api/post';
+import { getFollowing } from '../../api/user';
+import { useParams } from 'react-router-dom';
+import { FollowerData } from '../../types/userProfile';
+import useConversation from '../../zustand/useConversation';
+import { useSelector } from 'react-redux';
+import { StoreType } from '../../redux/store';
 
 interface ModalProps {
     isOpen: boolean;
@@ -15,10 +21,38 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
     const preset_key = 'xdxoqisy';
     const cloud_name = 'dwxhfdats';
-    const [imageUrl, setImageUrl] = React.useState<string | undefined>(undefined);
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+    const [loading, setLoading] = useState(false);
+    const [suggestedUsers, setSuggestedUsers] = useState<FollowerData[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<FollowerData[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [filteredSuggestions, setFilteredSuggestions] = useState<FollowerData[]>([]);
+    const {setReload}=useConversation()
+    const username = useSelector((state: StoreType) => state.auth.user?.username);
+
+    useEffect(() => {
+        fetchFollowing();
+    }, []);
+
+    const fetchFollowing = async () => {
+        try {
+            const response = await getFollowing(username as string);
+            setSuggestedUsers(response.users);
+            setFilteredSuggestions(response.users);
+        } catch (error) {
+            console.log('error in fetching following ', error);
+        }
+    };
+
+    const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setShowSuggestions(true);
+        setInputValue(e.target.value);
+        setFilteredSuggestions(suggestedUsers.filter(item => item.username.includes(e.target.value)));
+    }, [suggestedUsers]);
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLoading(true)
+        setLoading(true);
         const file = e.target.files?.[0];
         if (file) {
             const formData = new FormData();
@@ -26,35 +60,42 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             formData.append('upload_preset', preset_key);
             axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
                 .then((response) => {
-                    setImageUrl(response.data.secure_url)
-                    setTimeout(() => {
-                        setLoading(false)
-                    }, 1000)
+                    setImageUrl(response.data.secure_url);
+                    setLoading(false);
                 })
-                .catch((error) => console.log(error.response.data));
+                .catch((error) => {
+                    console.log(error.response?.data);
+                    setLoading(false);
+                });
         }
     };
 
     const validationSchema = Yup.object({
-        description: Yup.string()
+        description: Yup.string(),
+        image: Yup.string().required('Image is required'),
     });
 
     const formik = useFormik({
         initialValues: {
             description: '',
-            image: ''
+            image: '',
+            taggedUsers: []
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                const response = await createPost({ ...values, image: imageUrl as string })
+                const response = await createPost({
+                    ...values,
+                    image: imageUrl as string,
+                    taggedUsers: selectedUsers.map(user => user._id)
+                });
+                console.log('response from create post is ',response)
                 if (response) {
-                    onClose()
-                    toast.success('Post created successfully')
+                    onClose();
+                    toast.success('Post created successfully');
                     setTimeout(() => {
-                        window.location.reload()
-
-                    }, 500)
+                        setReload();
+                    }, 500);
                 }
             } catch (error) {
                 console.log('error is ', error);
@@ -65,13 +106,26 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         },
     });
 
-    const [loading, setLoading] = useState(false)
+    const handleUserSelect = (user: FollowerData) => {
+        if (!selectedUsers.includes(user)) {
+            setSelectedUsers([...selectedUsers, user]);
+            setSuggestedUsers(suggestedUsers.filter(item => item.username !== user.username));
+            setFilteredSuggestions(suggestedUsers.filter(item => item.username !== user.username));
+        }
+    };
+
+    const handleUserRemove = (username: string) => {
+        const userToRemove = selectedUsers.find(user => user.username === username);
+        setSelectedUsers(selectedUsers.filter(user => user.username !== username));
+        if (userToRemove) {
+            setSuggestedUsers(prev => [...prev, userToRemove]);
+            setFilteredSuggestions([...filteredSuggestions, userToRemove]);
+        }
+    };
 
     return (
-        <div
-            className={`${isOpen ? 'fixed' : 'hidden'} flex overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-80`}
-        >
-            <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
+        <div className={`${isOpen ? 'fixed' : 'hidden'} flex overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-80`}>
+            <div className="relative p-4 mt-60 md:mt-0 w-full max-w-2xl h-full md:h-auto">
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -89,9 +143,6 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
                     <form onSubmit={formik.handleSubmit}>
                         {imageUrl && <img src={imageUrl} className='w-56' alt="Uploaded" />}
-                        <div className='flex'>
-
-                        </div>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div className='sm:col-span-2'>
                                 <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Post</label>
@@ -120,6 +171,51 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                     <div className="text-red-600">{formik.errors.description}</div>
                                 ) : null}
                             </div>
+
+                            <div className="sm:col-span-2">
+                                <label htmlFor="taggedUsers" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tag Users</label>
+
+                                <div className="mt-2 flex flex-wrap">
+                                    {selectedUsers.map((user) => (
+                                        <div key={user.username} className="flex items-center p-1 bg-gray-200 rounded-lg m-1">
+                                            <span className="mr-2">{user.username}</span>
+                                            <button
+                                                type="button"
+                                                className="text-red-600 hover:text-red-900"
+                                                onClick={() => handleUserRemove(user.username)}
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        id="taggedUsers"
+                                        placeholder="Search and select users"
+                                        className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        onClick={() => setShowSuggestions(prev => !prev)}
+                                        onChange={handleInputChange}
+                                    />
+                                    {showSuggestions && (
+                                        <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg max-h-40 overflow-y-auto z-10">
+                                            {filteredSuggestions && filteredSuggestions.map((user) => (
+                                                <div
+                                                    key={user.username}
+                                                    className="p-2 cursor-pointer hover:bg-gray-200"
+                                                    onClick={() => {
+                                                        handleUserSelect(user);
+                                                        setShowSuggestions(false);
+                                                    }}
+                                                >
+                                                    {user.username}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex items-center space-x-4">
@@ -139,7 +235,6 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                     Create
                                 </button>
                             )}
-
                         </div>
                     </form>
                 </div>
