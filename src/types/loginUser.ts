@@ -1,13 +1,13 @@
-export interface LoginUserInterface{
-    email:string;
-    password:string;
+export interface LoginUserInterface {
+    email: string;
+    password: string;
 }
 
-export interface User{
-    _id?:string;
-    name:string;
-    username:string;
-    email:string;
+export interface User {
+    _id?: string;
+    name: string;
+    username: string;
+    email: string;
     phoneNumber?: number;
     profilePic?: string;
     bio?: string;
@@ -17,20 +17,20 @@ export interface User{
     isAccountVerified?: boolean;
     isGoogleSignIn?: boolean;
     isBlock?: boolean;
-    role?:string,
-    requests?:string[],
-    isPrivate?:boolean,
-    blocklist:string[]
+    role?: string,
+    requests?: string[],
+    isPrivate?: boolean,
+    blocklist?: string[]
 }
 
-export interface LoginUserResponse{
-    message:string;
-    status:string;
-    user:User | null;
-    token:string;
+export interface LoginUserResponse {
+    message: string;
+    status: string;
+    user: User | null;
+    token: string;
 }
 
 export interface GoogleLoginInterface {
-    name:string;
-    email:string;
+    name: string;
+    email: string;
 }

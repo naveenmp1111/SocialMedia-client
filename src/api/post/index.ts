@@ -2,7 +2,7 @@ import axiosUserInstance from "../axiosInstance/axiosUserInstance";
 import END_POINT from "../../constants/endpoints";
 
 export const createPost = async (
-    payload: { description: string, image: string,taggedUsers?:any }
+    payload: { description: string, image: string, taggedUsers?: any }
 ) => {
     const response = await axiosUserInstance.post(
         END_POINT.CREATE_POST,
@@ -18,7 +18,6 @@ export const getPostsByUser = async (
     const response = await axiosUserInstance.get(
         `${END_POINT.GET_POSTS_BY_USER}/${username}`
     )
-    console.log('response data of posts by user ',response.data)
     return response.data
 }
 
@@ -36,12 +35,11 @@ export const getAllPosts = async () => {
     const response = await axiosUserInstance.get(
         END_POINT.GET_ALL_POSTS
     )
-    // console.log('post data in api call ',response.data)
     return response.data
 }
 
-export const getAllPostsToExplore=async()=>{
-    const response=await axiosUserInstance.get(
+export const getAllPostsToExplore = async () => {
+    const response = await axiosUserInstance.get(
         END_POINT.GET_ALL_POSTS_TO_EXPLORE
     )
     return response.data
@@ -97,26 +95,26 @@ export const addComment = async (
     return response.data
 }
 
-export const getComments=async(
-    postId:string
-)=>{
-    const response=await axiosUserInstance.get(
+export const getComments = async (
+    postId: string
+) => {
+    const response = await axiosUserInstance.get(
         `${END_POINT.GET_COMMENTS}/${postId}`
     )
     return response.data
 }
 
-export const addReply=async(
-    payload:{
-        postId:string,
-        parentId:string,
-        comment:string
-    })=>{
-        const response=await axiosUserInstance.post(
-            END_POINT.ADD_REPLY,
-            payload
-        )
-        return response.data
-    }
+export const addReply = async (
+    payload: {
+        postId: string,
+        parentId: string,
+        comment: string
+    }) => {
+    const response = await axiosUserInstance.post(
+        END_POINT.ADD_REPLY,
+        payload
+    )
+    return response.data
+}
 
 

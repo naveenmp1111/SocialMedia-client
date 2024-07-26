@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useConversation from '../../zustand/useConversation'
 import { readNotifications } from '../../api/notfication'
 import moment from 'moment'
-import useGetNotifications from '../../hooks/useGetNotifications';
-
-
 
 const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void, }) => {
     if (!isOpen) {
         return null;
     }
 
-    const { notifications ,setReload} = useConversation()
+    const { notifications, setReload } = useConversation()
 
     useEffect(() => {
         ReadNotifications()
@@ -96,12 +93,12 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                                             <div>
                                                 {item.postId?.image && (
                                                     <img
-                                                    className="w-12 h-12 rounded-lg object-cover"
-                                                    src={item.postId?.image[0]}
-                                                    alt={`post`}
-                                                />
+                                                        className="w-12 h-12 rounded-lg object-cover"
+                                                        src={item.postId?.image[0]}
+                                                        alt={`post`}
+                                                    />
                                                 )}
-                                                
+
                                             </div>
                                         </div>
                                     ))}
@@ -134,12 +131,12 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                                             <div>
                                                 {item.postId?.image && (
                                                     <img
-                                                    className="w-12 h-12 rounded-lg object-cover"
-                                                    src={item.postId?.image[0]}
-                                                    alt={`post`}
-                                                />
+                                                        className="w-12 h-12 rounded-lg object-cover"
+                                                        src={item.postId?.image[0]}
+                                                        alt={`post`}
+                                                    />
                                                 )}
-                                                
+
                                             </div>
                                         </div>
                                     ))}

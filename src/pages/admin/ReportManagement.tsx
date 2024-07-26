@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { blockPost, getPostReports, unblockPost } from '../../api/admin';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';

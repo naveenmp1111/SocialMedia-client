@@ -12,17 +12,16 @@ import VideoCall from './components/auth/chat/VideoCall'
 import AudioCall from './components/auth/chat/AudioCall'
 
 function App() {
-  // useListenMessages()
-  const {incomingAudioCall,incomingVideoCall,showVideoCall,videoCall,audioCall}=useSelector((state:StoreType)=>state.auth)
+  const { incomingAudioCall, incomingVideoCall, showVideoCall, videoCall, audioCall } = useSelector((state: StoreType) => state.auth)
   return (
     <>
-  
-         {showVideoCall && <Room/>}
-         {!showVideoCall && videoCall &&  <VideoCall/>}
-            {!showVideoCall && audioCall && <AudioCall/>}
-         {incomingAudioCall && <IncomingAudioCall/>}
-         {!showVideoCall && incomingVideoCall && <IncomingVideoCall/>}
-    
+
+      {showVideoCall && <Room />}
+      {!showVideoCall && videoCall && <VideoCall />}
+      {!showVideoCall && audioCall && <AudioCall />}
+      {incomingAudioCall && <IncomingAudioCall />}
+      {!showVideoCall && incomingVideoCall && <IncomingVideoCall />}
+
       {!showVideoCall && <>
         <Routes>
           <Route path='/*' element={<UserRoutes />} />
@@ -30,8 +29,8 @@ function App() {
         </Routes>
         <ToastContainer />
       </>}
-        
-      
+
+
     </>
   )
 }

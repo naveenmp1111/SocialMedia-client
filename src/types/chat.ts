@@ -16,12 +16,12 @@ export interface ChatInterface {
 
 export interface FetchOtherUserChatResponse {
     status: string;
-    message:string;
+    message: string;
     chat: ChatInterface;
 }
 
 export interface FetchUserChatsResponse {
     status: string;
-    message:string;
+    message: string;
     chats: ChatInterface[];
 }

@@ -4,7 +4,7 @@ import Explore from '../../components/auth/explore'
 const ExplorePage = () => {
   return (
     <div>
-        <Explore/>
+      <Explore />
     </div>
   )
 }

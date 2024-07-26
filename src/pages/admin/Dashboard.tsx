@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Bar, Pie, Doughnut } from "react-chartjs-2"
+import { Bar, Doughnut } from "react-chartjs-2"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
 
   const [chartData, setChartData] = useState<any>({ labels: [], datasets: [] });
-  const [dataType,setDataType]=useState<string>('year')
+  const [dataType, setDataType] = useState<string>('year')
   const [totalUsers, setTotalUsers] = useState<number>(0)
   const [totalReports, setTotalReports] = useState<number>(0)
   const [totalPosts, setTotalPosts] = useState<number>(0)
@@ -117,7 +117,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: 'No: of Users ',
-        data: [totalUsers - (onlineUsers ? onlineUsers?.length : 0), onlineUsers?.length ? onlineUsers?.length-1 : 0],
+        data: [totalUsers - (onlineUsers ? onlineUsers?.length : 0), onlineUsers?.length ? onlineUsers?.length - 1 : 0],
         backgroundColor: [
           'blue', // Blue for Total Users
           '#39ff14'  // Green for Users Online
@@ -178,9 +178,9 @@ const Dashboard = () => {
             <Bar data={chartData} />
             <div className='w-full flex justify-center mt-5'>
               <div>
-                <button  className={`m-3 ${dataType=='week' ? 'bg-gray-900 text-white shadow-lg shadow-gray-700' : 'bg-white'} p-1 rounded-lg px-2 `} onClick={fetchWeeklyData}>Weekly</button>
-                <button  className={`m-3 ${dataType=='month' ? 'bg-gray-900 text-white shadow-lg shadow-gray-700' : 'bg-white'} p-1 rounded-lg px-2 `} onClick={fetchMonthlyData}>Monthly</button>
-                <button  className={`m-3 ${dataType=='year' ? 'bg-gray-900 text-white shadow-lg shadow-gray-700' : 'bg-white'} p-1 rounded-lg px-2 `} onClick={fetchYearlyData}>Yearly</button>
+                <button className={`m-3 ${dataType == 'week' ? 'bg-gray-900 text-white shadow-lg shadow-gray-700' : 'bg-white'} p-1 rounded-lg px-2 `} onClick={fetchWeeklyData}>Weekly</button>
+                <button className={`m-3 ${dataType == 'month' ? 'bg-gray-900 text-white shadow-lg shadow-gray-700' : 'bg-white'} p-1 rounded-lg px-2 `} onClick={fetchMonthlyData}>Monthly</button>
+                <button className={`m-3 ${dataType == 'year' ? 'bg-gray-900 text-white shadow-lg shadow-gray-700' : 'bg-white'} p-1 rounded-lg px-2 `} onClick={fetchYearlyData}>Yearly</button>
               </div>
             </div>
           </div>

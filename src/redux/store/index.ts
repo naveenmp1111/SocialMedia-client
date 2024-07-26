@@ -3,12 +3,12 @@ import authSlice from "../authSlice";
 import adminSlice from "../adminSlice";
 
 
-const store=configureStore({
-   reducer:{
-    auth:authSlice,
-    admin:adminSlice
+const store = configureStore({
+   reducer: {
+      auth: authSlice,
+      admin: adminSlice
    }
 })
 
 export default store
-export type StoreType= ReturnType<typeof store.getState>
+export type StoreType = ReturnType<typeof store.getState>

@@ -8,7 +8,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    admin: JSON.parse(localStorage.getItem('adminData') as  string) || null,
+    admin: JSON.parse(localStorage.getItem('adminData') as string) || null,
     accessToken: localStorage.getItem('adminAccessToken') || null,
     isAuthenticated: !!localStorage.getItem('adminAccessToken')
 }
@@ -19,9 +19,9 @@ const adminSlice = createSlice({
     reducers: {
         setAdminCredentials: (state, action) => {
             console.log('payloaddata', action.payload)
-            const { accessToken,user } = action.payload
+            const { accessToken, user } = action.payload
             state.accessToken = accessToken
-            state.admin=user
+            state.admin = user
             state.isAuthenticated = true
             if (accessToken) {
                 localStorage.setItem('adminAccessToken', accessToken)
@@ -30,7 +30,7 @@ const adminSlice = createSlice({
         adminLogout: (state) => {
             state.isAuthenticated = false;
             state.accessToken = null;
-            state.admin=null
+            state.admin = null
             localStorage.removeItem('adminAccessToken')
         },
     }

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getBlockedUsers, unblockUserByUsername } from '../../api/user'
 import { User } from '../../types/loginUser'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const BlockedUsersList = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
     if (!isOpen) return null
 
     const [blockedUsers, setBlockedUsers] = useState<User[] | undefined>([])
-    const [reload,setReload]=useState(false)
+    const [reload, setReload] = useState(false)
 
     useEffect(() => {
         fetchBlockedUsers()
@@ -16,7 +16,6 @@ const BlockedUsersList = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =>
     const fetchBlockedUsers = async () => {
         try {
             const response = await getBlockedUsers()
-            // console.log('response from geting blocked users ', response)
             setBlockedUsers(response?.users)
         } catch (error) {
             console.log('error in fetchin Blocked users')
@@ -81,8 +80,6 @@ const BlockedUsersList = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =>
                             </div>
                             <div>
                                 <button className="px-2 mx-2  text-md max-h-6 bg-white rounded-md mt-2" onClick={() => handleUnblockUser(user.username)}>Unblock</button>
-                                {/* <button className="px-2  text-md max-h-6 bg-red-500 text-white rounded-md mt-2" onClick={() => onDecline(user.username)}>Decline</button> */}
-
                             </div>
                         </div>
                     )) : <h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">

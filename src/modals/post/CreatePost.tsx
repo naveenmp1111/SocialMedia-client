@@ -5,7 +5,6 @@ import axios, { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { createPost } from '../../api/post';
 import { getFollowing } from '../../api/user';
-import { useParams } from 'react-router-dom';
 import { FollowerData } from '../../types/userProfile';
 import useConversation from '../../zustand/useConversation';
 import { useSelector } from 'react-redux';
@@ -26,9 +25,8 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [suggestedUsers, setSuggestedUsers] = useState<FollowerData[]>([]);
     const [selectedUsers, setSelectedUsers] = useState<FollowerData[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const [inputValue, setInputValue] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<FollowerData[]>([]);
-    const {setReload}=useConversation()
+    const { setReload } = useConversation()
     const username = useSelector((state: StoreType) => state.auth.user?.username);
 
     useEffect(() => {
@@ -47,7 +45,7 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
     const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setShowSuggestions(true);
-        setInputValue(e.target.value);
+        // setInputValue(e.target.value);
         setFilteredSuggestions(suggestedUsers.filter(item => item.username.includes(e.target.value)));
     }, [suggestedUsers]);
 
@@ -61,6 +59,7 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
                 .then((response) => {
                     setImageUrl(response.data.secure_url);
+                    formik.setFieldValue('image', response.data.secure_url);
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -89,7 +88,7 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     image: imageUrl as string,
                     taggedUsers: selectedUsers.map(user => user._id)
                 });
-                console.log('response from create post is ',response)
+                // console.log('response from create post is ', response)
                 if (response) {
                     onClose();
                     toast.success('Post created successfully');
@@ -194,22 +193,25 @@ const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                         type="text"
                                         id="taggedUsers"
                                         placeholder="Search and select users"
-                                        className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border  focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         onClick={() => setShowSuggestions(prev => !prev)}
                                         onChange={handleInputChange}
                                     />
                                     {showSuggestions && (
-                                        <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg max-h-40 overflow-y-auto z-10">
+                                        <div className="absolute mt-1 w-full bg-gray-700 rounded-lg max-h-40 overflow-y-auto z-10">
                                             {filteredSuggestions && filteredSuggestions.map((user) => (
-                                                <div
-                                                    key={user.username}
-                                                    className="p-2 cursor-pointer hover:bg-gray-200"
-                                                    onClick={() => {
-                                                        handleUserSelect(user);
-                                                        setShowSuggestions(false);
-                                                    }}
-                                                >
-                                                    {user.username}
+                                                <div className='flex items-center px-3 p-0.5  hover:bg-gray-600 rounded-md'>
+                                                    <img className='rounded-full w-6 h-6' src={user.profilePic} alt="" />
+                                                    <div
+                                                        key={user.username}
+                                                        className="p-2 cursor-pointer text-white"
+                                                        onClick={() => {
+                                                            handleUserSelect(user);
+                                                            setShowSuggestions(false);
+                                                        }}
+                                                    >
+                                                        {user.username}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>

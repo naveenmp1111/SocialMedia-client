@@ -5,6 +5,7 @@ import { PostDataInterface } from '../../../types/post';
 import { useSearchBar } from '../../../contexts/SearchBarContext';
 import { getRestofAllUsers } from '../../../api/user';
 import { User } from '../../../types/loginUser';
+import { Link } from 'react-router-dom'
 
 const Explore = () => {
     const [posts, setPosts] = useState<PostDataInterface[]>([]);
@@ -84,7 +85,7 @@ const Explore = () => {
                                     <h5 className="mb-1 text-xl font-medium text-gray-900">{item.name}</h5>
                                     <span className="text-sm text-gray-500">{item.username}</span>
                                     <div className="flex mt-4 md:mt-6">
-                                        <a href={`/profile/${item.username}`} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300">View Profile</a>
+                                        <Link to={`/profile/${item.username}`} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300">View Profile</Link>
                                     </div>
                                 </div>
                             </div>

@@ -6,20 +6,20 @@ export interface EditProfileResponse {
     user: User
 }
 
-export interface FollowUserResponse{
-    status:string,
-    message:string
+export interface FollowUserResponse {
+    status: string,
+    message: string
 }
 
-export interface FollowerData{
-    name:string,
-    username:string,
-    profilePic:string
-    _id:string
+export interface FollowerData {
+    name: string,
+    username: string,
+    profilePic: string
+    _id: string
 }
 
-export interface GetFollowersResponse{
-    status:string,
-    message:string,
-    users:FollowerData[]
+export interface GetFollowersResponse {
+    status: string,
+    message: string,
+    users: FollowerData[]
 }

@@ -1,14 +1,11 @@
 
 import Profile from '../../components/auth/profile'
 
-
-
 const UserProfile = () => {
 
     return (
         <>
-        <Profile/>
-           
+            <Profile />
         </>
     )
 }

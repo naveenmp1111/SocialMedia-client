@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sendOtp, signupUser, verifyOtp } from '../../api/auth'
 import { SignupUserInterface } from '../../types/signupUser';
 import { isAxiosError } from 'axios';
@@ -28,12 +28,12 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
     }, [timer]);
 
 
-    const handleResend = async() => {
+    const handleResend = async () => {
 
         toast.success('Otp send to your mail')
-        const userData:any=localStorage.getItem('registrationData')
-        await sendOtp({...JSON.parse(userData)})
-        
+        const userData: any = localStorage.getItem('registrationData')
+        await sendOtp({ ...JSON.parse(userData) })
+
         setTimer(60);
         setOtpExpired(false);
         // Logic to resend OTP
@@ -48,7 +48,7 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
             const response = await verifyOtp({ email: user.email, otp })
             // console.log('response', response)
             if (response.status == 'success') {
-                toast.success('Otp verification successfull',TOAST_ACTION)
+                toast.success('Otp verification successfull', TOAST_ACTION)
                 await signupUser({ ...user })
                 localStorage.removeItem('registrationData');
                 setTimeout(() => {
@@ -116,7 +116,7 @@ const Otp = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; }) => 
                             onClick={verifyotp}
                         >
                             Verify OTP
-                        </button> 
+                        </button>
                     </div>
                     <div className="flex justify-between items-center mt-4">
                         <span className="text-gray-500">

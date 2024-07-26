@@ -7,7 +7,7 @@ const PostSection = ({ item, refreshPost }: { item: PostDataInterface; refreshPo
 
     const [openPostViewModal, setOpenPostViewModal] = useState(false)
     const [postData, setPostData] = useState<PostDataInterface | null>(null)
-    const {reload}=useConversation()
+    const { reload } = useConversation()
 
     const PostViewControl = (item: PostDataInterface) => {
         setPostData(item)
@@ -16,7 +16,7 @@ const PostSection = ({ item, refreshPost }: { item: PostDataInterface; refreshPo
 
     useEffect(() => {
         refreshPost()
-    }, [openPostViewModal,reload])
+    }, [openPostViewModal, reload])
 
     return (
         <>

@@ -32,8 +32,8 @@ const Profile = () => {
     } else if (postType === 'saved') {
       const postData = await getSavedPost();
       setPosts(postData.posts);
-    }else if(postType === 'tagged'){
-      const postData=await getTaggedPosts(username as string);
+    } else if (postType === 'tagged') {
+      const postData = await getTaggedPosts(username as string);
       setPosts(postData.posts)
     }
   };
@@ -102,11 +102,11 @@ const Profile = () => {
               Posts
             </button>
             <button
-                className={`mx-7 p-1 border-b-4 ${postType === 'tagged' ? 'border-b-black' : ''} font-bold`}
-                onClick={() => setPostType('tagged')}
-              >
-                Tagged
-              </button>
+              className={`mx-7 p-1 border-b-4 ${postType === 'tagged' ? 'border-b-black' : ''} font-bold`}
+              onClick={() => setPostType('tagged')}
+            >
+              Tagged
+            </button>
             {userInRedux?.username === username && (
               <button
                 className={`mx-7 p-1 border-b-4 ${postType === 'saved' ? 'border-b-black' : ''} font-bold`}

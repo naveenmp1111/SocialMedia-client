@@ -6,13 +6,13 @@ import { useSelector } from 'react-redux';
 import { StoreType } from '../../redux/store';
 import { useParams } from 'react-router-dom';
 
-const ConnectionsModal = ({ isOpen, onClose, followers, following, isFollowersList ,handleRemoveFollower}: { isOpen: boolean; onClose: () => void; followers: FollowerData[], following: FollowerData[], isFollowersList: boolean,handleRemoveFollower:(username:string)=>void}) => {
+const ConnectionsModal = ({ isOpen, onClose, followers, following, isFollowersList, handleRemoveFollower }: { isOpen: boolean; onClose: () => void; followers: FollowerData[], following: FollowerData[], isFollowersList: boolean, handleRemoveFollower: (username: string) => void }) => {
 
     if (!isOpen) {
         return null;
     }
 
-    const [reload,setReload]=useState(false)
+    const [reload, setReload] = useState(false)
     const [loggedInUser, setLoggedInUser] = useState<User>();
     const userInRedux = useSelector((state: StoreType) => state.auth.user);
     const { username } = useParams();
@@ -26,19 +26,19 @@ const ConnectionsModal = ({ isOpen, onClose, followers, following, isFollowersLi
         fetchMyData();
     }, [reload]);
 
-    const handleFollow= async(username:string) => {
-        await followUser({friendUsername:username})
-        setReload(prev=>!prev)
+    const handleFollow = async (username: string) => {
+        await followUser({ friendUsername: username })
+        setReload(prev => !prev)
     };
 
-    const handleUnfollow = async(username:string) => {
-        await unfollowUser({friendUsername:username})
-        setReload(prev=>!prev)
+    const handleUnfollow = async (username: string) => {
+        await unfollowUser({ friendUsername: username })
+        setReload(prev => !prev)
     };
 
-    const handleRemove = async(username:string) => {
+    const handleRemove = async (username: string) => {
         handleRemoveFollower(username)
-        setReload(prev=>!prev)
+        setReload(prev => !prev)
     };
 
     return (

@@ -2,30 +2,26 @@ import axiosUserInstance from "../axiosInstance/axiosUserInstance";
 import END_POINT from "../../constants/endpoints";
 import { GetUsersResponse } from "../../types/admin";
 import { EditProfileResponse, FollowUserResponse, GetFollowersResponse } from "../../types/userProfile";
-import axios from "axios";
-import { PostDataInterface, SavedPostDataInterface } from "../../types/post";
+import { SavedPostDataInterface } from "../../types/post";
 
 
 export const getRestofAllUsers = async (): Promise<GetUsersResponse> => {
   const response = await axiosUserInstance.get<GetUsersResponse>(
     END_POINT.GET_REST_OF_ALL_USERS
   )
-  // console.log('getalluserresponse ',response.data)
   return response.data
 }
 
-export const getSuggestedUsers=async():Promise<GetUsersResponse>=>{
+export const getSuggestedUsers = async (): Promise<GetUsersResponse> => {
   const response = await axiosUserInstance.get<GetUsersResponse>(
     END_POINT.GET_SUGGESTED_USERS
   )
-  // console.log('getalluserresponse ',response.data)
-  return response.data 
+  return response.data
 }
 
 export const followUser = async (
   payload: { friendUsername: string }
 ) => {
-  // console.log('friend id is ',friendId)
   const response = await axiosUserInstance.post<FollowUserResponse>(
     END_POINT.FOLLOW_USER,
     payload
@@ -86,7 +82,6 @@ export const getRequests = async (
   const response = await axiosUserInstance.get<GetUsersResponse>(
     `${END_POINT.GET_REQUESTS}/${username}`
   )
-  console.log('requests data is ', response.data)
   return response.data
 }
 
@@ -131,12 +126,11 @@ export const getSavedPost = async (): Promise<SavedPostDataInterface> => {
   const response = await axiosUserInstance.get<SavedPostDataInterface>(
     END_POINT.GET_SAVED_POSTS
   )
-  console.log('response data of get saved posts ',response.data)
   return response.data
 }
 
-export const getTaggedPosts=async(username:string):Promise<SavedPostDataInterface>=>{
-  const response=await axiosUserInstance.get<SavedPostDataInterface>(
+export const getTaggedPosts = async (username: string): Promise<SavedPostDataInterface> => {
+  const response = await axiosUserInstance.get<SavedPostDataInterface>(
     `${END_POINT.GET_TAGGED_POSTS}/${username}`
   )
   return response.data
@@ -151,27 +145,27 @@ export const cancelRequest = async (
   return response.data
 }
 
-export const blockUserByUsername=async(
-  username:string
-)=>{
-  const response=await axiosUserInstance.patch(
+export const blockUserByUsername = async (
+  username: string
+) => {
+  const response = await axiosUserInstance.patch(
     `${END_POINT.BLOCK_USER_BY_USERNAME}/${username}`
   )
   return response.data
 }
 
-export const unblockUserByUsername=async(
-  username:string
-)=>{
-  const response=await axiosUserInstance.patch(
+export const unblockUserByUsername = async (
+  username: string
+) => {
+  const response = await axiosUserInstance.patch(
     `${END_POINT.UNBLOCK_USER_BY_USERNAME}/${username}`
   )
   return response.data
 }
 
 
-export const getBlockedUsers=async(): Promise<GetUsersResponse>=>{
-  const response=await axiosUserInstance.get<GetUsersResponse>(
+export const getBlockedUsers = async (): Promise<GetUsersResponse> => {
+  const response = await axiosUserInstance.get<GetUsersResponse>(
     END_POINT.GET_BLOCKED_USERS
   )
   return response.data

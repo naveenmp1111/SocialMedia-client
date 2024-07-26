@@ -12,11 +12,11 @@ import { useDispatch } from 'react-redux'
 import EmailModal from '../modals/other/password/EmailModal';
 import { setAdminCredentials } from '../redux/adminSlice';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { io } from 'socket.io-client';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useDispatch()
-  const [emailModal,setEmailModal]=useState(false)
+  const [emailModal, setEmailModal] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -38,11 +38,10 @@ const Login = () => {
   const onSubmit = async (values: { email: string, password: string }) => {
 
     try {
-  
+
       setLoading(true)
       const result = await loginUser({ ...values })
 
-      // console.log('login reslt is', result)
       if (result.status == 'success') {
 
         if (result.user?.role == 'admin') {
@@ -50,16 +49,16 @@ const Login = () => {
           dispatch(setAdminCredentials(result))
           toast.success(result.message)
           return navigate('/admin')
-        }else if(result.user?.role == 'client'){
+        } else if (result.user?.role == 'client') {
           localStorage.setItem('userData', JSON.stringify(result.user))
-        toast.success(result.message)
-        
-        setTimeout(() => {
-          setLoading(false)
-          dispatch(setCredentials(result))
-         return navigate("/home");
-        }, 1500);
-        }        
+          toast.success(result.message)
+
+          setTimeout(() => {
+            setLoading(false)
+            dispatch(setCredentials(result))
+            return navigate("/home");
+          }, 1500);
+        }
       }
     } catch (error) {
       setLoading(false)
@@ -69,9 +68,7 @@ const Login = () => {
         toast.error('Unknown error occured')
         console.log('Error in login page catch', error)
       }
-
     }
-
   };
 
 
@@ -130,7 +127,7 @@ const Login = () => {
                     <label className="block mb-2 text-sm font-medium dark:text-white">Password</label>
                     <Field type={passwordVisible ? 'text' : 'password'} name="password" id="password" placeholder="••••••••" className="border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <button type="button" className="absolute right-2 top-9 text-gray-600" onClick={() => setPasswordVisible(!passwordVisible)}>
-                    {passwordVisible ? (
+                      {passwordVisible ? (
                         <AiFillEye className="h-6 w-6 text-gray-400" />
                       ) : (
                         <AiFillEyeInvisible className="h-6 w-6 text-gray-400" />
@@ -142,7 +139,7 @@ const Login = () => {
                   <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Log in</button>
                   <button onClick={GoogleSignin} className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">Continue with Google</button>
                   <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
-                    Don't have an account? <a href="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                    Don't have an account? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
                   </p>
                 </Form>
               </Formik>

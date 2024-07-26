@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import PostListing from './PostListing'
 import { getAllPosts } from '../../../api/post'
-import {  getSuggestedUsers, getUserByUsername } from '../../../api/user'
+import { getSuggestedUsers, getUserByUsername } from '../../../api/user'
 import { User } from '../../../types/loginUser'
 import { PostDataInterface } from '../../../types/post'
 import { useNavigate } from 'react-router-dom'
@@ -52,7 +52,7 @@ const Home = () => {
                 </div>
               </div>
             ))}
-            
+
           </div>
         </div>
       </div>

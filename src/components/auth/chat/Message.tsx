@@ -1,41 +1,40 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MessageInterface } from '../../../types/message';
 import useConversation from '../../../zustand/useConversation';
-import useGetMessages from '../../../hooks/useGetMessages';
 import { deleteMessage, deleteMessageForMe } from '../../../api/message';
 import { format, isToday } from 'date-fns';
 
-const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) => {
+const Message = ({ own, message }: { own?: boolean, message: MessageInterface }) => {
     const [showDropdown, setShowDropdown] = useState(false);
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
 
-    let {messages,setMessages}=useConversation()
+    let { messages, setMessages } = useConversation()
 
-    const handleDeleteMessage=()=>{
-        deleteMessage({messageId:message._id})
-        messages=messages.filter(item=>item._id!=message._id)
+    const handleDeleteMessage = () => {
+        deleteMessage({ messageId: message._id })
+        messages = messages.filter(item => item._id != message._id)
         setMessages(messages)
     }
 
-    const handleDeleteMessageForMe=()=>{
-        deleteMessageForMe({messageId:message._id})
-        messages=messages.filter(item=>item._id!=message._id)
+    const handleDeleteMessageForMe = () => {
+        deleteMessageForMe({ messageId: message._id })
+        messages = messages.filter(item => item._id != message._id)
         setMessages(messages)
     }
-    
+
     const messageDate = new Date(message.createdAt);
     const displayDate = isToday(messageDate) ? format(messageDate, 'p') : format(messageDate, 'P p');
 
     return (
         <>
-        <div className='w-full flex justify-center'>
-            <span className='text-gray-500 text-xs mb-4 md:mb-0'>{ displayDate}</span>
-        </div>
+            <div className='w-full flex justify-center'>
+                <span className='text-gray-500 text-xs mb-4 md:mb-0'>{displayDate}</span>
+            </div>
             <div className={`group flex mb-4 cursor-pointer ${own ? 'justify-end' : ''}`}>
-                {own  ? (
+                {own ? (
                     <>
                         <div className='relative'>
                             <div className='cursor-pointer hidden group-hover:block' onClick={toggleDropdown}>
@@ -53,7 +52,7 @@ const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) 
                                         <li onClick={handleDeleteMessage}>
                                             <a className="block px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Delete for everyone</a>
                                         </li>
-                                        
+
                                     </ul>
                                 </div>
                             )}
@@ -68,7 +67,7 @@ const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) 
                     </>
                 ) : (
                     <>
-                    
+
                         <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
                             <img src={message.senderId.profilePic} alt="User Avatar" className="w-8 h-8 rounded-full" />
                         </div>
@@ -88,7 +87,7 @@ const Message = ({ own, message }: { own?: boolean, message: MessageInterface}) 
                                         <li onClick={handleDeleteMessageForMe}>
                                             <a className="block px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Delete for me</a>
                                         </li>
-                                       
+
                                     </ul>
                                 </div>
                             )}

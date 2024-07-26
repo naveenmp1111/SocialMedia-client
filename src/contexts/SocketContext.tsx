@@ -23,12 +23,12 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([])
   const userInRedux = useSelector((state: StoreType) => state.auth.user)
-  const adminInRedux =useSelector((state:StoreType)=>state.admin.admin)
-  const loggedUser=userInRedux ? userInRedux :adminInRedux
+  const adminInRedux = useSelector((state: StoreType) => state.admin.admin)
+  const loggedUser = userInRedux ? userInRedux : adminInRedux
 
   useEffect(() => {
     // console.log('useEffect working')
-    if (loggedUser ) {
+    if (loggedUser) {
       const newSocket = io('http://localhost:3000', {
         query: {
           userId: loggedUser._id
@@ -43,7 +43,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       })
 
       return () => {
-        // console.log('coming in return why cdlsjflksdjflksdjflksdjflksdjfklsdjflksdj')
         newSocket.off('getOnlineUsers')
         newSocket.disconnect();
       };

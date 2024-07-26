@@ -1,12 +1,9 @@
-import React from 'react'
 import { SingleReport } from '../../types/admin'
 
 const Reports = ({ isOpen, onClose, reports }: { isOpen: boolean, onClose: () => void, reports: SingleReport[] }) => {
     if (!isOpen) {
         return null
     }
-
-
 
     return (
         <>
@@ -44,10 +41,6 @@ const Reports = ({ isOpen, onClose, reports }: { isOpen: boolean, onClose: () =>
                         </button>
                     </div>
                     {/* Modal body */}
-                    {/*  */}
-
-
-
 
                     <div className="max-h-96 overflow-y-auto">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -75,13 +68,6 @@ const Reports = ({ isOpen, onClose, reports }: { isOpen: boolean, onClose: () =>
                             </tbody>
                         </table>
                     </div>
-
-
-
-
-
-
-
                 </div>
             </div>
         </>

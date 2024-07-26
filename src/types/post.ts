@@ -5,23 +5,18 @@ export interface PostDataInterface {
     _id: string,
     userId: string,
     description?: string,
-    // hashtags?: string,
-    // hashtagsArray?: string[],
     likes?: string[],
-    // comments?: string[],
-    // saved?: string[],
-    // reports?: string[],
-    user:User
-    image: string[] ,
+    user: User
+    image: string[],
     isBlock: boolean,
     updatedAt: string,
     createdAt: string,
 }
 
 export interface SavedPostDataInterface {
-    status:string,
-    message:string,
-    posts:PostDataInterface[]
+    status: string,
+    message: string,
+    posts: PostDataInterface[]
 }
 
 export interface CommentInterface {
@@ -30,7 +25,7 @@ export interface CommentInterface {
     comment: string,
     createdAt: Date,
     updatedAt: Date,
-    parentId:string,
+    parentId: string,
     user?: {
         _id: string,
         name: string,
@@ -39,9 +34,9 @@ export interface CommentInterface {
     }
 }
 
-export interface GetNotifications{
-    status:string,
-    message:string,
-    notifications:Notification[]
+export interface GetNotifications {
+    status: string,
+    message: string,
+    notifications: Notification[]
 }
 

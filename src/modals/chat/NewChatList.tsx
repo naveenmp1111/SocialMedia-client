@@ -1,47 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getFollowing } from '../../api/user'
 import { useSelector } from 'react-redux'
-import {  User } from '../../types/loginUser'
 import { StoreType } from '../../redux/store'
 import { FollowerData } from '../../types/userProfile'
 import { FaRegCommentDots } from 'react-icons/fa';
 import { createOrAccessChat } from '../../api/chat'
 import useConversation from '../../zustand/useConversation'
 
-const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
-    if(!isOpen)return null
+const NewChatList = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+    if (!isOpen) return null
 
-    const userinRedux=useSelector((state:StoreType)=>state.auth.user)
-    const [following,setFollowing]=useState<FollowerData[]>([])
-    const {setSelectedFriend,setSelectedConversation}=useConversation()
+    const userinRedux = useSelector((state: StoreType) => state.auth.user)
+    const [following, setFollowing] = useState<FollowerData[]>([])
+    const { setSelectedFriend, setSelectedConversation } = useConversation()
 
-    const fetchFollowing=async()=>{
-        const response=await getFollowing(userinRedux?.username as string)
+    const fetchFollowing = async () => {
+        const response = await getFollowing(userinRedux?.username as string)
         setFollowing(response.users)
     }
 
-    const handleStartChat=async(user:FollowerData)=>{
-        const response=await createOrAccessChat({otherUserId:user?._id as string})
-        // setSelectedFriend(user.name)
-        const selectedUserObj={
-            _id:user._id as string,
-            name:user.name as string,
-            profilePic:user.profilePic as string,
-            username:user.username as string
+    const handleStartChat = async (user: FollowerData) => {
+        const response = await createOrAccessChat({ otherUserId: user?._id as string })
+        const selectedUserObj = {
+            _id: user._id as string,
+            name: user.name as string,
+            profilePic: user.profilePic as string,
+            username: user.username as string
         }
-        // handleChatSelection(response.chat._id,selectedUserObj)
         setSelectedConversation(response.chat)
         setSelectedFriend(selectedUserObj)
         onClose()
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchFollowing()
-    },[])
+    }, [])
 
     //search
-    const [searchInput,setSearchInput]=useState<string>('')
-    const filteredFollowing=following.filter(item=>item.name.toLowerCase().includes(searchInput.toLowerCase()))
+    const [searchInput, setSearchInput] = useState<string>('')
+    const filteredFollowing = following.filter(item => item.name.toLowerCase().includes(searchInput.toLowerCase()))
 
     return (
         <div
@@ -79,29 +76,29 @@ const NewChatList = ({isOpen,onClose}:{isOpen:boolean,onClose:()=>void}) => {
                 </div>
                 {/* Modal body */}
                 <div className='w-full px-3'>
-                    <input onChange={(e)=>setSearchInput(e.target.value)} type="text" placeholder='Search...' className='w-full p-2 my-2 rounded-2xl outline-none bg-gray-500 text-white' />
+                    <input onChange={(e) => setSearchInput(e.target.value)} type="text" placeholder='Search...' className='w-full p-2 my-2 rounded-2xl outline-none bg-gray-500 text-white' />
                 </div>
                 <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-96 overflow-y-auto">
-                    
+
                     {filteredFollowing?.length ? filteredFollowing?.map(user => (
-                        <div  onClick={()=>handleStartChat(user)} key={user._id} className="flex justify-between items-center p-1 mb-4">
+                        <div onClick={() => handleStartChat(user)} key={user._id} className="flex justify-between items-center p-1 mb-4">
                             <div className="flex items-center">
-                                <img className="w-14 h-14 rounded-full" src={user.profilePic ||  "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"} alt={`${user.username} profile`} />
+                                <img className="w-14 h-14 rounded-full" src={user.profilePic || "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"} alt={`${user.username} profile`} />
                                 <div className="ml-3 text-white">
                                     <span className="block text-md font-semibold">{user.username}</span>
                                     <span className="block text-gray-300 text-xs">{user.name}</span>
                                 </div>
                             </div>
                             <div>
-                            <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
-                            <FaRegCommentDots size={25} className='cursor-pointer text-gray-300' />
-                        </div>
-                                                            
+                                <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                                    <FaRegCommentDots size={25} className='cursor-pointer text-gray-300' />
+                                </div>
+
                             </div>
                         </div>
-                    )) :<h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">
-                    Follow friends to start chat.
-                </h3>}
+                    )) : <h3 className="text-xl w-full text-center font-medium text-gray-900 dark:text-white">
+                        Follow friends to start chat.
+                    </h3>}
                 </div>
             </div>
         </div>

@@ -6,7 +6,6 @@ import axios, { isAxiosError } from 'axios';
 import { StoreType } from '../../redux/store';
 import { editProfile } from '../../api/profile';
 import { toast } from 'react-toastify'
-import { UseDispatch } from 'react-redux';
 import { setCredentials } from '../../redux/authSlice';
 
 
@@ -25,7 +24,7 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const accessToken = useSelector((state: StoreType) => state.auth.accessToken)
     const preset_key = 'xdxoqisy';
     const cloud_name = 'dwxhfdats';
-    const [imageUrl, setImageUrl] = React.useState<string | undefined>(undefined); 
+    const [imageUrl, setImageUrl] = React.useState<string | undefined>(undefined);
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoading(true)
@@ -43,7 +42,6 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 })
                 .catch((error) => console.log(error.response.data));
         }
-
     };
 
     const validationSchema = Yup.object({
@@ -67,16 +65,11 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         onSubmit: async (values) => {
             // Call the function to update profile with form values and imageUrl
             try {
-                // console.log('form values', {
-                //     ...values,
-                //     profilePic: imageUrl,
-                // });
                 const result = await editProfile({
                     ...values,
                     profilePic: imageUrl as string,
                     phoneNumber: Number(values.phoneNumber)
                 });
-                // console.log('result issssss', result);
                 if (result) {
                     dispatch(setCredentials({ user: result.user, accessToken }))
                     localStorage.setItem('userData', JSON.stringify(result.user))

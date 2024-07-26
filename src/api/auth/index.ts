@@ -41,7 +41,6 @@ export const loginUser = async (
         `${END_POINT.LOGIN_USER}`,
         paload
     )
-    // console.log('login response data is ',response.data)
     return response.data
 }
 
@@ -52,7 +51,6 @@ export const sendOtp = async (
         END_POINT.SEND_OTP,
         payload
     )
-    // console.log('response',response)
     return response.data
 }
 

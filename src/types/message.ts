@@ -1,13 +1,13 @@
 import { ChatInterface } from "./chat";
 import { User } from "./loginUser";
 
-export interface MessageInterface{
+export interface MessageInterface {
     _id: string;
     senderId: User;
     message: string;
     image?: string;
     chatId: ChatInterface;
-    isSeen:boolean;
+    isSeen: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -17,7 +17,7 @@ export interface GetAllMessagesFromChatResponse {
     messages: MessageInterface[];
 }
 
-export interface SingleMessageFromChat{
-    status:string;
-    message:MessageInterface
+export interface SingleMessageFromChat {
+    status: string;
+    message: MessageInterface
 }

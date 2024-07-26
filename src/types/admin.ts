@@ -1,4 +1,4 @@
-import {User} from './loginUser'
+import { User } from './loginUser'
 import { PostDataInterface } from './post'
 
 export interface GetUsersResponse {
@@ -7,24 +7,24 @@ export interface GetUsersResponse {
     users: User[],
 }
 
-export interface BlockUserResponse{
-    status:string,
-    message:string
+export interface BlockUserResponse {
+    status: string,
+    message: string
 }
 
-export interface GetReportsResponse{
-    status:string,
-    message:string,
-    reports:Report[]
+export interface GetReportsResponse {
+    status: string,
+    message: string,
+    reports: Report[]
 }
 
-export interface Report{
-    count:number,
-    post:PostDataInterface,
-    reporters:SingleReport[]
+export interface Report {
+    count: number,
+    post: PostDataInterface,
+    reporters: SingleReport[]
 }
 
- export interface SingleReport{
-    name:string,
-    reason:string
+export interface SingleReport {
+    name: string,
+    reason: string
 }

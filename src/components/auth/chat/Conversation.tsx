@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChatInterface } from '../../../types/chat'
 import { useSelector } from 'react-redux'
 import { StoreType } from '../../../redux/store'
@@ -11,11 +11,11 @@ import { getUnreadMessagesFromChat } from '../../../api/message'
 const Conversation = ({ chat }: { chat: ChatInterface }) => {
     const userInRedux = useSelector((state: StoreType) => state.auth.user)
     const friend: User | undefined = chat.members.find(item => item._id !== userInRedux?._id)
-    const { selectedConversation, setSelectedConversation,messages,selectedFriend,unreadMessages} = useConversation()
+    const { selectedConversation, setSelectedConversation, messages, unreadMessages } = useConversation()
     const isSelected = selectedConversation?._id === chat._id
     const { onlineUsers } = useSocket()
     const isOnline = friend && friend._id ? onlineUsers?.includes(friend?._id) : false;
-    const [noOfUnreadMessages,setNoOfUnreadMessages]=useState(0)
+    const [noOfUnreadMessages, setNoOfUnreadMessages] = useState(0)
 
     const truncateMessage = (message: string, wordLimit: number) => {
         const words = message.split('')
@@ -27,21 +27,17 @@ const Conversation = ({ chat }: { chat: ChatInterface }) => {
     const truncatedMessage = truncateMessage(chat.latestMessage.message || '', 12)
 
 
-    useEffect(()=>{
-        // console.log('checking if its working properly')
-        const getUnreadMessages=async()=>{
-            // setNumberofUnreadMessages(-noOfUnreadMessages)
-            const response=await getUnreadMessagesFromChat({chatId:chat._id})
+    useEffect(() => {
+        const getUnreadMessages = async () => {
+            const response = await getUnreadMessagesFromChat({ chatId: chat._id })
             setNoOfUnreadMessages(response.messages.length)
         }
         getUnreadMessages()
-    },[selectedConversation,messages,unreadMessages])
+    }, [selectedConversation, messages, unreadMessages])
 
-    const handleSelectConversation=()=>{
+    const handleSelectConversation = () => {
         setSelectedConversation(chat)
     }
-
-    // console.log('chat is ',chat)
 
     const messageDate = new Date(chat.latestMessage.createdAt);
     const displayDate = isToday(messageDate) ? format(messageDate, 'p') : format(messageDate, 'P');
@@ -60,17 +56,17 @@ const Conversation = ({ chat }: { chat: ChatInterface }) => {
                 )}
             </div>
             <div className="flex-1">
-            <div className='flex justify-between'>
-                <h2 className="text-lg font-semibold">{friend?.name}</h2>
-               {(selectedConversation?._id != chat._id)&& noOfUnreadMessages>0 && <span className="flex items-center justify-center w-5 h-5 text-white bg-red-600 rounded-full">
-                              {noOfUnreadMessages || ''}
-                           </span>} 
+                <div className='flex justify-between'>
+                    <h2 className="text-lg font-semibold">{friend?.name}</h2>
+                    {(selectedConversation?._id != chat._id) && noOfUnreadMessages > 0 && <span className="flex items-center justify-center w-5 h-5 text-white bg-red-600 rounded-full">
+                        {noOfUnreadMessages || ''}
+                    </span>}
                 </div>
                 <div className='flex justify-between'>
-                <p className="text-gray-600 break-words">: {truncatedMessage}</p>
-                <span className="text-gray-500 text-xs">{displayDate}</span>
+                    <p className="text-gray-600 break-words">: {truncatedMessage}</p>
+                    <span className="text-gray-500 text-xs">{displayDate}</span>
                 </div>
-                
+
             </div>
         </div>
     )

@@ -14,12 +14,12 @@ const AdminRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Navigate to='/admin/dashboard'/>}/>
-        
+        <Route path='/' element={<Navigate to='/admin/dashboard' />} />
+
         <Route element={<AdminPrivateRoutes />}>
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/users-list' element={<Userslist />} />
-          <Route path='/report-management' element={<ReportManagement/>}/>
+          <Route path='/report-management' element={<ReportManagement />} />
         </Route>
 
       </Routes>
