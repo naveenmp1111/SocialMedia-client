@@ -18,8 +18,9 @@ interface ModalProps {
 const CreatePost: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
-    const preset_key = 'xdxoqisy';
-    const cloud_name = 'dwxhfdats';
+    const preset_key = import.meta.env.VITE_CLOUDINARY_PRESET_KEY;
+    const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+   
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
     const [loading, setLoading] = useState(false);
     const [suggestedUsers, setSuggestedUsers] = useState<FollowerData[]>([]);

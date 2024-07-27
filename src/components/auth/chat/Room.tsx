@@ -18,8 +18,9 @@ const Room = () => {
 
     useEffect(() => {
         const incomingcalluserid = incomingVideoCall?._id
-        const appId = 1810170859;
-        const serverSecret = "d3a64c62f0f0dad197d518cb5d7dc347";
+        const appId= Number(import.meta.env.VITE_ZEGO_APP_ID)
+        const serverSecret=import.meta.env.VITE_ZEGO_SERVERSECRET
+
         //@ts-ignore
         const roomIdStr = roomId.toString()
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appId, serverSecret, roomIdStr, Date.now().toString(), "naveen");

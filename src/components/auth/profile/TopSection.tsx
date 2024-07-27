@@ -15,19 +15,20 @@ const TopSection = ({ postsLength }: { postsLength: number }) => {
 
     const [reload, setReload] = useState<boolean>(false)
     const [openModal, setOpenModal] = useState(false)
+    const { username } = useParams<{ username: string }>();
 
     const navigate = useNavigate()
 
     useEffect(() => {
         fetchMyData()
-    }, [])
+    }, [username])
 
     useEffect(() => {
         fetchAdditionalData()
-    }, [reload, openModal])
+    }, [reload, openModal,username])
 
 
-    const { username } = useParams<{ username: string }>();
+   
 
 
     const [openConnectionsModal, setOpenConnectionsModal] = useState(false)

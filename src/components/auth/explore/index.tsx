@@ -59,7 +59,7 @@ const Explore = () => {
                     </svg>
                 </div>
             </div>
-            <div className='pt-16 md:pt-20 p-5'>
+            <div className='pt-16 md:pt-8 p-5'>
                 <button
                     className={`p-2 px-3 rounded-lg m-1 mb-2 font-semibold ${target === 'posts' ? 'bg-white' : 'bg-gray-100'}`}
                     onClick={() => setTarget('posts')}

@@ -64,7 +64,7 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                     </button>
                 </div>
                 {/* Modal body */}
-                <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-[600px] overflow-y-auto">
+                <div className="p-4 md:p-5 md:px-10 space-y-4 max-h-[600px] no-scrollbar overflow-y-auto">
                     {notifications?.length ? (
                         <>
                             {/* New Notifications */}

@@ -22,8 +22,8 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [loading, setLoading] = useState(false)
     const user = useSelector((state: StoreType) => state.auth.user);
     const accessToken = useSelector((state: StoreType) => state.auth.accessToken)
-    const preset_key = 'xdxoqisy';
-    const cloud_name = 'dwxhfdats';
+    const preset_key = import.meta.env.VITE_CLOUDINARY_PRESET_KEY;
+    const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
     const [imageUrl, setImageUrl] = React.useState<string | undefined>(undefined);
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {

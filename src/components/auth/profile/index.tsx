@@ -22,7 +22,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [postType]);
+  }, [postType,username]);
 
   const fetchPosts = async () => {
     if (postType === 'myposts') {
@@ -40,7 +40,7 @@ const Profile = () => {
 
   useEffect(() => {
     handleVisitedUser();
-  }, []);
+  }, [username]);
 
   const handleVisitedUser = async () => {
     const user = await getUserByUsername(username as string);
