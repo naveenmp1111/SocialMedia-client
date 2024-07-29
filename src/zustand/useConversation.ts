@@ -38,6 +38,7 @@ interface ConversationState {
   notifications:Notification[],
   setNotifications:(notification:Notification[])=>void;
   addNotification:(notification:Notification)=>void;
+  addUnreadMessage:(newMessage:MessageInterface)=>void;
   reload:boolean;
   setReload:()=>void;
 }
@@ -72,6 +73,10 @@ const useConversation = create<ConversationState>((set) => ({
     console.log('notification going to setup is ',notifications)
     set({notifications})
   },
+  addUnreadMessage:(newMessage)=>
+   set((state)=>({
+      unreadMessages:[...state.unreadMessages,newMessage]
+   })),
   addNotification: (newNotification) =>
     set((state) => ({
       notifications: [...state.notifications, newNotification],

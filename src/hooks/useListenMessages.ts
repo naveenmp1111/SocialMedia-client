@@ -6,14 +6,15 @@ import { endCall, setIncomingAudioCall, setIncomingVideoCall, setRoomId, setShow
 
 const useListenMessages = () => {
     const { socket } = useSocket()
-    const { notifications, addNotification, messages, setMessages, setTypingUsers, removeTypingUser, selectedConversation, setUnreadMessages, unreadMessages } = useConversation()
+    const { addNotification, messages, setMessages, setTypingUsers, removeTypingUser, selectedConversation, setUnreadMessages,addUnreadMessage, unreadMessages } = useConversation()
     const dispatch = useDispatch()
 
     useEffect(() => {
         socket?.on('newMessage', (newMessage) => {
 
             if (!selectedConversation || selectedConversation && selectedConversation._id as string != newMessage.chatId as unknown as string) {
-                setUnreadMessages([...unreadMessages, newMessage])
+                // setUnreadMessages([...unreadMessages, newMessage])
+                addUnreadMessage(newMessage)
             }
             if (newMessage.chatId == selectedConversation?._id)
                 setMessages([...messages, newMessage])

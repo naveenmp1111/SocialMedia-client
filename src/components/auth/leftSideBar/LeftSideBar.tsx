@@ -86,9 +86,9 @@ const LeftSideBar = () => {
    useGetConversations()
 
    //messages------->
-
+   useGetUnreadMessages()
    useListenMessages()
-   const { unreadMessages } = useGetUnreadMessages()
+   const { unreadMessages } = useConversation()
 
    return (
       <>
