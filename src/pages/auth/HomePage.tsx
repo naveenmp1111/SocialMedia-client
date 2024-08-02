@@ -1,11 +1,16 @@
-import Home from '../../components/auth/home'
+import React, { Suspense } from 'react';
+
+// Lazy load the Home component
+const Home = React.lazy(() => import('../../components/auth/home'));
 
 const HomePage = () => {
   return (
     <div>
-      <Home />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Home />
+      </Suspense>
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

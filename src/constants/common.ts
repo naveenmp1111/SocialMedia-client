@@ -1,8 +1,8 @@
 import { ToastOptions } from 'react-toastify'
 
 const CONSTANTS_COMMON = {
-  API_BASE_URL: 'http://localhost:3000/'
-  // API_BASE_URL:import.meta.env.BASE_URL
+  // API_BASE_URL:'https://www.sickomode.online/'
+  API_BASE_URL:'http://localhost:3000/'
 }
 
 export const TOAST_ACTION: ToastOptions = {

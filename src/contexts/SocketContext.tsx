@@ -33,7 +33,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         query: {
           userId: loggedUser._id
         }
-      }); // Replace with your server URL
+      });
       setSocket(newSocket);
 
       //socket .on is used to listen to the events.

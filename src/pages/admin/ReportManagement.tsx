@@ -5,8 +5,12 @@ import { toast } from 'react-toastify';
 import { isAxiosError } from 'axios';
 import { Report, SingleReport } from '../../types/admin';
 import Reports from '../../modals/admin/Reports';
+import ViewPostModal from '../../modals/admin/ViewPostModal';
+import { PostDataInterface } from '../../types/post';
 
 const ReportManagement = () => {
+    const [openPostViewModal,setOpenPostViewModal]=useState(false)
+    const [postData,setPostData]=useState<PostDataInterface>()
     const [reports, setReports] = useState<Report[]>([]);
     const [singlePostReports, setSinglePostReports] = useState<SingleReport[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +24,7 @@ const ReportManagement = () => {
 
     const fetchPosts = async () => {
         const response = await getPostReports();
+        console.log('response data from getpostsreports ',response)
         setReports(response?.reports);
     };
 
@@ -148,9 +153,12 @@ const ReportManagement = () => {
                     </thead>
                     <tbody>
                         {currentReports && currentReports.map((report, index) => (
+                            <>
+                            <ViewPostModal isOpen={openPostViewModal} postViewModalOnClose={() => setOpenPostViewModal(false)} post={postData} />
                             <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                    <img className="w-20 h-20" src={report?.post?.image[0]} alt="Post image" />
+                                
+                                <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white" onClick={()=>setPostData(report.post)}>
+                                    <img className="w-20 h-20 rounded-lg" src={report?.post?.image[0]} alt="Post image" onClick={()=>setOpenPostViewModal(true)} />
                                 </th>
                                 <td className="px-6 py-4">
                                     <button className='bg-blue-600 px-2 rounded-md py-1 text-white hover:bg-blue-400 w-16' onClick={() => handleModal(report.reporters)}>Reasons</button>
@@ -177,6 +185,7 @@ const ReportManagement = () => {
                                     )}
                                 </td>
                             </tr>
+                            </>
                         ))}
                     </tbody>
                 </table>

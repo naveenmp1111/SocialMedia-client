@@ -100,7 +100,7 @@ const LeftSideBar = () => {
                <ul className="space-y-4 font-medium itme">
                   <li className='m-7'>
                      <Link to='/home' className="flex items-center px-2 text-gray-900 rounded-lg  group">
-                        <span className="ms-3 font-bold text-2xl">Connectify</span>
+                        <span className="-ml-2 font-bold text-3xl">Sickomode.</span>
                      </Link>
                   </li>
                   <li>

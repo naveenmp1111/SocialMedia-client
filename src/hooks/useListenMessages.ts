@@ -6,7 +6,7 @@ import { endCall, setIncomingAudioCall, setIncomingVideoCall, setRoomId, setShow
 
 const useListenMessages = () => {
     const { socket } = useSocket()
-    const { addNotification, messages, setMessages, setTypingUsers, removeTypingUser, selectedConversation, setUnreadMessages,addUnreadMessage, unreadMessages } = useConversation()
+    const { addNotification, messages, setMessages, setTypingUsers, removeTypingUser, selectedConversation, addUnreadMessage } = useConversation()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -57,14 +57,14 @@ const useListenMessages = () => {
 
         return () => {
             // console.log('cleaning up socket')
-            socket?.off('newMessage'),
+                socket?.off('newMessage'),
                 socket?.off('TypingUsers'),
                 socket?.off('RemoveTypingUser'),
                 socket?.off('deleteMessage'),
                 socket?.off('incoming-audio-call')
-            socket?.off('incoming-video-call')
-            socket?.off('call-rejected')
-            socket?.off('accept-call'),
+                socket?.off('incoming-video-call')
+                socket?.off('call-rejected')
+                socket?.off('accept-call'),
                 socket?.off('notification')
         }
 

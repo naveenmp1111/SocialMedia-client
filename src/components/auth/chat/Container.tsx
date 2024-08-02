@@ -1,13 +1,11 @@
 import { useSocket } from '../../../contexts/SocketContext'
-import { useSelector, useDispatch } from 'react-redux'
-import { StoreType } from '../../../redux/store'
+import { useDispatch } from 'react-redux'
 import { MdCallEnd } from "react-icons/md";
 import { endCall } from '../../../redux/authSlice';
 
 const Container = ({ data }: { data: any }) => {
   const { socket } = useSocket()
   // const [callAccepted,setCallAccepted]=useState<boolean>(false)
-  const {user}=useSelector((state:StoreType)=>state.auth)
   const dispatch = useDispatch()
 
   const handleEndCall = () => {

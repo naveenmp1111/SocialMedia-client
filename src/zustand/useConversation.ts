@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { MessageInterface } from '../types/message';
 import { ChatInterface } from '../types/chat';
 import { setUnreadMessagesRead } from '../api/message';
-import { reload } from 'firebase/auth';
 import { User } from '../types/loginUser';
 import { PostDataInterface } from '../types/post';
 

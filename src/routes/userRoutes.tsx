@@ -8,6 +8,7 @@ import PrivateRoutes from '../components/PrivateRoutes'
 import ChatPage from '../pages/auth/ChatPage'
 import ExplorePage from '../pages/auth/ExplorePage'
 import Room from '../components/auth/chat/Room'
+import ErrorPage from '../pages/ErrorPage'
 
 
 const UserRoutes = () => {
@@ -27,7 +28,7 @@ const UserRoutes = () => {
           <Route path='/profile/:username' element={<UserProfile />} />
           <Route path='/explore' element={<ExplorePage />} />
         </Route>
-
+        <Route path="*" element={<ErrorPage />} /> {/* Catch-all route for undefined paths */}
       </Routes>
     </>
   )

@@ -123,7 +123,8 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                                                             ? 'started following you'
                                                             : item.event === 'like'
                                                                 ? 'liked your post.'
-                                                                : 'commented on your post.'}`}
+                                                                : item.event === 'comment' ? 'commented on your post.'
+                                                            :'tagged you in a post'}`}
                                                     </span>
                                                     <span className="text-sm font-thin text-gray-300">{moment(item.createdAt).fromNow()}</span>
                                                 </div>

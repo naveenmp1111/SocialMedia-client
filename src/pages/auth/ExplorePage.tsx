@@ -1,12 +1,16 @@
-import React from 'react'
-import Explore from '../../components/auth/explore'
+import React, { Suspense } from 'react';
+
+// Lazy load the Explore component
+const Explore = React.lazy(() => import('../../components/auth/explore'));
 
 const ExplorePage = () => {
   return (
     <div>
-      <Explore />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Explore />
+      </Suspense>
     </div>
-  )
+  );
 }
 
-export default ExplorePage
+export default ExplorePage;
