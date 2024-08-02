@@ -12,8 +12,7 @@ export default {
          // Define your custom size here
       },
       backgroundImage: {
-        'custom-image': "url('https://gallery.yopriceville.com/var/albums/Space/Dark_Blue_Space_Wallpaper_HD.jpg?m=1629823241')",
-        // 'custom-image': "url('https://cdn.wallpapersafari.com/21/7/pHK2e6.jpg')",
+        'custom-image': "url('https://res.cloudinary.com/dwxhfdats/image/upload/v1722627006/bghs4xecy6mkqzfn9bc4.jpg')"
       },
       backgroundSize: {
         'cover': 'cover',
