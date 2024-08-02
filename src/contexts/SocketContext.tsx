@@ -29,7 +29,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   useEffect(() => {
     // console.log('useEffect working')
     if (loggedUser) {
-      const newSocket = io('http://localhost:3000', {
+      const newSocket = io(import.meta.env.VITE_SERVER_URL, {
         query: {
           userId: loggedUser._id
         }
