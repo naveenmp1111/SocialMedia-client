@@ -121,10 +121,17 @@ const TopSection = ({ postsLength }: { postsLength: number }) => {
         }
     }
 
+    const handleOpenEditModal=(Username?:string)=>{
+        setOpenModal(false)
+        if(Username && Username!=username){
+            navigate(`/profile/${Username}`)
+        }
+    }
+
     return (
         <>
             <ConnectionsModal isOpen={openConnectionsModal} onClose={closeConnectionModal} followers={followers} following={following} isFollowersList={isFollowersList} handleRemoveFollower={handleRemoveFollower} />
-            <EditProfile isOpen={openModal} onClose={() => setOpenModal(false)} />
+            <EditProfile isOpen={openModal} onClose={handleOpenEditModal} />
 
             <div className="relative md:mt-6 mt-12 min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded-xl">
                 <div className='absolute top-4 right-4'>

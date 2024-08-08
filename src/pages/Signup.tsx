@@ -72,7 +72,8 @@ const Signup = () => {
     const validationSchema = Yup.object().shape({
         name: Yup.string()
             .required('Name is required')
-            .min(3, 'Name must be at least 3 characters long'),
+            .min(3, 'Name must be at least 3 characters long')
+            .matches(/^[A-Za-z\s]+$/, 'Name can only contain letters'),
         password: Yup.string()
             .trim()
             .min(8, 'Password must be at least 8 characters')

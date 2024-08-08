@@ -9,6 +9,7 @@ import { getSavedPost, getTaggedPosts, getUserByUsername } from '../../../api/us
 import { useSelector } from 'react-redux';
 import { StoreType } from '../../../redux/store';
 import { FaLock } from 'react-icons/fa';
+import ExplorePagePostsLoader from '../../others/ExplorePagePostsLoader';
 
 type PostType = 'saved' | 'myposts' | 'tagged';
 
@@ -19,12 +20,14 @@ const Profile = () => {
   const userInRedux = useSelector((state: StoreType) => state.auth.user);
   const [visitedUser, setVisitedUser] = useState<User>();
   const { username } = useParams<{ username: string }>();
+  const [loading,setLoading]=useState(false)
 
   useEffect(() => {
     fetchPosts();
   }, [postType,username]);
 
   const fetchPosts = async () => {
+    setLoading(true)
     if (postType === 'myposts') {
       const postData = await getPostsByUser(username as string);
       setPosts(postData.posts);
@@ -36,6 +39,7 @@ const Profile = () => {
       const postData = await getTaggedPosts(username as string);
       setPosts(postData.posts)
     }
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -77,9 +81,16 @@ const Profile = () => {
             </div>
             {posts?.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {posts.map((item: PostDataInterface, index: number) => (
-                  <PostSection key={index} item={item} refreshPost={fetchPosts} />
-                ))}
+                {posts.map((item: PostDataInterface, index: number) =>{
+                  if(loading){
+                    return(
+                      <ExplorePagePostsLoader/>
+                    )
+                  }
+                  return (
+                    <PostSection key={index} item={item} refreshPost={fetchPosts} />
+                  )
+                } )}
               </div>
             ) : (
               <p className='font-bold text-gray-400 text-4xl m-20'>No posts yet.</p>
@@ -116,6 +127,7 @@ const Profile = () => {
               </button>
             )}
           </div>
+          {loading && <ExplorePagePostsLoader/>}
           {posts?.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {posts.map((item: PostDataInterface, index: number) => (

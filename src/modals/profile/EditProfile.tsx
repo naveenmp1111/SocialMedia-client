@@ -12,7 +12,7 @@ import { setCredentials } from '../../redux/authSlice';
 
 interface ModalProps {
     isOpen: boolean;
-    onClose: () => void;
+    onClose: (username?:string) => void;
 }
 
 const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
@@ -46,9 +46,9 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
     const validationSchema = Yup.object({
         name: Yup.string().required('Required').min(3, 'Must be at least 3 characters'),
-        username: Yup.string().required('Required').min(3, 'Must be at least 3 characters'),
+        username: Yup.string().required('Required').min(3, 'Must be at least 3 characters').test('not-only-spaces', 'Username cannot contain only spaces', value => value.trim().length > 0),
         email: Yup.string().email('Invalid email address').required('Required'),
-        phoneNumber: Yup.string(),
+        phoneNumber: Yup.string().matches(/^[1-9]\d{9}$/, 'Enter valid phone number'),
     });
 
     const formik = useFormik({
@@ -74,7 +74,7 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     dispatch(setCredentials({ user: result.user, accessToken }))
                     localStorage.setItem('userData', JSON.stringify(result.user))
                     toast.success('Profile updated successfully')
-                    onClose()
+                    onClose(result.user.username)
                 }
             } catch (error) {
                 console.log('error is ', error)
@@ -102,7 +102,7 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         <button
                             type="button"
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            onClick={onClose}
+                            onClick={()=>onClose()}
                         >
                             X
                             <span className="sr-only">Close modal</span>
@@ -175,6 +175,7 @@ const EditProfile: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                 <input
+                                    readOnly
                                     type="email"
                                     id="email"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"

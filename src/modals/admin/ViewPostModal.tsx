@@ -1,16 +1,5 @@
-import { useState, useEffect } from "react";
-import { CommentInterface, PostDataInterface } from "../../types/post";
-// import EditPost from "./EditPost";
-// import PostDeleteConfirmation from "./PostDeleteConfirmation";
-import { StoreType } from "../../redux/store";
-import { useSelector } from 'react-redux'
-import { FaHeart } from "react-icons/fa6";
-import { addComment, addReply, getComments, likePost, unlikePost } from "../../api/post";
-import { MdBookmark } from "react-icons/md";
-import { getUserByUsername, savePost, unsavePost } from "../../api/user";
-import { User } from "../../types/loginUser";
-// import CommentList from "./CommentList";
-import { useCommentInputContext } from "../../contexts/CommentInputContext";
+import {  PostDataInterface } from "../../types/post";
+
 
 interface ModalProps {
     isOpen: boolean;
@@ -22,124 +11,10 @@ const ViewPostModal: React.FC<ModalProps> = ({ isOpen, postViewModalOnClose, pos
     if (!isOpen) {
         return null
     }
-    // const [openPostEditModal, setOpenPostEditModal] = useState(false)
-    // const [isopen, setIsOpen] = useState(false);
-    // const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false)
-    // const userInRedux = useSelector((state: StoreType) => state.auth.user)
-    // // const [isLiked, setIsLiked] = useState(post?.likes?.includes(userInRedux?._id as string))
-    // // const [noOfLikes, setNoOfLikes] = useState(post?.likes?.length || 0)
-    // // const [isSaved, setIsSaved] = useState(false)
-    // const [loggedInUser, setLoggedInUser] = useState<User | undefined>()
-
-    // const toggleDropdown = () => {
-    //     setIsOpen(!isopen);
-    // };
-
-    // const EditButtonControl = () => {
-    //     setIsOpen(false)
-    //     setOpenPostEditModal(true)
-    // }
-
-    // const handleLikeToggle = (postId: string) => {
-    //     setIsLiked(prev => {
-    //         const newState = !prev;
-    //         if (newState) {
-    //             likePost(postId);
-    //             setNoOfLikes(prev => prev + 1)
-    //         } else {
-    //             unlikePost(postId);
-    //             setNoOfLikes(prev => prev - 1)
-    //         }
-    //         return newState;
-    //     });
-    // }
-
-    // const fetchloggedInUserdata = async () => {
-    //     const userData = await getUserByUsername(userInRedux?.username as string)
-    //     setLoggedInUser(userData.user)
-    // }
-
-    // const handleSaveToggle = async (postId: string) => {
-    //     setIsSaved(prev => {
-    //         const newState = !prev;
-    //         if (newState) {
-    //             savePost(postId);
-    //         } else {
-    //             unsavePost(postId);
-    //         }
-    //         return newState;
-    //     });
-    // };
-
-    // useEffect(() => {
-    //     fetchloggedInUserdata()
-    // }, []);
-
-    // useEffect(() => {
-    //     if (loggedInUser && loggedInUser.savedPosts)
-    //         setIsSaved(loggedInUser?.savedPosts?.includes(post?._id as string))
-    // }, [loggedInUser])
-
-
-    //--------------------------------------commentsection----------------------------------->
-
-    // const { commentInputRef } = useCommentInputContext();
-    // const [mainComments, setMainComments] = useState<CommentInterface[]>([])
-    // const [replyComments, setReplyComments] = useState<CommentInterface[]>([])
-    // const [replyingCommentId, setReplyingCommentId] = useState<string | null>(null)
-    // const [isReply, setIsReply] = useState(false)
-    // const [refreshComments, setRefreshComments] = useState<boolean>(false)
-
-    // const handleAddComment = async () => {
-    //     let comment = commentInputRef?.current?.value
-
-    //     if (commentInputRef?.current?.value) {
-    //         if (comment?.trim()) {
-    //             try {
-    //                 if (isReply) {
-    //                     await addReply({ postId: post?._id as string, parentId: replyingCommentId as string, comment: comment })
-    //                 } else {
-    //                     await addComment({ postId: post?._id as string, comment: comment })
-    //                 }
-    //                 setRefreshComments(!refreshComments)
-
-    //             } catch (error) {
-    //                 console.log('error is ', error)
-    //             }
-    //         }
-    //         commentInputRef.current.value = "";
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     fetchComments()
-    // }, [refreshComments])
-
-    // const fetchComments = async () => {
-    //     const response = await getComments(post?._id as string)
-    //     let MainComments = response.comments.filter((item: CommentInterface) => item.parentId === null)
-    //     let ReplyComments = response.comments.filter((item: CommentInterface) => item.parentId !== null)
-    //     setMainComments(MainComments)
-    //     setReplyComments(ReplyComments)
-    // }
-
-    // const handleSetReplyingCommentId = (commentId: string) => {
-    //     setReplyingCommentId(commentId)
-    // }
-
-    // const handleCancelReply = () => {
-    //     setIsReply(false)
-    //     if (commentInputRef?.current?.value)
-    //         commentInputRef.current.value = ''
-    // }
-
-    //--------------------------------------commentsection----end------------------------------->
+   
 
     return (
         <>
-
-            {/* <PostDeleteConfirmation isOpenDeleteModal={deleteConfirmationModal} postDeleteModalOnClose={() => setDeleteConfirmationModal(false)} postId={post?._id} closeViewModal={postViewModalOnClose} />
-            <EditPost isOpen={openPostEditModal} postEditModalOnClose={() => setOpenPostEditModal(false)} post={post} closeViewModal={postViewModalOnClose} /> */}
             <div id="default-modal" tabIndex={-1} aria-hidden="true" className={`${isOpen ? 'fixed' : 'hidden'} flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-80 pb-1`}>
 
                 <div className="relative p-4  max-w-screen-xl max-h-full">

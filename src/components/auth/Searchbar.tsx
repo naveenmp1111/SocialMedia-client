@@ -32,7 +32,7 @@ const SearchBar = () => {
             <div className='w-full h-16 rounded-lg fixed  max-w-[1290px] top-1 z-30 md:bg-white bg-gray-200 md:m-1'>
                 <div className='flex justify-between items-center h-full'>
                     <div className='w-1/4 flex justify-center'>
-                        <span className='font-bold text-2xl ml-14 mx-5 md:hidden'>Sickomode.</span>
+                        <span className='font-bold text-2xl ml-14 mx-5 md:hidden'>sickomode.</span>
                     </div>
                     <div className='hidden md:block md:w-2/4 w-full flex justify-center mr-3 md:mr-0 relative'>
                         <input

@@ -6,13 +6,16 @@ import { useSearchBar } from '../../../contexts/SearchBarContext';
 import { getRestofAllUsers } from '../../../api/user';
 import { User } from '../../../types/loginUser';
 import { Link } from 'react-router-dom'
+import ExplorePagePostsLoader from '../../others/ExplorePagePostsLoader';
 
 const Explore = () => {
     const [posts, setPosts] = useState<PostDataInterface[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [target, setTarget] = useState<string>('posts');
+    const [loading,setLoading]=useState(false)
 
     const fetchPosts = async () => {
+        setLoading(true)
         if (target === 'posts') {
             const response = await getAllPostsToExplore();
             setPosts(response.posts);
@@ -20,6 +23,7 @@ const Explore = () => {
             const response = await getRestofAllUsers();
             setUsers(response.users);
         }
+        setLoading(false)
     };
 
     useEffect(() => {
@@ -42,6 +46,14 @@ const Explore = () => {
             ));
         }
     }, [searchValue, target, posts, users]);
+
+    if(loading){
+        return (
+            <div className='mt-20'>
+            <ExplorePagePostsLoader />    
+            </div>      
+        )
+    }
 
     return (
         <>
@@ -74,10 +86,22 @@ const Explore = () => {
                 </button>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {target === 'posts' ?
-                        filteredPosts.map((item: PostDataInterface) => (
+                        filteredPosts.map((item: PostDataInterface) =>{ 
+                            if(loading){
+                                return (
+                                    <ExplorePagePostsLoader/>
+                                )
+                            }
+                            return (
                             <Postlist key={item._id} post={item} />
-                        )) :
-                        filteredUsers.map((item) => (
+                        )}) :
+                        filteredUsers.map((item) =>{
+                            if(loading){
+                                return (
+                                    <ExplorePagePostsLoader/>
+                                )
+                            }
+                         return(
                             <div key={item.username} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                                 <div className="flex justify-end px-4 pt-4"></div>
                                 <div className="flex flex-col items-center pb-10">
@@ -89,7 +113,7 @@ const Explore = () => {
                                     </div>
                                 </div>
                             </div>
-                        ))
+                        )})
                     }
                 </div>
             </div>

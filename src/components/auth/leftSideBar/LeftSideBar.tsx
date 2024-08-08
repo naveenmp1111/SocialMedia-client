@@ -100,7 +100,7 @@ const LeftSideBar = () => {
                <ul className="space-y-4 font-medium itme">
                   <li className='m-7'>
                      <Link to='/home' className="flex items-center px-2 text-gray-900 rounded-lg  group">
-                        <span className="-ml-2 font-bold text-3xl">Sickomode.</span>
+                        <span className="-ml-2 font-bold text-3xl">sickomode.</span>
                      </Link>
                   </li>
                   <li>
@@ -194,7 +194,7 @@ const LeftSideBar = () => {
             </div>
          </aside>
 
-         <div id="bottom-bar" className="fixed bottom-0 left-0 z-40 w-full h-16 bg-gray-50  md:hidden flex justify-around items-center">
+         <div id="bottom-bar" className="md:hidden fixed bottom-0 left-0 z-40 w-full h-16 bg-gray-50   flex justify-around items-center">
             <Link to="/home" className="text-gray-900  hover:text-gray-700 cursor-pointer">
                <GoHome className='w-8 h-8' />
             </Link>
