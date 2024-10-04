@@ -34,16 +34,16 @@ const SearchBar = () => {
                     <div className='w-1/4 flex justify-center'>
                         <span className='font-bold text-2xl ml-14 mx-5 md:hidden'>sickomode.</span>
                     </div>
-                    <div className='hidden md:block md:w-2/4 w-full flex justify-center mr-3 md:mr-0 relative'>
+                    <div className=' md:w-2/4 w-full flex justify-center mr-3 md:mr-0 relative'>
                         <input
                             type='text'
-                            className='w-full h-10 p-2 pl-4 pr-10 border-2  rounded-full outline-none'
+                            className='w-full h-10 p-2 pl-4 pr-10 border-2  rounded-full outline-none hidden md:block'
                             placeholder='Search...'
                             onClick={handleRedirect}
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
                         />
-                        <svg className='w-6 h-6 absolute right-3 top-2.5 text-gray-500' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className='w-6 h-6 hidden md:block absolute right-3 top-2.5 text-gray-500' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1111.5 3.5a7.5 7.5 0 015.65 13.15z" />
                         </svg>
                     </div>

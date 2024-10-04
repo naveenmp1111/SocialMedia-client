@@ -4,6 +4,10 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'md:hidden',
+    // Add any other classes you want to safelist
+  ],
   theme: {
     extend: {
       screens: {

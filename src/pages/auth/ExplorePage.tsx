@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
-import ExplorePagePostsLoader from '../../components/others/ExplorePagePostsLoader';
+// import ExplorePagePostsLoader from '../../components/others/ExplorePagePostsLoader';
+import CommonLoader from '../../components/others/CommonLoader';
 
 // Lazy load the Explore component
 const Explore = React.lazy(() => import('../../components/auth/explore'));
@@ -9,9 +10,7 @@ const ExplorePage = () => {
     <div>
       <Suspense fallback={
         <>
-          <div className='mt-20'>
-            <ExplorePagePostsLoader />
-          </div>
+          <CommonLoader/>
         </>
       }>
         <Explore />

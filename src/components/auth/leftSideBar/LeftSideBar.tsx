@@ -193,38 +193,42 @@ const LeftSideBar = () => {
                </ul>
             </div>
          </aside>
+         <div className="md:hidden">
+            <div
+               id="bottom-bar"
+               className=" fixed bottom-0 left-0 z-40 w-full h-16 bg-gray-50 flex justify-around items-center"
+            >
+               <Link to="/home" className="text-gray-900  hover:text-gray-700 cursor-pointer">
+                  <GoHome className='w-8 h-8' />
+               </Link>
+               <Link to={`/explore`} className="text-gray-900  hover:text-gray-700 cursor-pointer ">
+                  <IoSearch className='w-7 h-7' />
+               </Link>
+               {user?.isPrivate ? (
+                  <div className="relative inline-block">
+                     <a onClick={() => setOpenRequestModal(true)} className="text-gray-900 hover:text-gray-700 relative  cursor-pointer">
+                        <LiaUserFriendsSolid className='w-8 h-8' />
+                        {requests?.length ? (
+                           <span className="absolute top-0 -right-4 flex items-center justify-center w-6 h-6 text-xs text-white bg-red-600 rounded-full">
+                              {requests.length}
+                           </span>
+                        ) : ''}
+                     </a>
+                  </div>
 
-         <div id="bottom-bar" className="md:hidden fixed bottom-0 left-0 z-40 w-full h-16 bg-gray-50   flex justify-around items-center">
-            <Link to="/home" className="text-gray-900  hover:text-gray-700 cursor-pointer">
-               <GoHome className='w-8 h-8' />
-            </Link>
-            <Link to={`/explore`} className="text-gray-900  hover:text-gray-700 cursor-pointer ">
-               <IoSearch className='w-7 h-7' />
-            </Link>
-            {user?.isPrivate ? (
-               <div className="relative inline-block">
-                  <a onClick={() => setOpenRequestModal(true)} className="text-gray-900 hover:text-gray-700 relative  cursor-pointer">
-                     <LiaUserFriendsSolid className='w-8 h-8' />
-                     {requests?.length ? (
-                        <span className="absolute top-0 -right-4 flex items-center justify-center w-6 h-6 text-xs text-white bg-red-600 rounded-full">
-                           {requests.length}
-                        </span>
-                     ) : ''}
+               ) : (
+                  <a onClick={() => setOpenModal(true)} className="text-gray-900  hover:text-gray-700 cursor-pointer">
+                     <CgAdd className='w-8 h-8' />
                   </a>
-               </div>
+               )}
 
-            ) : (
-               <a onClick={() => setOpenModal(true)} className="text-gray-900  hover:text-gray-700 cursor-pointer">
-                  <CgAdd className='w-8 h-8' />
+               <a onClick={() => setIsOpenSettingsModal(true)} className="text-gray-900  hover:text-gray-700 cursor-pointer">
+                  <IoSettingsOutline className='w-7 h-7' />
                </a>
-            )}
-
-            <a onClick={() => setIsOpenSettingsModal(true)} className="text-gray-900  hover:text-gray-700 cursor-pointer">
-               <IoSettingsOutline className='w-7 h-7' />
-            </a>
-            <Link to={`/profile/${user?.username}`} className="text-gray-900  hover:text-gray-700 cursor-pointer">
-               <CgProfile className='w-7 h-7' />
-            </Link>
+               <Link to={`/profile/${user?.username}`} className="text-gray-900  hover:text-gray-700 cursor-pointer">
+                  <CgProfile className='w-7 h-7' />
+               </Link>
+            </div>
          </div>
          <SettingsModal isOpen={isOpenSettingsModal} onClose={() => setIsOpenSettingsModal(false)} />
       </>
