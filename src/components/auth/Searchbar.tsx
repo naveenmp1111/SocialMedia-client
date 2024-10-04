@@ -29,7 +29,7 @@ const SearchBar = () => {
         <>
             <CreatePost isOpen={openCreatePostModal} onClose={() => setOpenCreatePostModal(false)} />
             <NotificationModal isOpen={openNofificationModal} onClose={() => setOpenNotificationModal(false)} />
-            <div className='w-full h-16 rounded-lg fixed  max-w-[1290px] top-1 z-30 md:bg-white bg-gray-200 md:m-1'>
+            <div className='w-full h-[70px] rounded-lg fixed  max-w-[1290px] -top-1 z-30 md:bg-white bg-gray-200 md:m-1'>
                 <div className='flex justify-between items-center h-full'>
                     <div className='w-1/4 flex justify-center'>
                         <span className='font-bold text-2xl ml-14 mx-5 md:hidden'>sickomode.</span>

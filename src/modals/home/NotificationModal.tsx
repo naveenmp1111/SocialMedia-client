@@ -112,11 +112,15 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                                     {notifications.filter(item => item.isSeen).map(item => (
                                         <div key={item._id} className="flex justify-between items-center p-1 mb-4">
                                             <div className="flex items-center">
-                                                <img
-                                                    className="w-10 h-10 rounded-full"
-                                                    src={item.senderId.profilePic || "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"}
-                                                    alt={`${item.senderId.username} profile`}
-                                                />
+
+                                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden' }}>
+                                                    <img
+                                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                        src={item.senderId.profilePic || "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg"}
+                                                        alt={`${item.senderId.username} profile`}
+                                                    />
+                                                </div>
+
                                                 <div className="ml-3 text-white">
                                                     <span className="block text-md font-semibold">
                                                         {`${item.senderId.username} ${item.event === 'follow'
@@ -124,7 +128,7 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                                                             : item.event === 'like'
                                                                 ? 'liked your post.'
                                                                 : item.event === 'comment' ? 'commented on your post.'
-                                                            :'tagged you in a post'}`}
+                                                                    : 'tagged you in a post'}`}
                                                     </span>
                                                     <span className="text-sm font-thin text-gray-300">{moment(item.createdAt).fromNow()}</span>
                                                 </div>

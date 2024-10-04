@@ -1,10 +1,26 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-      .no-scrollbar::-webkit-scrollbar {
-      display: none;  /* Chrome, Safari, and Opera */
-    }
+@layer base {
+
+  /* Reset margins and padding for all elements */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
+
+  /* Optional: Reset body margin and padding */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, and Opera */
+  }
+}

@@ -6,18 +6,19 @@ import { endCall, setIncomingAudioCall, setIncomingVideoCall, setRoomId, setShow
 
 const useListenMessages = () => {
     const { socket } = useSocket()
-    const { addNotification, messages, setMessages, setTypingUsers, removeTypingUser, selectedConversation, addUnreadMessage } = useConversation()
+    const { addNotification, messages, setMessages, setTypingUsers, removeTypingUser, selectedConversation, addUnreadMessage, setReload } = useConversation()
     const dispatch = useDispatch()
 
     useEffect(() => {
         socket?.on('newMessage', (newMessage) => {
-
+            console.log('newMessage arrived is ', newMessage)
             if (!selectedConversation || selectedConversation && selectedConversation._id as string != newMessage.chatId as unknown as string) {
                 // setUnreadMessages([...unreadMessages, newMessage])
                 addUnreadMessage(newMessage)
             }
-            if (newMessage.chatId == selectedConversation?._id)
+            if (newMessage.chatId._id == selectedConversation?._id)
                 setMessages([...messages, newMessage])
+            setReload()
         })
 
         socket?.on('deleteMessage', (messageId) => {
@@ -57,14 +58,14 @@ const useListenMessages = () => {
 
         return () => {
             // console.log('cleaning up socket')
-                socket?.off('newMessage'),
+            socket?.off('newMessage'),
                 socket?.off('TypingUsers'),
                 socket?.off('RemoveTypingUser'),
                 socket?.off('deleteMessage'),
                 socket?.off('incoming-audio-call')
-                socket?.off('incoming-video-call')
-                socket?.off('call-rejected')
-                socket?.off('accept-call'),
+            socket?.off('incoming-video-call')
+            socket?.off('call-rejected')
+            socket?.off('accept-call'),
                 socket?.off('notification')
         }
 

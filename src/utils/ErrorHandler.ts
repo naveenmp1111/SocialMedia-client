@@ -15,11 +15,12 @@ export const handleAxiosErrorHelper = (error: unknown) => {
       axiosError.response.data.message
     ) {
       const backendError = axiosError.response.data.message;
+      toast.dismiss();
       toast.error(backendError);
     } else {
       toast.error("An unexpected error occurred");
     }
   } else {
     toast.error("An unknown error occurred");
-  }
+  }
 };

@@ -14,6 +14,7 @@ import { getUserByUsername, unblockUserByUsername } from '../../../api/user';
 import { setVideoCall } from '../../../redux/authSlice';
 import { HiOutlineVideoCamera } from "react-icons/hi2";
 import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 
 const FullMessageComponent = () => {
@@ -24,6 +25,7 @@ const FullMessageComponent = () => {
     const userInRedux = useSelector((state: StoreType) => state.auth.user)
     const [fullFriendData, setFullFriendData] = useState<User>()
     const [OurFullData, setOurFullData] = useState<User>()
+    const navigate=useNavigate()
 
     const { sendmessage } = useSendMessage()
     const { socket, onlineUsers } = useSocket()
@@ -83,10 +85,14 @@ const FullMessageComponent = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 500)
-
-    }, [messages])
+            if (scrollRef?.current) {
+                scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 500);
+    }, [messages]);
+    
+    
+    
 
     useEffect(() => {
         const markasRead = async () => {
@@ -128,12 +134,18 @@ const FullMessageComponent = () => {
     return (
         <>
             <header className="bg-white p-4 text-gray-700 flex justify-between rounded-lg shadow-gray-300 shadow-lg z-20 ">
-                <div className='flex'>
+                <div className='flex cursor-pointer' onClick={()=>navigate(`/profile/${selectedFriend?.username}`)}>
                     <span className='mr-3 flex items-center md:hidden cursor-pointer'>
                         <FaArrowLeft onClick={handleBackToChat} />
                     </span>
 
-                    <img className='w-10 h-10 rounded-full' src={selectedFriend?.profilePic} alt="" />
+                    {/* <img className='w-10 h-10 rounded-full' src={selectedFriend?.profilePic} alt="" /> */}
+                    <div style={{ width: '45px', height: '45px', borderRadius: '50%', overflow: 'hidden' }}>
+                    <img
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      src={selectedFriend?.profilePic}
+                    />
+                  </div>
                     <div className='flex flex-col'>
                         <span className="text-2xl font-semibold mx-3 align-middle">{selectedFriend?.name}</span>
                         {isOnline && (
@@ -153,7 +165,7 @@ const FullMessageComponent = () => {
 
             </header>
 
-            <div className="flex-1 overflow-y-auto p-4 md:max-h-[560px] md:min-h-[560px]">
+            <div className="flex-1 overflow-y-auto p-4 md:max-h-[560px] md:min-h-[560px] pb-10">
 
                 {messages.map(message => (
                     <div key={message._id} ref={scrollRef}>
@@ -162,7 +174,7 @@ const FullMessageComponent = () => {
                     </div>
                 ))}
                 {typingUsers.includes(selectedFriend?._id as string) ?
-                    <div ref={scrollRef}>
+                    <div ref={scrollRef} >
                         <Typing />
                     </div>
                     :
@@ -190,6 +202,11 @@ const FullMessageComponent = () => {
                                 onChange={TypingHandler}
                                 placeholder="Type a message..."
                                 className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleSubmit();
+                                    }
+                                }}
                             />
                             <button
                                 onClick={handleSubmit}

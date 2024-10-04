@@ -18,7 +18,7 @@ const PrivateRoutes = () => {
 
                 <LeftSideBar />
 
-                <div className="md:ml-64">
+                <div className="md:ml-64 ">
                     <Outlet />
                 </div>
             </div>

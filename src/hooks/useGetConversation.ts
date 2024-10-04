@@ -4,7 +4,7 @@ import { ChatInterface } from '../types/chat'
 import useConversation from '../zustand/useConversation'
 const useGetConversations = () => {
     const [chats, setChats] = useState<ChatInterface[]>([])
-    const { messages } = useConversation()
+    const { reload } = useConversation()
     useEffect(() => {
         const getConversations = async () => {
             try {
@@ -15,7 +15,7 @@ const useGetConversations = () => {
             }
         }
         getConversations()
-    }, [messages])
+    }, [reload])
 
 
     return { chats }

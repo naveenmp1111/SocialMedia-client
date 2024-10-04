@@ -53,6 +53,7 @@ axiosUserInstance.interceptors.response.use(
         originalRequest.headers.authorization = `Bearer ${accessToken}`;
         return axiosUserInstance(originalRequest);
       } catch (refreshError) {
+        toast.dismiss();
         toast.error('refresh token expired')
         store.dispatch(logout())
         return Promise.reject(refreshError);
