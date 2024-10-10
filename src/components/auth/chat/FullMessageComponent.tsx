@@ -134,7 +134,7 @@ const FullMessageComponent = () => {
     return (
         <>
             <header className="bg-white p-4 text-gray-700 flex justify-between rounded-lg shadow-gray-300 shadow-lg z-20 ">
-                <div className='flex cursor-pointer' onClick={()=>navigate(`/profile/${selectedFriend?.username}`)}>
+                <div className='flex cursor-pointer' >
                     <span className='mr-3 flex items-center md:hidden cursor-pointer'>
                         <FaArrowLeft onClick={handleBackToChat} />
                     </span>
@@ -146,7 +146,7 @@ const FullMessageComponent = () => {
                       src={selectedFriend?.profilePic}
                     />
                   </div>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col' onClick={()=>navigate(`/profile/${selectedFriend?.username}`)}>
                         <span className="text-2xl font-semibold mx-3 align-middle">{selectedFriend?.name}</span>
                         {isOnline && (
                             <>
